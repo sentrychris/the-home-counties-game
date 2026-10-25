@@ -49,7 +49,7 @@
 
   "layers": [
     { "id": "starts", "name": "Player starts", "icon": "start", "colour": "#86c5e8", "visible": true, "blurb": "You start at one of these two points." },
-    { "id": "exits", "name": "Exits", "icon": "exit", "colour": "#8fb05a", "visible": true, "blurb": "Army checkpoints, marked by red smoke." },
+    { "id": "exits", "name": "Exits", "icon": "exit", "colour": "#8fb05a", "visible": true, "blurb": "Old checkpoints, marked by red smoke." },
     { "id": "scavs", "name": "Scav spawns", "icon": "scav", "colour": "#c9513c", "visible": true, "blurb": "Where scavs start the raid." },
     { "id": "crates", "name": "Loot crates", "icon": "crate", "colour": "#d6aa48", "visible": true, "blurb": "Fixed crate spots, contents vary." },
     { "id": "houses", "name": "Enterable houses", "icon": "house", "colour": "#b9895a", "visible": true, "blurb": "Open doors, floor plans inside." },
