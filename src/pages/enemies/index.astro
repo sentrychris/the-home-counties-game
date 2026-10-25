@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Img from "../../components/Img.astro";
+import { url } from "../../lib/url";
+
+const enemies = (await getCollection("enemies")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Enemies" description="Who else is on Duncombe Street, how they behave, what they carry and what they say.">
+  <PageHead
+    title="Enemies"
+    eyebrow="Threats"
+    lede="Who else is on Duncombe Street, how they behave and what they carry."
+    crumbs={[{ label: "Enemies" }]}
+  />
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <ul class="card-grid list">
+        {
+          enemies.map((e) => (
+            <li>
+              <a class="panel card enemy" href={url(`enemies/${e.id}/`)}>
+                {e.data.image && <Img src={e.data.image.src} alt={e.data.image.alt} class="enemy-img" />}
+                <p class="eyebrow eyebrow--plain">{e.data.tagline}</p>
+                <h2 class="name">{e.data.name}</h2>
+                <p>{e.data.summary}</p>
+                <span class="more">Threat file</span>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <div class="card coming">
+            <p class="hand">More to come</p>
+            <p>New enemy types will get a page here as they're added to the game.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .enemy {
+    height: 100%;
+    padding-top: 0;
+  }
+
+  .enemy :global(.enemy-img) {
+    width: calc(100% + 44px);
+    max-width: none;
+    margin: 0 -22px 18px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .enemy .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .name {
+    font-size: 2.2rem;
+    margin-bottom: 0.25em;
+  }
+
+  .coming {
+    height: 100%;
+    min-height: 260px;
+    justify-content: center;
+    border: 2px dashed var(--line);
+  }
+
+  .coming .hand {
+    font-size: 2rem;
+    color: var(--bone);
+  }
+</style>

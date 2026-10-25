@@ -1,0 +1,250 @@
+---
+import site from "../data/site.json";
+import { url, isCurrent } from "../lib/url";
+import Icon from "./Icon.astro";
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={url()}>
+      <img src={url("images/logo-700.webp")} alt="The Home Counties, home" width="700" height="142" />
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="when-closed"><Icon name="menu" /></span>
+      <span class="when-open"><Icon name="close" /></span>
+      <span class="menu-label">Menu</span>
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={url(item.href)} aria-current={isCurrent(pathname, item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <span class="build-tag" title="Current build">{site.version}</span>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const nav = document.getElementById("site-nav");
+
+  // The header is see-through at the top of the page and picks up a dark wash once you scroll.
+  if (header) {
+    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  if (toggle && nav) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      nav.classList.toggle("is-open", open);
+      header?.classList.toggle("is-menu-open", open);
+    };
+    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && nav.classList.contains("is-open")) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    matchMedia("(min-width: 1000px)").addEventListener("change", () => setOpen(false));
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+  }
+
+  /* A dark wash behind the bar with a dry-brush bottom edge instead of a hard line.
+     Faint over the page at rest, stronger once you scroll. */
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 -34px;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgb(12 13 11 / 0.92), rgb(12 13 11 / 0.82));
+    -webkit-mask: url("../assets/textures/brush-fade.png") bottom / 100% 54px no-repeat, linear-gradient(#000, #000) top / 100% calc(100% - 53px) no-repeat;
+    mask: url("../assets/textures/brush-fade.png") bottom / 100% 54px no-repeat, linear-gradient(#000, #000) top / 100% calc(100% - 53px) no-repeat;
+    opacity: 0.35;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .site-header.is-scrolled::before,
+  .site-header.is-menu-open::before {
+    opacity: 1;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    min-height: var(--header-h);
+  }
+
+  .brand {
+    flex: none;
+    display: block;
+    padding: 6px 0;
+  }
+
+  .brand img {
+    height: 30px;
+    width: auto;
+    filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.7));
+  }
+
+  .menu-toggle {
+    display: none;
+    margin-left: auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 12px;
+    border: 1px solid rgb(216 210 195 / 0.25);
+    background: rgb(18 19 17 / 0.45);
+    color: var(--bone);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .menu-toggle :global(.icon) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .menu-toggle .when-open,
+  .menu-toggle[aria-expanded="true"] .when-closed {
+    display: none;
+  }
+
+  .menu-toggle[aria-expanded="true"] .when-open {
+    display: inline;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav a {
+    position: relative;
+    display: block;
+    padding: 10px 12px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.08rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--bone-dim);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.85);
+  }
+
+  .nav a:hover,
+  .nav a[aria-current="page"] {
+    color: var(--bone);
+  }
+
+  /* Current page: a short red brush stroke under the label. */
+  .nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 2px;
+    height: 7px;
+    background: var(--red);
+    -webkit-mask: url("../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+    mask: url("../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+  }
+
+  .build-tag {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    color: var(--bone-faint);
+    border: 1px solid rgb(216 210 195 / 0.2);
+    padding: 2px 8px;
+  }
+
+  @media (max-width: 999px) {
+    .menu-toggle {
+      display: inline-flex;
+    }
+
+    .nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 8px var(--gutter) 20px;
+      background: var(--bg-2);
+      box-shadow: 0 20px 40px rgb(0 0 0 / 0.5);
+      max-height: calc(100vh - var(--header-h));
+      overflow-y: auto;
+    }
+
+    .nav.is-open {
+      display: flex;
+    }
+
+    .nav ul {
+      flex-direction: column;
+    }
+
+    .nav a {
+      padding: 14px 4px;
+      font-size: 1.35rem;
+      border-bottom: 1px solid var(--line-soft);
+      text-shadow: none;
+    }
+
+    .nav a[aria-current="page"]::after {
+      left: 4px;
+      right: auto;
+      width: 44px;
+      bottom: 6px;
+    }
+
+    .build-tag {
+      align-self: flex-start;
+      margin-top: 16px;
+    }
+  }
+</style>

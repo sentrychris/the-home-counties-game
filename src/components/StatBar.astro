@@ -1,0 +1,72 @@
+---
+// One HUD-style segmented bar. The number beside it carries the meaning; the bar is decoration.
+interface Props {
+  label: string;
+  value: number;
+  display?: string;
+}
+const { label, value, display } = Astro.props;
+const pct = Math.max(0, Math.min(100, value));
+---
+
+<div class="stat">
+  <dt>{label}</dt>
+  <dd>
+    <span class="bar" aria-hidden="true"><i style={`--v: ${pct}%`}></i></span>
+    <span class="val">{display ?? `${pct}`}<span class="visually-hidden">{display ? ` (${pct} out of 100)` : " out of 100"}</span></span>
+  </dd>
+</div>
+
+<style>
+  .stat {
+    display: grid;
+    grid-template-columns: minmax(110px, 160px) 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+
+  dt {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+
+  dd {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .bar {
+    position: relative;
+    flex: 1;
+    height: 14px;
+    background: #121416;
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .bar i {
+    position: absolute;
+    inset: 2px auto 2px 2px;
+    width: calc(var(--v) - 4px);
+    background: var(--bone);
+    /* Cut the fill into segments. */
+    -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 9px, transparent 9px 12px);
+    mask-image: repeating-linear-gradient(90deg, #000 0 9px, transparent 9px 12px);
+  }
+
+  .val {
+    min-width: 4.6em;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

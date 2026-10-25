@@ -1,0 +1,150 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHead from "../components/PageHead.astro";
+import credits from "../data/credits.json";
+
+const licences: Record<string, string> = credits.licences;
+---
+
+<Base title="Credits" description="Open-licence assets used in The Home Counties and on this website, with attribution.">
+  <PageHead title="Credits" eyebrow="Attribution" lede={credits.intro} crumbs={[{ label: "About", href: "about/" }, { label: "Credits" }]} />
+
+  <section class="section section--tight">
+    <div class="wrap groups">
+      {
+        credits.groups.map((g) => (
+          <section class:list={["panel", "group", { "group--todo": g.placeholder }]} aria-labelledby={`g-${g.title}`}>
+            <div class="group-head">
+              <h2 id={`g-${g.title}`}>{g.title}</h2>
+              {g.note && <p>{g.note}</p>}
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Work</th>
+                    <th scope="col">By</th>
+                    <th scope="col">From</th>
+                    <th scope="col">Licence</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {g.entries.map((e) => (
+                    <tr>
+                      <td data-label="Work">{e.work}</td>
+                      <td data-label="By">{e.author}</td>
+                      <td data-label="From">{e.link ? <a href={e.link} rel="noopener">{e.source}</a> : e.source}</td>
+                      <td data-label="Licence">{licences[e.licence] ? <a href={licences[e.licence]} rel="license noopener">{e.licence}</a> : e.licence}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .groups {
+    display: grid;
+    gap: 24px;
+  }
+
+  .group {
+    padding: clamp(18px, 3vw, 28px);
+  }
+
+  .group--todo {
+    border-style: dashed;
+    background: transparent;
+  }
+
+  .group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 20px;
+    margin-bottom: 12px;
+  }
+
+  .group-head h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0;
+  }
+
+  .group-head p {
+    margin: 0;
+    color: var(--bone-faint);
+  }
+
+  .group--todo .group-head p {
+    color: var(--crate);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.98rem;
+  }
+
+  th,
+  td {
+    padding: 10px 12px 10px 0;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  th {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+    border-bottom: 1px solid var(--line);
+  }
+
+  td:first-child {
+    width: 46%;
+  }
+
+  @media (max-width: 700px) {
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    tr {
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    td {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 10px;
+      width: auto !important;
+      padding: 3px 0;
+      border: 0;
+    }
+
+    td::before {
+      content: attr(data-label);
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bone-faint);
+    }
+  }
+</style>

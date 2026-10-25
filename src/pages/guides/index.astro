@@ -1,0 +1,89 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Icon from "../../components/Icon.astro";
+import { url } from "../../lib/url";
+
+const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Guides" description="Guides to The Home Counties: the basics, gear, healing, how scavs find you, and extraction.">
+  <PageHead
+    title="Field manual"
+    eyebrow="Guides"
+    lede="How raids work, what to carry, and how to get out of Duncombe Street. If you're new, start with the beginner's guide."
+    crumbs={[{ label: "Guides" }]}
+  />
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <ol class="guide-list">
+        {
+          guides.map((g, i) => (
+            <li>
+              <a class="panel card guide" href={url(`guides/${g.id}/`)}>
+                <span class="num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                {g.data.icon && <span class="guide-icon"><Icon name={g.data.icon} /></span>}
+                <h2 class="h3">{g.data.title}</h2>
+                <p>{g.data.summary}</p>
+                <span class="more">Read</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .guide-list {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guide {
+    height: 100%;
+    padding: 24px;
+  }
+
+  .num {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 2.6rem;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+  }
+
+  .guide-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 18px;
+    background: var(--panel-3);
+    border: 1px solid var(--line);
+    color: var(--red-text);
+  }
+
+  .guide-icon :global(.icon) {
+    width: 26px;
+    height: 26px;
+  }
+
+  .h3 {
+    font-size: clamp(1.45rem, 2.4vw, 1.8rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 0.4em;
+  }
+</style>

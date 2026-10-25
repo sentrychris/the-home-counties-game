@@ -1,0 +1,16 @@
+---
+// Marks a spot where art still needs dropping in. The path tells you where.
+interface Props {
+  label: string;
+  path?: string;
+  class?: string;
+  aspect?: string;
+}
+const { label, path, class: cls, aspect = "16 / 9" } = Astro.props;
+---
+
+<div class:list={["placeholder", cls]} style={`aspect-ratio: ${aspect}`} role="img" aria-label={`Image to come: ${label}`}>
+  <strong>Image to come</strong>
+  <span>{label}</span>
+  {path && <code>{path}</code>}
+</div>

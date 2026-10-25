@@ -1,0 +1,60 @@
+{
+  "intro": "The Home Counties and this website use work that other people have shared under open licences. Everything below is used under the licence shown, and where a licence asks for attribution (CC BY), this page provides it.",
+  "licences": {
+    "CC BY 3.0": "https://creativecommons.org/licenses/by/3.0/",
+    "CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/",
+    "CC0 1.0": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "OFL 1.1": "https://openfontlicense.org/",
+    "ODbL 1.0": "https://opendatacommons.org/licenses/odbl/",
+    "MIT": "https://opensource.org/license/mit",
+    "BSD 2-Clause": "https://opensource.org/license/bsd-2-clause"
+  },
+  "groups": [
+    {
+      "title": "Icons",
+      "note": "Used in the game's inventory and on this site.",
+      "entries": [
+        { "work": "Backpack, opened food can, cardboard box, car battery, wire coil, cow, laptop, first aid kit, two coins, medicines, smartphone, position marker, exit door, sausage, house, toolbox, watch, water bottle, weight", "author": "Delapouite", "source": "game-icons.net", "link": "https://game-icons.net/", "licence": "CC BY 3.0" },
+        { "work": "Soda can", "author": "Guard13007", "source": "game-icons.net", "link": "https://game-icons.net/", "licence": "CC BY 3.0" },
+        { "work": "Bullets, bandage roll, run, cog, skull and crossed bones", "author": "Lorc", "source": "game-icons.net", "link": "https://game-icons.net/", "licence": "CC BY 3.0" },
+        { "work": "AK-47", "author": "Skoll", "source": "game-icons.net", "link": "https://game-icons.net/", "licence": "CC BY 3.0" }
+      ]
+    },
+    {
+      "title": "3D models, textures and sounds",
+      "note": "Placeholder: add each CC BY model, texture and sound used in the game here.",
+      "placeholder": true,
+      "entries": [
+        { "work": "[Model or sound name]", "author": "[Author]", "source": "[Where it's from]", "link": "", "licence": "CC BY 4.0" }
+      ]
+    },
+    {
+      "title": "Fonts",
+      "entries": [
+        { "work": "Barlow and Barlow Condensed", "author": "Jeremy Tribby", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Barlow", "licence": "OFL 1.1" },
+        { "work": "Caveat", "author": "Impallari Type", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Caveat", "licence": "OFL 1.1" },
+        { "work": "Oswald (game UI)", "author": "Vernon Adams and contributors", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Oswald", "licence": "OFL 1.1" },
+        { "work": "Noto Sans Symbols 2, heart only (game UI)", "author": "Google", "source": "Google Fonts", "link": "https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2", "licence": "OFL 1.1" }
+      ]
+    },
+    {
+      "title": "Worn textures",
+      "entries": [
+        { "work": "Scratches003, SurfaceImperfections003, SurfaceImperfections013, Concrete034", "author": "ambientCG", "source": "ambientCG", "link": "https://ambientcg.com/", "licence": "CC0 1.0" }
+      ]
+    },
+    {
+      "title": "Map data",
+      "entries": [
+        { "work": "Street data for Duncombe Street and the tactical map", "author": "OpenStreetMap contributors, via Overture Maps", "source": "openstreetmap.org", "link": "https://www.openstreetmap.org/copyright", "licence": "ODbL 1.0" }
+      ]
+    },
+    {
+      "title": "This website",
+      "entries": [
+        { "work": "Astro", "author": "The Astro Technology Company and contributors", "source": "astro.build", "link": "https://astro.build/", "licence": "MIT" },
+        { "work": "Leaflet", "author": "Volodymyr Agafonkin and contributors", "source": "leafletjs.com", "link": "https://leafletjs.com/", "licence": "BSD 2-Clause" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+---
+// Enemy page template. One Markdown file in src/content/enemies/ = one page.
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Img from "../../components/Img.astro";
+import { url } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const enemies = await getCollection("enemies");
+  return enemies.map((enemy) => ({ params: { slug: enemy.id }, props: { enemy } }));
+}
+
+const { enemy } = Astro.props;
+const e = enemy.data;
+const { Content } = await render(enemy);
+---
+
+<Base title={e.name} description={e.summary}>
+  <PageHead title={e.name} eyebrow={e.tagline} lede={e.summary} crumbs={[{ label: "Enemies", href: "enemies/" }, { label: e.name }]} />
+
+  <section class="section section--tight">
+    <div class="wrap top">
+      {
+        e.image && (
+          <figure class="photo shot">
+            <span class="tape" aria-hidden="true" />
+            <Img src={e.image.src} alt={e.image.alt} loading="eager" sizes="(min-width: 900px) 60vw, 100vw" />
+            {e.image.caption && <figcaption>{e.image.caption}</figcaption>}
+          </figure>
+        )
+      }
+      <div class="panel file">
+        <h2 class="eyebrow eyebrow--plain">Threat file</h2>
+        {e.threat && <p class="threat stamp">Threat: {e.threat}</p>}
+        <dl class="specs">
+          {
+            e.facts.map((f) => (
+              <div>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <a class="btn btn--small" href={url("map/")}>Spawns on the map</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    e.behaviours.length > 0 && (
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Behaviour</h2>
+            <p>
+              Read <a href={url("guides/scav-senses/")}>how scavs see and hear you</a> for how to use it against them.
+            </p>
+          </div>
+          <ul class="card-grid plain behaviours">
+            {e.behaviours.map((b, i) => (
+              <li class="panel behaviour">
+                <span class="idx" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <h3>{b.title}</h3>
+                <p>{b.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    e.loadouts.length > 0 && (
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Loadouts</h2>
+            <p>What scavs usually carry. You can search their bodies for it.</p>
+          </div>
+          <ul class="card-grid plain">
+            {e.loadouts.map((l) => (
+              <li class="panel loadout">
+                <div class="loadout-head">
+                  <h3>{l.name}</h3>
+                  {l.frequency && <span class="chip">{l.frequency}</span>}
+                </div>
+                {l.text && <p>{l.text}</p>}
+                <ul class="gear" aria-label={`${l.name} gear`}>
+                  {l.gear.map((g) => (
+                    <li>{g}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    e.voiceLines.length > 0 && (
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="panel chatter">
+            <div class="chatter-head">
+              <h2>Overheard</h2>
+              <p>Scavs call out to each other, which can tell you what they're about to do.</p>
+            </div>
+            <ul class="lines">
+              {e.voiceLines.map((v) => (
+                <li>
+                  <q>{v.line}</q>
+                  <span>{v.when}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section--tight">
+    <div class="wrap wrap--narrow">
+      <article class="paper dossier">
+        <span class="tape" aria-hidden="true"></span>
+        <h2>Who they are</h2>
+        <div class="dossier-body">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top {
+    display: grid;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .top {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .shot {
+    transform: rotate(-1deg);
+  }
+
+  .shot .tape {
+    top: -14px;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .shot :global(img),
+  .shot :global(.placeholder) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .file {
+    padding: 22px 22px 24px;
+  }
+
+  .file h2 {
+    display: flex;
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+  }
+
+  .threat {
+    margin: 0 0 14px 4px;
+  }
+
+  .behaviours {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  }
+
+  .file .btn {
+    margin-top: 20px;
+  }
+
+  .plain {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .behaviour {
+    padding: 22px;
+  }
+
+  .behaviour h3 {
+    margin-bottom: 0.35em;
+  }
+
+  .behaviour p {
+    margin: 0;
+    color: var(--bone-dim);
+  }
+
+  .idx {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: var(--red-text);
+  }
+
+  .loadout {
+    padding: 22px;
+  }
+
+  .loadout-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .loadout-head h3 {
+    margin: 0;
+  }
+
+  .loadout p {
+    color: var(--bone-dim);
+  }
+
+  .gear {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gear li {
+    padding: 3px 10px;
+    border: 1px solid var(--line);
+    background: #15171a;
+    font-size: 0.92rem;
+  }
+
+  .chatter {
+    display: grid;
+    gap: 24px;
+    padding: clamp(22px, 4vw, 40px);
+    background-color: #161816;
+  }
+
+  @media (min-width: 900px) {
+    .chatter {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  .chatter-head p {
+    color: var(--bone-dim);
+  }
+
+  .lines {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lines li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .lines q {
+    font-family: var(--font-hand);
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    quotes: "“" "”";
+  }
+
+  .lines span {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .dossier {
+    padding: clamp(28px, 5vw, 52px);
+    transform: rotate(0.4deg);
+  }
+
+  .dossier .tape {
+    top: -14px;
+    right: 40px;
+    rotate: 5deg;
+  }
+
+  .dossier h2 {
+    color: var(--ink);
+  }
+
+  .dossier-body {
+    font-size: 1.12rem;
+    line-height: 1.7;
+  }
+</style>

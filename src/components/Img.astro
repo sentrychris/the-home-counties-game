@@ -1,0 +1,41 @@
+---
+// An image from public/, or a labelled placeholder if the file isn't there yet.
+import { url, publicFileExists, screenshotSrcset } from "../lib/url";
+import Placeholder from "./Placeholder.astro";
+
+interface Props {
+  src?: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  class?: string;
+  loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
+  /** Shown on the placeholder when the image is missing. */
+  placeholder?: string;
+}
+
+const { src, alt, width, height, sizes, class: cls, loading = "lazy", fetchpriority, placeholder } = Astro.props;
+const found = publicFileExists(src);
+const srcset = src && found ? screenshotSrcset(src) : undefined;
+---
+
+{
+  found && src ? (
+    <img
+      src={url(src)}
+      srcset={srcset}
+      sizes={srcset ? (sizes ?? "(min-width: 900px) 50vw, 100vw") : undefined}
+      alt={alt}
+      width={width}
+      height={height}
+      class={cls}
+      loading={loading}
+      decoding="async"
+      fetchpriority={fetchpriority}
+    />
+  ) : (
+    <Placeholder label={placeholder ?? alt} path={src ? `public/${src.replace(/^\/+/, "")}` : undefined} class={cls} />
+  )
+}

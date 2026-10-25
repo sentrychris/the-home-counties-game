@@ -1,0 +1,307 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Img from "../../components/Img.astro";
+import { url, formatDate } from "../../lib/url";
+
+const posts = (await getCollection("devlog", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const roadmap = (await getCollection("roadmap")).map((r) => r.data).sort((a, b) => a.order - b.order);
+---
+
+<Base title="Dev log and roadmap" description="What's changed in The Home Counties, with screenshots, and what's coming next.">
+  <PageHead
+    title="Dev log"
+    eyebrow="From the build"
+    lede="Updates from development, newest first, with the roadmap at the bottom."
+    crumbs={[{ label: "Dev log" }]}
+  >
+    <a class="btn btn--small jump" href="#roadmap">Jump to the roadmap</a>
+  </PageHead>
+
+  <section class="section section--tight" aria-label="Posts">
+    <div class="wrap">
+      <ol class="posts">
+        {
+          posts.map((p) => (
+            <li class="post">
+              <div class="when">
+                <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                {p.data.version && <span class="chip chip--ver">{p.data.version}</span>}
+              </div>
+              <a class="panel entry" href={url(`devlog/${p.id}/`)}>
+                {p.data.cover && <Img src={p.data.cover.src} alt={p.data.cover.alt} class="cover brushed" sizes="(min-width: 900px) 360px, 100vw" />}
+                <div class="entry-body">
+                  <h2>{p.data.title}</h2>
+                  <p>{p.data.summary}</p>
+                  {p.data.tags.length > 0 && (
+                    <ul class="tags" aria-label="Tags">
+                      {p.data.tags.map((t) => (
+                        <li>#{t}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <span class="more">
+                    Read the post
+                    {p.data.screenshots.length > 0 && <span class="shots">{` · ${p.data.screenshots.length} screenshots`}</span>}
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section id="roadmap" class="section roadmap band" aria-labelledby="roadmap-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Roadmap</p>
+          <h2 id="roadmap-title">What's planned</h2>
+        </div>
+        <p>These plans may change as development goes on.</p>
+      </div>
+      <ol class="phases">
+        {
+          roadmap.map((r) => (
+            <li class:list={["panel", "phase", `phase--${r.status}`]}>
+              <p class="phase-tag">{r.phase}</p>
+              <h3>{r.title}</h3>
+              <ul class="checks">
+                {r.items.map((it) => (
+                  <li class:list={{ done: it.done }}>
+                    <span class="box" aria-hidden="true" />
+                    {it.text}
+                    {it.done && <span class="visually-hidden"> (done)</span>}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump {
+    margin-top: 16px;
+  }
+
+  .posts {
+    display: grid;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post {
+    display: grid;
+    gap: 10px 32px;
+  }
+
+  @media (min-width: 900px) {
+    .post {
+      grid-template-columns: 170px 1fr;
+    }
+  }
+
+  .when {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    align-content: start;
+  }
+
+  @media (min-width: 900px) {
+    .when {
+      position: relative;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 10px;
+    }
+
+    .when::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      right: 0;
+      top: -4px;
+      height: 9px;
+      background: var(--red);
+      -webkit-mask: url("../../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+      mask: url("../../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+    }
+  }
+
+  time {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .entry {
+    display: grid;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .entry:hover {
+    color: inherit;
+    border-color: var(--bone-faint);
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 720px) {
+    .entry {
+      grid-template-columns: 340px 1fr;
+    }
+  }
+
+  .entry :global(.cover) {
+    width: 100%;
+    height: 100%;
+    min-height: 190px;
+    object-fit: cover;
+  }
+
+  .entry-body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 24px;
+  }
+
+  .entry-body h2 {
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    margin-bottom: 0.3em;
+  }
+
+  .entry-body p {
+    color: var(--bone-dim);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--bone-faint);
+  }
+
+  .more {
+    margin-top: auto;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red-text);
+  }
+
+  .shots {
+    color: var(--bone-faint);
+  }
+
+  .roadmap {
+    margin-top: clamp(56px, 8vw, 96px);
+  }
+
+  .phases {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .phase {
+    padding: 24px;
+    border-top: 4px solid var(--line);
+  }
+
+  .phase--now {
+    border-top-color: var(--green);
+  }
+
+  .phase--next {
+    border-top-color: var(--crate);
+  }
+
+  .phase--done {
+    border-top-color: var(--bone-faint);
+  }
+
+  .phase-tag {
+    margin: 0 0 4px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .phase--now .phase-tag {
+    color: var(--green);
+  }
+
+  .phase--next .phase-tag {
+    color: var(--crate);
+  }
+
+  .checks {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .checks li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    color: var(--bone-dim);
+  }
+
+  .box {
+    flex: none;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+    border: 2px solid var(--bone-faint);
+  }
+
+  .done {
+    color: var(--bone);
+  }
+
+  .done .box {
+    border-color: var(--green);
+  }
+
+  .done .box::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0;
+    width: 5px;
+    height: 10px;
+    border: solid var(--green);
+    border-width: 0 3px 3px 0;
+    rotate: 45deg;
+  }
+</style>

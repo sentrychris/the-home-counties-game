@@ -1,0 +1,155 @@
+---
+import site from "../data/site.json";
+import { url } from "../lib/url";
+
+const year = new Date().getFullYear();
+const more = [
+  { label: "Guides", href: "guides/" },
+  { label: "Gear database", href: "gear/" },
+  { label: "Roadmap", href: "devlog/#roadmap" },
+  { label: "Credits", href: "credits/" },
+];
+---
+
+<footer class="site-footer edge-top">
+  <div class="wrap cols">
+    <div class="about">
+      <img src={url("images/logo-700.webp")} alt="The Home Counties" width="700" height="142" loading="lazy" />
+      <p>{site.description}</p>
+      <p class="made">Made in {site.engine} by {site.developer}.</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <h2 class="col-title">Site</h2>
+      <ul>
+        {site.nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav aria-label="More">
+      <h2 class="col-title">More</h2>
+      <ul>
+        {more.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="col-title">Follow</h2>
+      <ul>
+        {
+          site.links.map((l) =>
+            l.href ? (
+              <li><a href={l.href} rel="me noopener">{l.label}</a></li>
+            ) : (
+              <li class="soon">{l.label} <span>coming soon</span></li>
+            )
+          )
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="legal">
+      <p>© {year} {site.developer}. {site.name} is a work in progress; everything here may change.</p>
+      <p>Street data © OpenStreetMap contributors. Not affiliated with any real business shown. <a href={url("credits/")}>Asset credits</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    --edge-colour: rgb(0 0 0 / 0.32);
+    margin-top: clamp(32px, 5vw, 64px);
+    padding-top: clamp(48px, 7vw, 80px);
+    background: var(--edge-colour);
+    font-size: 0.98rem;
+    color: var(--bone-dim);
+  }
+
+  .cols {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .cols {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+  }
+
+  .about img {
+    width: 220px;
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+
+  .about p {
+    max-width: 44ch;
+  }
+
+  .made {
+    font-family: var(--font-hand);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--bone);
+  }
+
+  .col-title {
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    color: var(--bone-faint);
+    margin-bottom: 14px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  a {
+    color: var(--bone-dim);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--bone);
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+  }
+
+  .soon {
+    color: var(--bone-faint);
+  }
+
+  .soon span {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-left: 6px;
+    border: 1px solid var(--line);
+    padding: 0 6px;
+  }
+
+  .legal {
+    margin-top: 48px;
+    padding-block: 20px 28px;
+    border-top: 1px dashed var(--line-soft);
+    font-size: 0.9rem;
+    color: var(--bone-faint);
+  }
+
+  .legal p {
+    margin: 0 0 4px;
+  }
+
+  .legal a {
+    color: var(--bone-faint);
+    text-decoration: underline;
+  }
+</style>

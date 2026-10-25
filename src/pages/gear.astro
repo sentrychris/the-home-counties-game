@@ -1,0 +1,464 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHead from "../components/PageHead.astro";
+import Icon from "../components/Icon.astro";
+import { url, publicFileExists, formatPounds } from "../lib/url";
+
+const CATEGORIES = ["Weapons", "Gear", "Ammo", "Medical", "Provisions", "Valuables"] as const;
+const SLOT_ORDER = ["Primary", "Secondary", "Holster", "Knife", "Helmet", "Armour", "Rig", "Backpack", "Pockets"];
+
+const items = (await getCollection("items"))
+  .map((e) => ({ id: e.id, ...e.data, slots: e.data.slot.split("/").map((s) => s.trim()) }))
+  .sort((a, b) => CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category) || a.name.localeCompare(b.name));
+
+const slots = [...new Set(items.flatMap((i) => i.slots))].sort(
+  (a, b) => (SLOT_ORDER.indexOf(a) + 1 || 99) - (SLOT_ORDER.indexOf(b) + 1 || 99)
+);
+const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
+---
+
+<Base title="Gear and items" description="Every item in The Home Counties prototype: slot, weight, value in pounds and what it's for.">
+  <PageHead
+    title="Gear and items"
+    eyebrow="Database"
+    lede="Everything you can wear, carry, eat or sell, with its slot, weight and value in pounds. The £/kg figure shows which items are worth their weight."
+    crumbs={[{ label: "Gear and items" }]}
+  />
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <form class="panel toolbar" data-filters hidden role="search" aria-label="Filter items" onsubmit="return false">
+        <div class="field search">
+          <label for="q">Search</label>
+          <div class="input-wrap">
+            <Icon name="search" />
+            <input id="q" name="q" type="search" placeholder="Name or description" autocomplete="off" />
+          </div>
+        </div>
+
+        <fieldset class="field cats">
+          <legend>Category</legend>
+          <div class="chips">
+            <label><input type="radio" name="cat" value="" checked /><span>All</span></label>
+            {
+              CATEGORIES.map((c) => (
+                <label>
+                  <input type="radio" name="cat" value={c} />
+                  <span>{c}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="slot">Slot</label>
+          <select id="slot" name="slot">
+            <option value="">Any slot</option>
+            {slots.map((s) => <option value={s}>{s}</option>)}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="sort">Sort by</label>
+          <select id="sort" name="sort">
+            <option value="default">Category</option>
+            <option value="name">Name</option>
+            <option value="value">Value (highest)</option>
+            <option value="weight">Weight (lightest)</option>
+            <option value="density">£ per kg (best)</option>
+          </select>
+        </div>
+      </form>
+
+      <p class="count" aria-live="polite" data-count>{items.length} items</p>
+
+      <ul class="items" data-items>
+        {
+          items.map((item, i) => {
+            const [cols, rows] = item.size.split("x").map(Number);
+            const hasImage = publicFileExists(item.image);
+            return (
+              <li
+                class="panel item"
+                data-name={item.name.toLowerCase()}
+                data-text={`${item.name} ${item.description} ${item.slot}`.toLowerCase()}
+                data-cat={item.category}
+                data-slots={item.slots.join("|")}
+                data-value={item.value}
+                data-weight={item.weight}
+                data-density={perKg(item.value, item.weight)}
+                data-order={i}
+              >
+                <div class="thumb" aria-hidden="true">
+                  {hasImage && item.image ? (
+                    <img src={url(item.image)} alt="" loading="lazy" />
+                  ) : (
+                    <span class="thumb-icon">
+                      <Icon name={item.icon ?? "box"} />
+                    </span>
+                  )}
+                  <span class="cat-tag">{item.category}</span>
+                </div>
+                <div class="body">
+                  <h2 class="name">
+                    {item.link ? <a href={url(item.link)}>{item.name}</a> : item.name}
+                  </h2>
+                  <p class="slot">{item.slot}</p>
+                  <p class="desc">{item.description}</p>
+                  <dl class="facts">
+                    <div>
+                      <dt>Weight</dt>
+                      <dd>{item.weight} kg</dd>
+                    </div>
+                    <div>
+                      <dt>Value</dt>
+                      <dd>{formatPounds(item.value)}</dd>
+                    </div>
+                    <div>
+                      <dt>£/kg</dt>
+                      <dd>{formatPounds(perKg(item.value, item.weight))}</dd>
+                    </div>
+                    <div>
+                      <dt>Size</dt>
+                      <dd class="size">
+                        <span class="cells" style={`--c:${cols};--r:${rows}`} aria-hidden="true" />
+                        {cols}×{rows}
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <p class="empty" data-empty hidden>Nothing matches that. Try another category or clear the search.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-filters]");
+  const list = document.querySelector<HTMLUListElement>("[data-items]");
+  const count = document.querySelector<HTMLElement>("[data-count]");
+  const empty = document.querySelector<HTMLElement>("[data-empty]");
+
+  if (form && list && count && empty) {
+    form.hidden = false;
+    const cards = [...list.querySelectorAll<HTMLLIElement>("li.item")];
+    const num = (el: HTMLElement, key: string) => Number(el.dataset[key]);
+    const sorters: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
+      default: (a, b) => num(a, "order") - num(b, "order"),
+      name: (a, b) => (a.dataset.name ?? "").localeCompare(b.dataset.name ?? ""),
+      value: (a, b) => num(b, "value") - num(a, "value"),
+      weight: (a, b) => num(a, "weight") - num(b, "weight"),
+      density: (a, b) => num(b, "density") - num(a, "density"),
+    };
+
+    const apply = () => {
+      const data = new FormData(form);
+      const q = String(data.get("q") ?? "").trim().toLowerCase();
+      const cat = String(data.get("cat") ?? "");
+      const slot = String(data.get("slot") ?? "");
+      const sort = String(data.get("sort") ?? "default");
+      let shown = 0;
+      for (const card of cards) {
+        const ok =
+          (!q || (card.dataset.text ?? "").includes(q)) &&
+          (!cat || card.dataset.cat === cat) &&
+          (!slot || (card.dataset.slots ?? "").split("|").includes(slot));
+        card.hidden = !ok;
+        if (ok) shown++;
+      }
+      cards.sort(sorters[sort] ?? sorters.default).forEach((c) => list.append(c));
+      count.textContent = `${shown} ${shown === 1 ? "item" : "items"}`;
+      empty.hidden = shown > 0;
+    };
+
+    form.addEventListener("input", apply);
+    form.addEventListener("change", apply);
+    apply();
+  }
+</script>
+
+<style>
+  .toolbar {
+    display: grid;
+    gap: 16px 20px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 900px) {
+    .toolbar {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+    .cats {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .field label,
+  .field legend {
+    padding: 0;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .field legend {
+    margin-bottom: 6px;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-wrap :global(.icon) {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    translate: 0 -50%;
+    color: var(--bone-faint);
+  }
+
+  input[type="search"],
+  select {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: #141618;
+    color: var(--bone);
+    font: inherit;
+  }
+
+  input[type="search"] {
+    padding-left: 40px;
+  }
+
+  select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--bone-dim) 50%), linear-gradient(135deg, var(--bone-dim) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 36px;
+  }
+
+  input:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--bone);
+    outline-offset: 0;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chips label {
+    position: relative;
+    letter-spacing: 0;
+  }
+
+  .chips input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .chips span {
+    display: inline-block;
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    background: #141618;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+
+  .chips input:checked + span {
+    background: var(--bone);
+    border-color: var(--bone);
+    color: var(--bg);
+  }
+
+  .chips input:focus-visible + span {
+    outline: 2px solid var(--bone);
+    outline-offset: 2px;
+  }
+
+  .count {
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .items {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item[hidden] {
+    display: none;
+  }
+
+  .thumb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 150px;
+    border-bottom: 1px solid var(--line);
+    background:
+      linear-gradient(to right, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(to bottom, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+      #191b1d;
+  }
+
+  .thumb img {
+    max-width: 80%;
+    max-height: 120px;
+    width: auto;
+    filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.6));
+  }
+
+  .thumb-icon {
+    color: var(--bone-dim);
+  }
+
+  .thumb-icon :global(.icon) {
+    width: 64px;
+    height: 64px;
+  }
+
+  .cat-tag {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 16px 18px 14px;
+  }
+
+  .name {
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin-bottom: 0.15em;
+  }
+
+  .name a {
+    text-decoration-color: var(--red);
+  }
+
+  .slot {
+    margin: 0 0 8px;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.92rem;
+    color: var(--red-text);
+  }
+
+  .desc {
+    color: var(--bone-dim);
+    font-size: 0.98rem;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 4px 8px;
+    margin: auto 0 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .facts dt {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .size {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cells {
+    display: inline-block;
+    width: calc(var(--c) * 6px);
+    height: calc(var(--r) * 6px);
+    background:
+      linear-gradient(to right, var(--bg) 1px, transparent 1px) 0 0 / 6px 6px,
+      linear-gradient(to bottom, var(--bg) 1px, transparent 1px) 0 0 / 6px 6px,
+      var(--bone-faint);
+  }
+
+  .empty {
+    padding: 40px;
+    text-align: center;
+    border: 2px dashed var(--line);
+    color: var(--bone-dim);
+  }
+</style>

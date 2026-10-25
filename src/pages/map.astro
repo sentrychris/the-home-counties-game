@@ -1,0 +1,782 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import map from "../data/map.json";
+import { geometry, gridRef } from "../lib/map-geometry.mjs";
+import { url } from "../lib/url";
+
+const geo = geometry(map);
+const markers = (await getCollection("mapMarkers")).map((m) => ({
+  id: m.id,
+  ...m.data,
+  image: m.data.image ? url(m.data.image) : undefined,
+  grid: gridRef(map.grid, m.data.x, m.data.z),
+}));
+
+const byLayer = map.layers.map((layer) => ({
+  ...layer,
+  markers: markers.filter((m) => m.layer === layer.id).sort((a, b) => a.name.localeCompare(b.name, "en", { numeric: true })),
+}));
+
+const mapData = {
+  geo,
+  tiles: { ...map.tiles, url: url(map.tiles.url) },
+  aerial: { ...map.aerial, url: url(map.aerial.url) },
+  grid: map.grid,
+  boundary: map.boundary,
+  layers: map.layers,
+  markers,
+};
+
+const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark: "pin", start: "crosshair", scav: "skull", crate: "box", note: "pin" };
+---
+
+<Base title="Tactical map" description={`Interactive tactical map of ${map.name}: player starts, exits, scav spawns, loot crates, enterable houses and landmarks on a 25 m grid.`} bodyClass="page-map">
+  <div class="map-bar">
+    <div class="bar-title">
+      <p class="eyebrow eyebrow--plain">Tactical map · field copy</p>
+      <h1>{map.name}</h1>
+      <p class="where">{map.location}</p>
+    </div>
+    <div class="bar-actions">
+      <button class="btn btn--small layers-btn" type="button" aria-expanded="false" aria-controls="map-panel">
+        <Icon name="layers" />Layers
+      </button>
+      <a class="btn btn--small" href={url(map.downloads.fieldCopy)} download><Icon name="download" /><span class="dl-text">Field copy</span></a>
+    </div>
+  </div>
+
+  <section class="map-app" aria-label="Interactive map">
+    <div class="map-shell">
+      <div id="map" class="map" aria-label={`Map of ${map.name}`} aria-describedby="map-help"></div>
+      <p id="map-help" class="visually-hidden">
+        Use the arrow keys to pan and the plus and minus keys to zoom. Press Tab to move between markers and Enter to open one. The same places are listed
+        under the map.
+      </p>
+      <div class="ruler ruler-x" aria-hidden="true"></div>
+      <div class="ruler ruler-y" aria-hidden="true"></div>
+      <div class="readout" aria-hidden="true">
+        <span class="readout-ref" data-ref>—</span>
+        <span class="readout-xz" data-xz></span>
+      </div>
+      <noscript>
+        <a class="noscript" href={url(map.downloads.fieldCopy)}>
+          <img src={url(map.downloads.preview)} alt={`Tactical map of ${map.name}`} />
+          <span>The interactive map needs JavaScript. Open the full field copy instead.</span>
+        </a>
+      </noscript>
+    </div>
+
+    <div id="map-panel" class="map-panel" role="region" aria-label="Map layers and legend">
+      <div class="panel-head">
+        <h2 class="eyebrow eyebrow--plain">Raid intel</h2>
+        <button class="panel-close" type="button" aria-label="Close layers"><Icon name="close" /></button>
+      </div>
+      <dl class="intel">
+        {
+          map.intel.map((s) => (
+            <div>
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <fieldset class="group">
+        <legend class="eyebrow eyebrow--plain">Base map</legend>
+        <label class="radio"><input type="radio" name="base" value="field" checked /><span>Field copy</span></label>
+        <label class="radio"><input type="radio" name="base" value="aerial" /><span>{map.aerial.name}</span></label>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend class="eyebrow eyebrow--plain">Layers and legend</legend>
+        <ul class="layer-list">
+          {
+            byLayer.map((l) => (
+              <li>
+                <label class="layer">
+                  <input type="checkbox" name="layer" value={l.id} checked={l.visible} />
+                  <span class:list={["swatch", `swatch--${l.icon}`]} style={`--c: ${l.colour}`} aria-hidden="true">
+                    {(l.icon === "exit" || l.icon === "house" || l.icon === "landmark") && <Icon name={iconFor[l.icon]} />}
+                  </span>
+                  <span class="layer-text">
+                    <span class="layer-name">
+                      {l.name} <span class="count">{l.markers.length}</span>
+                    </span>
+                    <span class="layer-blurb">{l.blurb}</span>
+                  </span>
+                </label>
+              </li>
+            ))
+          }
+          <li>
+            <label class="layer">
+              <input type="checkbox" name="grid" value="grid" checked />
+              <span class="swatch swatch--grid" aria-hidden="true"></span>
+              <span class="layer-text">
+                <span class="layer-name">{map.grid.size} m grid</span>
+                <span class="layer-blurb">Lettered columns, numbered rows. Boundary fence in red.</span>
+              </span>
+            </label>
+          </li>
+        </ul>
+      </fieldset>
+
+      <div class="group tools">
+        <h2 class="eyebrow eyebrow--plain">Tools</h2>
+        <button class="btn btn--small" type="button" data-reset><Icon name="crosshair" />Reset view</button>
+        <button class="btn btn--small" type="button" data-pin aria-pressed="false"><Icon name="pin" />Drop a pin</button>
+        <p class="tool-help">Drop a pin to get a grid reference and the coordinates for that spot.</p>
+      </div>
+
+      <div class="paper note map-note">
+        <span class="tape" aria-hidden="true"></span>
+        <p>{map.fieldNote}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight index" aria-labelledby="index-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Map index</p>
+          <h2 id="index-title">Everything on the map</h2>
+        </div>
+        <p>Every marker with its grid reference. Choose one to find it on the map.</p>
+      </div>
+
+      <div class="exits-panel panel">
+        <h3>Exits and distances</h3>
+        <p>As the crow flies from each start. Stand in the green zone for 10 seconds to extract.</p>
+        <table>
+          <thead>
+            <tr><th scope="col">Exit</th><th scope="col">From west start</th><th scope="col">From east start</th></tr>
+          </thead>
+          <tbody>
+            {map.distances.map((d) => <tr><th scope="row">{d.exit}</th><td>{d.fromWest}</td><td>{d.fromEast}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="index-grid">
+        {
+          byLayer
+            .filter((l) => l.id !== "notes")
+            .map((l) => (
+              <section class="panel index-group" aria-labelledby={`idx-${l.id}`}>
+                <h3 id={`idx-${l.id}`}>
+                  <span class:list={["swatch", `swatch--${l.icon}`]} style={`--c: ${l.colour}`} aria-hidden="true" />
+                  {l.name} <span class="count">{l.markers.length}</span>
+                </h3>
+                <ul>
+                  {l.markers.map((m) => (
+                    <li>
+                      <button type="button" data-goto={m.id}>
+                        <span class="ref">{m.grid ?? "OOB"}</span>
+                        <span class="nm">{m.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <template id="map-icons">
+    <span data-icon="run"><Icon name="run" /></span>
+    <span data-icon="stash"><Icon name="stash" /></span>
+    <span data-icon="pin"><Icon name="pin" /></span>
+    <span data-icon="close"><Icon name="close" /></span>
+  </template>
+
+  <script is:inline type="application/json" id="map-data" set:html={JSON.stringify(mapData).replace(/</g, "\\u003c")} />
+</Base>
+
+<script>
+  import "../scripts/map";
+</script>
+
+<style>
+  .map-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    padding: 12px var(--gutter);
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--bg-2);
+  }
+
+  .bar-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 16px;
+  }
+
+  .bar-title .eyebrow {
+    width: 100%;
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .bar-title h1 {
+    margin: 0;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    -webkit-mask-size: 260px;
+    mask-size: 260px;
+  }
+
+  .where {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: var(--bone-faint);
+  }
+
+  .bar-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  @media (max-width: 599px) {
+    .map-bar {
+      flex-wrap: nowrap;
+      padding-block: 10px;
+    }
+
+    .bar-title .eyebrow,
+    .where {
+      display: none;
+    }
+
+    .bar-title h1 {
+      font-size: 1.7rem;
+    }
+  }
+
+  .layers-btn {
+    display: none;
+  }
+
+  .map-app {
+    position: relative;
+    display: grid;
+    height: max(520px, calc(100svh - var(--header-h) - 76px));
+  }
+
+  @media (min-width: 1000px) {
+    .map-app {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+  }
+
+  .map-shell {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    background: #0f100e;
+    /* Keep Leaflet's own z-indexes (up to 1000) inside the map. */
+    isolation: isolate;
+  }
+
+  .map {
+    position: absolute;
+    inset: 0;
+  }
+
+  .noscript {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    gap: 12px;
+    padding: 20px;
+    text-align: center;
+    color: var(--bone);
+  }
+
+  .noscript img {
+    max-height: 70%;
+    width: auto;
+  }
+
+  /* Edge rulers that follow the grid. */
+  .ruler {
+    position: absolute;
+    z-index: 650;
+    pointer-events: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--bone);
+  }
+
+  .ruler-x {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 22px;
+    background: linear-gradient(to bottom, rgb(12 13 11 / 0.85), rgb(12 13 11 / 0.4));
+    border-bottom: 1px solid rgb(216 210 195 / 0.15);
+  }
+
+  .ruler-y {
+    left: 0;
+    top: 22px;
+    bottom: 0;
+    width: 26px;
+    background: linear-gradient(to right, rgb(12 13 11 / 0.85), rgb(12 13 11 / 0.4));
+    border-right: 1px solid rgb(216 210 195 / 0.15);
+  }
+
+  .ruler :global(span) {
+    position: absolute;
+    translate: -50% -50%;
+    line-height: 1;
+  }
+
+  .ruler-x :global(span) {
+    top: 11px;
+  }
+
+  .ruler-y :global(span) {
+    left: 13px;
+  }
+
+  .ruler.is-hidden {
+    display: none;
+  }
+
+  .readout {
+    position: absolute;
+    left: 36px;
+    bottom: 12px;
+    z-index: 650;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    padding: 6px 12px;
+    background: rgb(12 13 11 / 0.82);
+    border: 1px solid var(--line);
+    pointer-events: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .readout-ref {
+    font-size: 1.3rem;
+    color: var(--bone);
+  }
+
+  .readout-xz {
+    font-size: 0.9rem;
+    color: var(--bone-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Side panel: a sidebar on desktop, a bottom sheet on smaller screens. */
+  .map-panel {
+    overflow-y: auto;
+    padding: 18px 20px 28px;
+    background-color: var(--panel);
+    background-image: var(--worn);
+    background-size: 512px, 512px;
+    border-left: 1px solid var(--line);
+  }
+
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .panel-head h2 {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+  }
+
+  .panel-close {
+    display: none;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    color: var(--bone);
+    cursor: pointer;
+  }
+
+  .panel-close :global(.icon) {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (max-width: 999px) {
+    .layers-btn {
+      display: inline-flex;
+    }
+
+    .dl-text {
+      display: none;
+    }
+
+    .map-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 900;
+      max-height: 75vh;
+      border-left: 0;
+      border-top: 2px solid var(--line);
+      box-shadow: 0 -20px 40px rgb(0 0 0 / 0.6);
+      transform: translateY(105%);
+      visibility: hidden;
+      transition: transform 0.25s ease, visibility 0s linear 0.25s;
+    }
+
+    .map-panel.is-open {
+      transform: none;
+      visibility: visible;
+      transition: transform 0.25s ease;
+    }
+
+    .panel-close {
+      display: grid;
+    }
+  }
+
+  .intel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin: 0 0 18px;
+  }
+
+  .intel div {
+    padding: 6px 8px;
+    border: 1px solid var(--line);
+    background: #15171a;
+  }
+
+  .intel dt {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+    white-space: nowrap;
+  }
+
+  .intel dd {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .group {
+    margin: 0 0 18px;
+    padding: 14px 0 0;
+    border: 0;
+    border-top: 1px dashed var(--line);
+  }
+
+  .group legend,
+  .group h2 {
+    float: left;
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 0;
+    font-size: 0.85rem;
+  }
+
+  .radio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    clear: both;
+    cursor: pointer;
+  }
+
+  .radio input,
+  .layer input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--green);
+    flex: none;
+  }
+
+  .layer-list {
+    clear: both;
+    display: grid;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .layer {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 8px;
+    margin: 0 -8px;
+    cursor: pointer;
+  }
+
+  .layer:hover {
+    background: rgb(216 210 195 / 0.04);
+  }
+
+  .layer-text {
+    display: grid;
+    line-height: 1.25;
+  }
+
+  .layer-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .count {
+    margin-left: 4px;
+    font-size: 0.85em;
+    color: var(--bone-faint);
+  }
+
+  .layer-blurb {
+    font-size: 0.85rem;
+    color: var(--bone-faint);
+  }
+
+  /* Legend swatches, shared with the map markers' look. */
+  .swatch {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    flex: none;
+    color: #111;
+  }
+
+  .swatch :global(.icon) {
+    width: 15px;
+    height: 15px;
+  }
+
+  .swatch--start {
+    height: 15px;
+    border: 2px solid var(--c);
+    background:
+      linear-gradient(to top right, transparent calc(50% - 1px), var(--c) 50%, transparent calc(50% + 1px)),
+      linear-gradient(to top left, transparent calc(50% - 1px), var(--c) 50%, transparent calc(50% + 1px)),
+      rgb(134 197 232 / 0.2);
+  }
+
+  .swatch--exit {
+    background: var(--c);
+  }
+
+  .swatch--scav {
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    rotate: 45deg;
+    border: 2px solid var(--c);
+    background:
+      linear-gradient(var(--c), var(--c)) center / 2px 100% no-repeat,
+      linear-gradient(var(--c), var(--c)) center / 100% 2px no-repeat,
+      rgb(201 81 60 / 0.3);
+  }
+
+  .swatch--crate {
+    width: 18px;
+    height: 18px;
+    margin: 2px;
+    border: 2px solid var(--c);
+    background: linear-gradient(to top right, transparent calc(50% - 1px), var(--c) 50%, transparent calc(50% + 1px)), #1b1a14;
+  }
+
+  .swatch--house {
+    background: var(--c);
+  }
+
+  .swatch--landmark {
+    color: var(--c);
+  }
+
+  .swatch--landmark :global(.icon) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .swatch--note::before {
+    content: "abc";
+    font-family: var(--font-hand);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--bone);
+  }
+
+  .swatch--grid {
+    border: 1px solid var(--bone-faint);
+    background:
+      linear-gradient(var(--bone-faint), var(--bone-faint)) center / 1px 100% no-repeat,
+      linear-gradient(var(--bone-faint), var(--bone-faint)) center / 100% 1px no-repeat;
+  }
+
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tools h2 {
+    margin-bottom: 4px;
+  }
+
+  .tools [aria-pressed="true"] {
+    background: var(--crate);
+    border-color: var(--crate);
+    color: #111;
+  }
+
+  .tool-help {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: var(--bone-faint);
+  }
+
+  .map-note {
+    margin: 26px 6px 6px;
+    font-size: 1.35rem;
+    transform: rotate(-1.5deg);
+  }
+
+  /* Map index */
+  .index {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .exits-panel {
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+
+  .exits-panel h3 {
+    margin-bottom: 0.3em;
+  }
+
+  .exits-panel p {
+    color: var(--bone-dim);
+  }
+
+  .exits-panel table {
+    width: 100%;
+    max-width: 640px;
+    border-collapse: collapse;
+  }
+
+  .exits-panel th,
+  .exits-panel td {
+    padding: 8px 12px 8px 0;
+    text-align: left;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .exits-panel thead th {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .exits-panel tbody th {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+
+  .index-grid {
+    columns: 300px;
+    column-gap: 20px;
+  }
+
+  .index-group {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    padding: 18px 18px 10px;
+  }
+
+  .index-group h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+  }
+
+  .index-group ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .index-group button {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    align-items: baseline;
+    padding: 7px 0;
+    border: 0;
+    border-bottom: 1px dashed var(--line-soft);
+    background: none;
+    color: var(--bone-dim);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .index-group li:last-child button {
+    border-bottom: 0;
+  }
+
+  .index-group button:hover {
+    color: var(--bone);
+  }
+
+  .ref {
+    flex: none;
+    min-width: 2.6em;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--bone);
+  }
+</style>

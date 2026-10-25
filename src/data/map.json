@@ -1,0 +1,59 @@
+{
+  "id": "duncombe-street",
+  "name": "Duncombe Street",
+  "location": "Bletchley · Milton Keynes · MK2",
+  "summary": "Victorian terraces by the West Coast Main Line, an abandoned Sainsbury's and its car park, and a lot of overgrown back gardens. A quiet map, suited to early runs.",
+  "intel": [
+    { "label": "Raid time", "value": "12 min" },
+    { "label": "Scavs", "value": "12" },
+    { "label": "Crate spots", "value": "17" },
+    { "label": "Exits", "value": "2" }
+  ],
+  "fieldNote": "Quiet area. Good for early runs. Watch the railway, you can hear movement for miles. Most crates are inside the open houses.",
+  "distances": [
+    { "exit": "Station Footpath", "fromWest": "220 m", "fromEast": "330 m" },
+    { "exit": "Oliver Road", "fromWest": "290 m", "fromEast": "280 m" }
+  ],
+
+  "source": {
+    "image": "resources/duncombe-street-tactical-map-military.png",
+    "crop": { "left": 0, "top": 0, "width": 5040, "height": 6188 },
+    "pxPerMetre": 16,
+    "worldOriginPx": [1700, 2627]
+  },
+  "tiles": {
+    "url": "map/duncombe-street/tiles/{z}/{x}/{y}.webp",
+    "tileSize": 256,
+    "quality": 74,
+    "minZoom": -1,
+    "maxZoom": 6
+  },
+  "downloads": {
+    "fieldCopy": "map/duncombe-street/field-copy.jpg",
+    "preview": "map/duncombe-street/preview.webp"
+  },
+  "aerial": {
+    "name": "Aerial (in-game render)",
+    "url": "map/duncombe-street/aerial.webp",
+    "area": [-154.3, -127.6, 472.8, 315.2]
+  },
+
+  "grid": {
+    "size": 25,
+    "originX": -61.91,
+    "originZ": -121.81,
+    "cols": 10,
+    "rows": 13
+  },
+  "boundary": { "minX": -61.91, "minZ": -121.81, "maxX": 171.88, "maxZ": 182.06 },
+
+  "layers": [
+    { "id": "starts", "name": "Player starts", "icon": "start", "colour": "#86c5e8", "visible": true, "blurb": "You start at one of these two points." },
+    { "id": "exits", "name": "Exits", "icon": "exit", "colour": "#8fb05a", "visible": true, "blurb": "Army checkpoints, marked by red smoke." },
+    { "id": "scavs", "name": "Scav spawns", "icon": "scav", "colour": "#c9513c", "visible": true, "blurb": "Where scavs start the raid." },
+    { "id": "crates", "name": "Loot crates", "icon": "crate", "colour": "#d6aa48", "visible": true, "blurb": "Fixed crate spots, contents vary." },
+    { "id": "houses", "name": "Enterable houses", "icon": "house", "colour": "#b9895a", "visible": true, "blurb": "Open doors, floor plans inside." },
+    { "id": "landmarks", "name": "Landmarks", "icon": "landmark", "colour": "#d8d2c3", "visible": true, "blurb": "Named places to navigate by." },
+    { "id": "notes", "name": "Field notes", "icon": "note", "colour": "#d8d2c3", "visible": false, "blurb": "Handwritten notes from the field copy." }
+  ]
+}

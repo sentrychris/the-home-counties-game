@@ -1,0 +1,44 @@
+[
+  {
+    "id": "prototype",
+    "order": 1,
+    "phase": "Now",
+    "title": "Prototype build",
+    "status": "now",
+    "items": [
+      { "text": "Duncombe Street raid map with 12-minute raids", "done": true },
+      { "text": "Two exits at old checkpoints, marked by red smoke", "done": true },
+      { "text": "AK-47 with FMJ ammo and ammo switching", "done": true },
+      { "text": "Scav AI that uses cover, flanks and hunts by sound", "done": true },
+      { "text": "Loadout slots, carry weight and stamina", "done": true },
+      { "text": "Damage by body part, and healing", "done": true },
+      { "text": "Tactical map of Duncombe Street", "done": true }
+    ]
+  },
+  {
+    "id": "between-raids",
+    "order": 2,
+    "phase": "Next",
+    "title": "Between raids",
+    "status": "next",
+    "items": [
+      { "text": "A stash for the gear you bring home" },
+      { "text": "Traders who buy loot for pounds" },
+      { "text": "More 7.62x39 ammo types" },
+      { "text": "Pistol and secondary weapon handling" }
+    ]
+  },
+  {
+    "id": "beyond-bletchley",
+    "order": 3,
+    "phase": "Later",
+    "title": "Beyond Bletchley",
+    "status": "later",
+    "items": [
+      { "text": "More of Milton Keynes as raid maps" },
+      { "text": "Weather and time of day" },
+      { "text": "More scav types and loadouts" },
+      { "text": "Store page and a public playtest" }
+    ]
+  }
+]

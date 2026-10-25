@@ -1,0 +1,32 @@
+---
+// Header band for inner pages: breadcrumbs, eyebrow, distressed title, lede.
+import { url } from "../lib/url";
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lede?: string;
+  crumbs?: { label: string; href?: string }[];
+}
+
+const { title, eyebrow, lede, crumbs = [] } = Astro.props;
+---
+
+<div class="page-head">
+  <div class="wrap">
+    {
+      crumbs.length > 0 && (
+        <nav aria-label="Breadcrumb">
+          <ol class="crumbs">
+            <li><a href={url()}>Home</a></li>
+            {crumbs.map((c) => (c.href ? <li><a href={url(c.href)}>{c.label}</a></li> : <li aria-current="page">{c.label}</li>))}
+          </ol>
+        </nav>
+      )
+    }
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+</div>

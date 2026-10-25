@@ -1,0 +1,140 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Img from "../../components/Img.astro";
+import Gallery from "../../components/Gallery.astro";
+import { url, formatDate } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("devlog", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const p = post.data;
+const { Content } = await render(post);
+---
+
+<Base title={p.title} description={p.summary} image={p.cover?.src}>
+  <PageHead title={p.title} lede={p.summary} crumbs={[{ label: "Dev log", href: "devlog/" }, { label: p.title }]}>
+    <p class="meta">
+      <time datetime={p.date.toISOString()}>{formatDate(p.date)}</time>
+      {p.version && <span class="chip chip--ver">{p.version}</span>}
+    </p>
+  </PageHead>
+
+  <article class="section section--tight">
+    <div class="wrap wrap--narrow">
+      {
+        p.cover && (
+          <figure class="cover">
+            <Img src={p.cover.src} alt={p.cover.alt} loading="eager" sizes="(min-width: 860px) 780px, 100vw" />
+          </figure>
+        )
+      }
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {
+      p.screenshots.length > 0 && (
+        <div class="wrap shots">
+          <h2>Screenshots</h2>
+          <Gallery shots={p.screenshots} label={`Screenshots for ${p.title}`} />
+        </div>
+      )
+    }
+
+    <nav class="wrap wrap--narrow pager" aria-label="More posts">
+      {
+        older && (
+          <a class="panel pager-link" href={url(`devlog/${older.id}/`)}>
+            <span>Older</span>
+            {older.data.title}
+          </a>
+        )
+      }
+      {
+        newer && (
+          <a class="panel pager-link pager-newer" href={url(`devlog/${newer.id}/`)}>
+            <span>Newer</span>
+            {newer.data.title}
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 0;
+  }
+
+  time {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red-text);
+  }
+
+  .cover {
+    margin: 0 0 36px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .cover :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .shots {
+    margin-top: 56px;
+  }
+
+  .shots h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  }
+
+  .pager {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    margin-top: 56px;
+  }
+
+  .pager-link {
+    display: block;
+    padding: 16px 18px;
+    text-decoration: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .pager-link span {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--bone-faint);
+  }
+
+  .pager-newer {
+    text-align: right;
+    grid-column: -2;
+  }
+</style>

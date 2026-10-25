@@ -1,0 +1,32 @@
+[
+  { "id": "ak-47", "name": "AK-47", "category": "Weapons", "slot": "Primary / Secondary", "weight": 3.9, "value": 1200, "size": "5x2", "image": "images/items/ak47.webp", "description": "7.62x39 assault rifle with a 30-round magazine. Reliable, with heavy recoil. Ammo for it is common.", "link": "weapons/ak-47/" },
+  { "id": "hi-power", "name": "Hi-Power pistol", "category": "Weapons", "slot": "Holster", "weight": 1.0, "value": 450, "size": "2x1", "image": "images/items/pistol.webp", "description": "Old 9 mm service pistol. A backup for when your rifle is empty." },
+  { "id": "combat-knife", "name": "Combat knife", "category": "Weapons", "slot": "Knife", "weight": 0.3, "value": 60, "size": "1x2", "image": "images/items/knife.webp", "description": "Leather-handled fighting knife. Silent, with no ammo to run out of." },
+
+  { "id": "k63-helmet", "name": "K63 helmet", "category": "Gear", "slot": "Helmet", "weight": 1.6, "value": 650, "size": "2x2", "image": "images/items/helmet_k63.webp", "description": "Heavy black helmet with a face visor. More protection than the MICH, but heavier." },
+  { "id": "mich-helmet", "name": "MICH helmet", "category": "Gear", "slot": "Helmet", "weight": 1.4, "value": 520, "size": "2x2", "image": "images/items/helmet_mich.webp", "description": "Modern combat helmet in a faded woodland cover. Lighter than the K63, no visor." },
+  { "id": "plate-carrier", "name": "Plate carrier", "category": "Gear", "slot": "Armour", "weight": 6.5, "value": 1100, "size": "3x3", "image": "images/items/plate_carrier.webp", "description": "Camo carrier with front and back plates and four magazine pouches. The heaviest item you'll wear, and the best protection." },
+  { "id": "chest-rig", "name": "Chest rig", "category": "Gear", "slot": "Rig", "weight": 0.9, "value": 180, "size": "3x3", "image": "images/items/chest_rig.webp", "description": "Tan X-harness rig. Keeps magazines and meds within quick reach." },
+  { "id": "daypack", "name": "Daypack", "category": "Gear", "slot": "Backpack", "weight": 1.2, "value": 150, "size": "3x4", "image": "images/items/backpack_small.webp", "description": "Small camo pack. Enough room for a short raid." },
+  { "id": "patrol-pack", "name": "Large patrol pack", "category": "Gear", "slot": "Backpack", "weight": 2.4, "value": 380, "size": "4x5", "image": "images/items/backpack_large.webp", "description": "Large frame pack. Holds a lot of loot, but adds a lot of weight when full." },
+
+  { "id": "762-fmj", "name": "7.62x39 FMJ (30)", "category": "Ammo", "slot": "Pockets / Rig", "weight": 0.5, "value": 45, "size": "1x1", "icon": "ammo", "description": "Full metal jacket rounds for the AK-47. The common type: good damage, average penetration." },
+
+  { "id": "bandage", "name": "Bandage", "category": "Medical", "slot": "Pockets / Rig", "weight": 0.1, "value": 25, "size": "1x1", "icon": "bandage", "description": "Stops bleeding. Small and light enough to carry a few." },
+  { "id": "painkillers", "name": "Painkillers", "category": "Medical", "slot": "Pockets / Rig", "weight": 0.05, "value": 35, "size": "1x1", "icon": "painkillers", "description": "Takes the edge off pain so you can keep moving. It doesn't heal you." },
+  { "id": "medkit", "name": "First aid kit", "category": "Medical", "slot": "Rig / Backpack", "weight": 0.6, "value": 160, "size": "2x2", "icon": "medkit", "description": "A full first aid kit. Restores health over a few seconds. Press H to use it." },
+
+  { "id": "beans", "name": "Baked beans", "category": "Provisions", "slot": "Backpack", "weight": 0.45, "value": 8, "size": "1x1", "icon": "beans", "description": "A tin of baked beans. Keeps for years." },
+  { "id": "sausage-roll", "name": "Sausage roll", "category": "Provisions", "slot": "Pockets / Backpack", "weight": 0.15, "value": 5, "size": "1x1", "icon": "sausage_roll", "description": "Still in its paper bag, of uncertain age." },
+  { "id": "water", "name": "Bottled water", "category": "Provisions", "slot": "Pockets / Backpack", "weight": 0.55, "value": 12, "size": "1x1", "icon": "water", "description": "Sealed bottled water. More valuable than it used to be." },
+  { "id": "cider", "name": "Can of cider", "category": "Provisions", "slot": "Pockets / Backpack", "weight": 0.5, "value": 10, "size": "1x1", "icon": "cider", "description": "Warm and flat, but still worth something." },
+
+  { "id": "cash", "name": "Roll of notes", "category": "Valuables", "slot": "Pockets", "weight": 0.05, "value": 100, "size": "1x1", "icon": "money", "description": "A hundred pounds in tens. Light, small and valuable for its size." },
+  { "id": "watch", "name": "Wristwatch", "category": "Valuables", "slot": "Pockets", "weight": 0.1, "value": 250, "size": "1x1", "icon": "watch", "description": "A decent watch from someone's bedside drawer. High value for its weight." },
+  { "id": "phone", "name": "Smartphone", "category": "Valuables", "slot": "Pockets", "weight": 0.2, "value": 120, "size": "1x1", "icon": "phone", "description": "Dead and cracked. Worth something for its parts." },
+  { "id": "cow-figurine", "name": "Concrete cow figurine", "category": "Valuables", "slot": "Pockets / Backpack", "weight": 0.8, "value": 300, "size": "1x1", "icon": "cow_figurine", "description": "A miniature of Milton Keynes' concrete cows. Popular with collectors." },
+  { "id": "laptop", "name": "Laptop", "category": "Valuables", "slot": "Backpack", "weight": 2.2, "value": 400, "size": "2x2", "icon": "laptop", "description": "Old work laptop. Heavy for its value, but easy to sell." },
+  { "id": "copper-wire", "name": "Copper wire", "category": "Valuables", "slot": "Backpack", "weight": 1.5, "value": 90, "size": "2x2", "icon": "copper_wire", "description": "Stripped from the walls of the terraces. Always in demand." },
+  { "id": "toolbox", "name": "Toolbox", "category": "Valuables", "slot": "Backpack", "weight": 4.5, "value": 220, "size": "3x2", "icon": "toolbox", "description": "Spanners, screwdrivers and a hammer. Useful, but heavy." },
+  { "id": "car-battery", "name": "Car battery", "category": "Valuables", "slot": "Backpack", "weight": 12, "value": 140, "size": "2x2", "icon": "car_battery", "description": "Taken from a wrecked Corsa. Worth a fair amount, but it weighs 12 kg." }
+]

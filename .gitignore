@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+# Raw source art is large; the web-ready versions live in public/.
+# Remove this line if you want resources/ in the repo.
+resources/duncombe-street-tactical-map-military.png

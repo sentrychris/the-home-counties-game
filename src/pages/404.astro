@@ -1,0 +1,40 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { url } from "../lib/url";
+---
+
+<Base title="Out of bounds" description="This page doesn't exist.">
+  <section class="section oob">
+    <div class="wrap">
+      <p class="stamp">Error 404 <span>Grid ref unknown</span></p>
+      <h1>Out of bounds</h1>
+      <p class="lede">This page doesn't exist. The link may be out of date, or the page may have moved.</p>
+      <div class="actions">
+        <a class="btn btn--exfil" href={url()}><Icon name="run" />Back to the home page</a>
+        <a class="btn" href={url("map/")}><Icon name="crosshair" />Open the map</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .oob {
+    min-height: 60vh;
+    display: grid;
+    align-items: center;
+    background:
+      repeating-linear-gradient(-45deg, rgb(201 81 60 / 0.06) 0 2px, transparent 2px 14px);
+  }
+
+  .stamp {
+    margin-bottom: 28px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>

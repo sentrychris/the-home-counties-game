@@ -1,0 +1,23 @@
+---
+// Inline SVG icon from src/icons/, recoloured to the surrounding text colour.
+const icons = import.meta.glob<string>("../icons/*.svg", { query: "?raw", import: "default", eager: true });
+
+interface Props {
+  name: string;
+  class?: string;
+  /** Give a label only when the icon carries meaning on its own. */
+  label?: string;
+}
+
+const { name, class: cls = "", label } = Astro.props;
+const raw = icons[`../icons/${name}.svg`];
+if (!raw) throw new Error(`Unknown icon "${name}". Add src/icons/${name}.svg or pick another name.`);
+
+const a11y = label ? `role="img" aria-label="${label.replace(/"/g, "&quot;")}"` : 'aria-hidden="true" focusable="false"';
+const svg = raw
+  .replace(/fill="#fff"/g, 'fill="currentColor"')
+  .replace(/stroke="#fff"/g, 'stroke="currentColor"')
+  .replace("<svg ", `<svg class="icon ${cls}" ${a11y} `);
+---
+
+<Fragment set:html={svg} />

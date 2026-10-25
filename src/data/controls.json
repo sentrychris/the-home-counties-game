@@ -1,0 +1,39 @@
+[
+  {
+    "group": "Movement",
+    "binds": [
+      { "keys": ["W", "A", "S", "D"], "action": "Move" },
+      { "keys": ["Shift"], "action": "Sprint" },
+      { "keys": ["Caps Lock"], "action": "Walk" },
+      { "keys": ["C"], "action": "Crouch" },
+      { "keys": ["Space"], "action": "Jump or vault" },
+      { "keys": ["Q", "E"], "action": "Lean left / right" }
+    ]
+  },
+  {
+    "group": "Combat",
+    "binds": [
+      { "keys": ["Left mouse"], "action": "Shoot" },
+      { "keys": ["Right mouse"], "action": "Aim" },
+      { "keys": ["R"], "action": "Reload" },
+      { "keys": ["T"], "action": "Switch ammo" },
+      { "keys": ["1", "2"], "action": "Primary / secondary rifle" }
+    ]
+  },
+  {
+    "group": "Looting and survival",
+    "binds": [
+      { "keys": ["F"], "action": "Search" },
+      { "keys": ["H"], "action": "Heal" },
+      { "keys": ["Tab"], "action": "Gear" }
+    ]
+  },
+  {
+    "group": "Other",
+    "binds": [
+      { "keys": ["Esc"], "action": "Pause" },
+      { "keys": ["F3"], "action": "FPS counter" },
+      { "keys": ["F1"], "action": "Developer menu" }
+    ]
+  }
+]

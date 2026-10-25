@@ -1,0 +1,80 @@
+---
+import controls from "../data/controls.json";
+---
+
+<div class="controls">
+  {
+    controls.map((group) => (
+      <section class="panel group">
+        <h2 class="eyebrow eyebrow--plain">{group.group}</h2>
+        <dl>
+          {group.binds.map((b) => (
+            <div>
+              <dt>
+                {b.keys.map((k, i) => (
+                  <>
+                    {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+                    <kbd>{k}</kbd>
+                  </>
+                ))}
+              </dt>
+              <dd>{b.action}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .controls {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    margin-bottom: 40px;
+  }
+
+  .group {
+    padding: 18px 20px 10px;
+  }
+
+  .group h2 {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dl div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line-soft);
+  }
+
+  dl div:last-child {
+    border-bottom: 0;
+  }
+
+  dt {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .sep {
+    color: var(--bone-faint);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--bone-dim);
+    text-align: right;
+  }
+</style>

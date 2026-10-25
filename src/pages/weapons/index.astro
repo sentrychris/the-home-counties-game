@@ -1,0 +1,99 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Img from "../../components/Img.astro";
+import { url } from "../../lib/url";
+
+const weapons = (await getCollection("weapons")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Weapons" description="Weapons in The Home Counties: stats, ammo, recoil and reloads.">
+  <PageHead
+    title="Weapons"
+    eyebrow="Armoury"
+    lede="Weapons in the current prototype. More will be added in future builds."
+    crumbs={[{ label: "Weapons" }]}
+  />
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <ul class="card-grid list">
+        {
+          weapons.map((w) => (
+            <li>
+              <a class="panel card weapon" href={url(`weapons/${w.id}/`)}>
+                <div class="thumb">
+                  <Img src={w.data.image} alt={w.data.imageAlt ?? w.data.name} width={480} height={192} />
+                </div>
+                <p class="eyebrow eyebrow--plain">{w.data.class} · {w.data.calibre}</p>
+                <h2 class="name">{w.data.name}</h2>
+                <p>{w.data.summary}</p>
+                <span class="more">Full stats</span>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <div class="card coming">
+            <p class="hand">More to come</p>
+            <p>New weapons will get a page here as they're added to the game.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .weapon {
+    height: 100%;
+  }
+
+  .thumb {
+    display: grid;
+    place-items: center;
+    height: 170px;
+    margin: -22px -22px 20px;
+    border-bottom: 1px solid var(--line);
+    background:
+      linear-gradient(to right, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(to bottom, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
+      #191b1d;
+  }
+
+  .thumb :global(img) {
+    max-width: 82%;
+    max-height: 120px;
+    width: auto;
+    filter: drop-shadow(0 10px 12px rgb(0 0 0 / 0.6));
+  }
+
+  .weapon .eyebrow {
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+  }
+
+  .name {
+    font-size: 2.2rem;
+    margin-bottom: 0.25em;
+  }
+
+  .coming {
+    height: 100%;
+    min-height: 260px;
+    justify-content: center;
+    border: 2px dashed var(--line);
+  }
+
+  .coming .hand {
+    font-size: 2rem;
+    color: var(--bone);
+  }
+</style>

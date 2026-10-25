@@ -1,0 +1,60 @@
+{
+  "name": "The Home Counties",
+  "status": "Early access / Prototype build",
+  "version": "v0.1.41",
+  "developer": "Chris Rowles",
+  "engine": "Godot 4",
+  "description": "A single-player extraction shooter set in a collapsed, overgrown Britain. Raid Duncombe Street in Bletchley, loot what's left, and reach the red smoke before the timer runs out.",
+  "tagline": "Raid the overgrown terraces, take what you can carry, and reach the red smoke before the clock runs out...",
+
+  "cta": {
+    "heading": "Early days",
+    "text": "The Home Counties is in early development. New builds, maps and weapons are written up in the dev log as they're added.",
+    "primary": { "label": "Follow development", "href": "", "fallback": "devlog/" },
+    "secondary": { "label": "Open the tactical map", "href": "map/" }
+  },
+
+  "links": [
+    { "label": "Steam", "href": "" },
+    { "label": "itch.io", "href": "" },
+    { "label": "YouTube", "href": "" },
+    { "label": "Discord", "href": "" }
+  ],
+
+  "nav": [
+    { "label": "Map", "href": "map/" },
+    { "label": "Guides", "href": "guides/" },
+    { "label": "Weapons", "href": "weapons/" },
+    { "label": "Gear", "href": "gear/" },
+    { "label": "Enemies", "href": "enemies/" },
+    { "label": "Dev log", "href": "devlog/" },
+    { "label": "About", "href": "about/" }
+  ],
+
+  "features": [
+    { "icon": "pin", "title": "A real street", "text": "Duncombe Street in Bletchley, laid out from real map data: Victorian terraces beside the West Coast Main Line, the old Sainsbury's and its car park." },
+    { "icon": "box", "title": "Loot and extract", "text": "Twelve-minute raids, with multiple loot spots, enterable houses and scav bodies to search. Extract before the timer ends, or lose what you were carrying." },
+    { "icon": "skull", "title": "Scav AI", "text": "Scavs are armed. They take cover, flank in pairs, and come to investigate when they hear you." },
+    { "icon": "run", "title": "Noise", "text": "Sprinting, gunfire and moving through long grass all make noise. Walking, crouching and leaning round corners keep you quieter." },
+    { "icon": "backpack", "title": "Gear and weight", "text": "Helmet, armour, rig, backpack, weapon slots and four pockets. The more you carry, the slower you move and the faster your stamina drains." },
+    { "icon": "stash", "title": "Overgrown", "text": "Lots of trees and hedges for cover, knee-high grass, wrecked cars and boarded-up houses. The streets are abandoned and overgrown." }
+  ],
+
+  "loop": [
+    { "title": "Gear up", "text": "Choose a loadout. Anything you take in can be lost." },
+    { "title": "Deploy", "text": "You start at the west or east end of Water Eaton Road, picked at random." },
+    { "title": "Loot", "text": "Search crates, houses and dead scavs. Keep an eye on your carry weight." },
+    { "title": "Extract", "text": "Reach an exit marked by red smoke and stay in the green zone for ten seconds. If you die, you lose everything you were carrying." }
+  ],
+
+  "screenshots": [
+    { "src": "images/screenshots/2026-10-25-013602.webp", "alt": "First-person view down a long terraced street with streetlights, overhead wires and a burnt-out 4x4 on the right.", "caption": "Duncombe Street, looking south." },
+    { "src": "images/screenshots/2026-10-25-122647.webp", "alt": "Red smoke rising beside an abandoned police car, concrete barriers and a red hatchback.", "caption": "Red smoke marks an extraction zone exit." },
+    { "src": "images/screenshots/2026-10-24-235041.webp", "alt": "A scav in a grey hoodie carrying a rifle through long grass and trees.", "caption": "A scav moving through the back gardens." },
+    { "src": "images/screenshots/2026-10-24-234818.webp", "alt": "A red-brick corner house with boarded windows, a 30 mph sign and an Osborne Street sign, terraces beyond.", "caption": "The corner of Osborne Street." },
+    { "src": "images/screenshots/2026-10-24-231001.webp", "alt": "Long grass and trees under a hazy sky, a long dark fence behind them.", "caption": "Open ground by the railway." },
+    { "src": "images/screenshots/2026-10-25-021958.webp", "alt": "Brick terraced houses with tall chimneys; a car with a shattered windscreen in the foreground.", "caption": "Terraces, chimneys and a smashed windscreen." },
+    { "src": "images/screenshots/2026-10-24-224625.webp", "alt": "A burning barrel under a tree in a garden of long grass, terraced houses behind.", "caption": "A burning barrel in the back gardens." },
+    { "src": "images/screenshots/2026-10-24-224754.webp", "alt": "A narrow overgrown garden between tall wooden fences, with a table and two chairs.", "caption": "A fenced back garden, with plenty of cover." }
+  ]
+}

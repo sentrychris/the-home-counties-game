@@ -1,0 +1,617 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Img from "../components/Img.astro";
+import Gallery from "../components/Gallery.astro";
+import site from "../data/site.json";
+import map from "../data/map.json";
+import { url, formatDate } from "../lib/url";
+
+const posts = (await getCollection("devlog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
+---
+
+<Base>
+  <section class="hero" aria-labelledby="hero-title">
+    <!-- The backdrop runs up behind the see-through header and fades out on a dry-brush edge. -->
+    <div class="hero-media" aria-hidden="true">
+      <img
+        class="hero-bg"
+        src={url("images/backdrop-1200.webp")}
+        srcset={`${url("images/backdrop-720.webp")} 720w, ${url("images/backdrop-1200.webp")} 1200w, ${url("images/backdrop-2000.webp")} 2000w`}
+        sizes="100vw"
+        alt=""
+        width="2000"
+        height="1125"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="hero-shade"></div>
+    </div>
+
+    <div class="wrap hero-inner">
+      <p class="stamp">Early access <span>Prototype build</span></p>
+      <h1 id="hero-title" class="hero-title">
+        <img src={url("images/logo-1400.webp")} srcset={`${url("images/logo-700.webp")} 700w, ${url("images/logo-1400.webp")} 1400w`} sizes="(min-width: 900px) 760px, 92vw" alt="The Home Counties" width="1400" height="285" />
+      </h1>
+      <p class="tagline">{site.tagline}</p>
+      <div class="actions">
+        <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
+        <a class="btn btn--ghost" href={url(site.cta.secondary.href)}><Icon name="crosshair" />{site.cta.secondary.label}</a>
+      </div>
+      <p class="meta">Built with {site.engine} and Claude.</p>
+    </div>
+
+    <div class="paper note hero-note" role="note">
+      <span class="tape" aria-hidden="true"></span>
+      <p>Download v0.0.41.</p>
+    </div>
+  </section>
+
+  <section class="intel" aria-labelledby="intel-title">
+    <div class="wrap intel-inner">
+      <div class="intel-where">
+        <h2 id="intel-title" class="eyebrow eyebrow--plain">Raid intel</h2>
+        <p class="where">{map.name}</p>
+        <p class="where-sub">{map.location}</p>
+      </div>
+      <dl class="intel-stats">
+        {
+          map.intel.map((s) => (
+            <div class="panel">
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The game</p>
+          <h2 id="features-title">What's in it</h2>
+        </div>
+      </div>
+      <ul class="features">
+        {
+          site.features.map((f) => (
+            <li class="panel feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="shots-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">From the build</p>
+          <h2 id="shots-title">Screenshots</h2>
+        </div>
+        <p>Taken in the current prototype build. Select one to see it full size.</p>
+      </div>
+      <Gallery shots={site.screenshots} feature label="Screenshots from the prototype" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="loop-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The raid loop</p>
+          <h2 id="loop-title">How a raid works</h2>
+        </div>
+      </div>
+      <ol class="loop">
+        {
+          site.loop.map((step, i) => (
+            <li class:list={["loop-step", { "loop-step--exit": i === site.loop.length - 1 }]}>
+              <span class="loop-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="loop-link"><a href={url("guides/beginners-guide/")}>Read the beginner's guide <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <section class="section band map-teaser" aria-labelledby="map-title">
+    <div class="wrap teaser-grid">
+      <div class="teaser-copy">
+        <p class="eyebrow">Tactical map</p>
+        <h2 id="map-title">Plan your route</h2>
+        <p>An interactive map of Duncombe Street. Pan and zoom, turn layers on and off, and click any marker for details.</p>
+        <a class="btn btn--exfil" href={url("map/")}><Icon name="crosshair" />Open the map</a>
+      </div>
+      <a class="teaser-map" href={url("map/")} aria-label="Open the interactive map of Duncombe Street">
+        <span class="tape tape-a" aria-hidden="true"></span>
+        <span class="tape tape-b" aria-hidden="true"></span>
+        <Img src={map.downloads.preview} alt="" width={960} height={1179} class="brushed" />
+        <span class="teaser-note hand" aria-hidden="true">Exits are the red smoke.</span>
+      </a>
+    </div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section class="section section--tight" aria-labelledby="log-title">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Dev log</p>
+              <h2 id="log-title">Latest updates</h2>
+            </div>
+            <a class="btn btn--small" href={url("devlog/")}>All posts</a>
+          </div>
+          <ul class="card-grid posts">
+            {posts.map((p) => (
+              <li>
+                <a class="panel card post" href={url(`devlog/${p.id}/`)}>
+                  {p.data.cover && <Img src={p.data.cover.src} alt={p.data.cover.alt} width={800} height={450} class="post-cover brushed" />}
+                  <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                  <h3>{p.data.title}</h3>
+                  <p>{p.data.summary}</p>
+                  <span class="more">Read</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="panel cta">
+        <div>
+          <p class="eyebrow">{site.status}</p>
+          <h2 id="cta-title">{site.cta.heading}</h2>
+          <p class="lede">{site.cta.text}</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
+          <a class="btn" href={url("about/")}>About the game</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero: slides up under the see-through header. */
+  .hero {
+    position: relative;
+    display: grid;
+    align-items: end;
+    margin-top: calc(-1 * var(--header-h));
+    min-height: min(100svh, 960px);
+    padding-block: calc(var(--header-h) + clamp(64px, 12vh, 140px)) clamp(64px, 10vh, 120px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-media {
+    --fade: clamp(90px, 14vh, 160px);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    -webkit-mask:
+      url("../assets/textures/brush-fade.png") bottom / 100% var(--fade) no-repeat,
+      linear-gradient(#000, #000) top / 100% calc(100% - var(--fade) + 1px) no-repeat;
+    mask:
+      url("../assets/textures/brush-fade.png") bottom / 100% var(--fade) no-repeat,
+      linear-gradient(#000, #000) top / 100% calc(100% - var(--fade) + 1px) no-repeat;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+  }
+
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgb(18 19 17 / 0.5) 0%, rgb(18 19 17 / 0.08) 28%, rgb(18 19 17 / 0.55) 70%, rgb(18 19 17 / 0.85) 100%),
+      radial-gradient(ellipse at 30% 60%, transparent 35%, rgb(10 11 9 / 0.55) 100%);
+  }
+
+  .hero-inner {
+    position: relative;
+  }
+
+  .hero .stamp {
+    margin-bottom: 28px;
+    background: rgb(18 19 17 / 0.55);
+  }
+
+  .hero-title {
+    margin: 0 0 18px;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .hero-title img {
+    width: min(760px, 100%);
+    filter: drop-shadow(0 6px 18px rgb(0 0 0 / 0.6));
+  }
+
+  .tagline {
+    max-width: 52ch;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    line-height: 1.5;
+    color: var(--bone);
+    text-shadow: 0 2px 10px rgb(0 0 0 / 0.8);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .btn--ghost {
+    background: rgb(18 19 17 / 0.5);
+  }
+
+  .btn--ghost:hover {
+    background: var(--bone);
+  }
+
+  .meta {
+    margin-top: 22px;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    color: var(--bone-dim);
+  }
+
+  .hero-note {
+    position: absolute;
+    right: clamp(16px, 6vw, 96px);
+    top: calc(var(--header-h) + clamp(40px, 8vh, 90px));
+    transform: rotate(3deg);
+    font-size: 1.6rem;
+    max-width: 230px;
+  }
+
+  @media (max-width: 899px) {
+    .hero-note {
+      display: none;
+    }
+  }
+
+  /* Raid intel */
+  .intel-inner {
+    display: grid;
+    gap: 20px 40px;
+    padding-block: 8px 24px;
+    align-items: center;
+  }
+
+  @media (min-width: 820px) {
+    .intel-inner {
+      grid-template-columns: auto 1fr;
+    }
+  }
+
+  .intel-where .eyebrow {
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+  }
+
+  .where {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .where-sub {
+    margin: 4px 0 0;
+    font-family: var(--font-head);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: var(--bone-faint);
+  }
+
+  .intel-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 0;
+  }
+
+  @media (min-width: 560px) {
+    .intel-stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .intel-stats div {
+    padding: 12px 16px;
+  }
+
+  .intel-stats dt {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+  }
+
+  .intel-stats dd {
+    margin: 2px 0 0;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  /* Features */
+  .features {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .feature {
+    padding: 26px 24px 24px;
+  }
+
+  .feature-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    border: 1px solid var(--line);
+    background: var(--panel-3);
+    color: var(--red-text);
+  }
+
+  .feature-icon :global(.icon) {
+    width: 28px;
+    height: 28px;
+  }
+
+  .feature p {
+    margin: 0;
+    color: var(--bone-dim);
+  }
+
+  /* Raid loop */
+  .loop {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 820px) {
+    .loop {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+  }
+
+  .loop-step {
+    position: relative;
+    padding: 22px 22px 8px;
+  }
+
+  /* A brushed stroke along the top of each step instead of a ruled line. */
+  .loop-step::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -4px;
+    height: 9px;
+    background: var(--line);
+    -webkit-mask: url("../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+    mask: url("../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+  }
+
+  @media (min-width: 820px) {
+    .loop-step + .loop-step {
+      border-left: 1px dashed var(--line);
+    }
+  }
+
+  .loop-step p {
+    color: var(--bone-dim);
+  }
+
+  .loop-num {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 3.4rem;
+    line-height: 1;
+    color: var(--panel-3);
+    -webkit-text-stroke: 1px var(--bone-faint);
+    margin-bottom: 8px;
+  }
+
+  .loop-step--exit::before {
+    background: var(--green);
+  }
+
+  .loop-step--exit .loop-num {
+    -webkit-text-stroke-color: var(--green);
+  }
+
+  .loop-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Map teaser. The tape pokes out past the map, so clip sideways only. */
+  .map-teaser {
+    overflow-x: clip;
+  }
+
+  .teaser-grid {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .teaser-grid {
+      grid-template-columns: 5fr 6fr;
+    }
+  }
+
+  .teaser-copy p:not(.eyebrow) {
+    color: var(--bone-dim);
+    max-width: 48ch;
+  }
+
+  .teaser-copy .btn {
+    margin-top: 12px;
+  }
+
+  .teaser-map {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    justify-self: center;
+    filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.55));
+    transform: rotate(1.5deg);
+    transition: transform 0.25s;
+  }
+
+  .teaser-map:hover {
+    transform: rotate(0deg) scale(1.01);
+  }
+
+  .teaser-map :global(img) {
+    width: 100%;
+    max-height: 560px;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+
+  .tape-a {
+    top: -10px;
+    left: -18px;
+    rotate: -32deg;
+  }
+
+  .tape-b {
+    bottom: -8px;
+    right: -20px;
+    rotate: -28deg;
+  }
+
+  .teaser-note {
+    position: absolute;
+    left: -10px;
+    bottom: 28px;
+    padding: 8px 14px;
+    background: var(--paper) url("../assets/textures/paper.webp");
+    background-size: 512px;
+    color: var(--ink);
+    font-size: 1.45rem;
+    transform: rotate(-4deg);
+    box-shadow: 0 10px 20px rgb(0 0 0 / 0.5);
+  }
+
+  /* Posts */
+  .posts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post {
+    height: 100%;
+    padding: 0 0 20px;
+  }
+
+  .post > :not(:global(.post-cover)) {
+    margin-inline: 20px;
+  }
+
+  .post :global(.post-cover) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-bottom: 16px;
+  }
+
+  .post time {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red-text);
+    margin-bottom: 6px;
+  }
+
+  /* CTA */
+  .cta {
+    display: grid;
+    gap: 24px 48px;
+    align-items: center;
+    padding: clamp(28px, 5vw, 56px);
+    background-color: var(--panel-2);
+  }
+
+  @media (min-width: 900px) {
+    .cta {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .cta h2 {
+    max-width: 18ch;
+  }
+
+  .cta .actions {
+    margin-top: 0;
+  }
+</style>

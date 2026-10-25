@@ -1,0 +1,112 @@
+---
+// A mock-up of the in-game gear screen, using the game's empty-slot silhouettes.
+import { url } from "../lib/url";
+
+const slots = [
+  { id: "helmet", label: "Helmet", img: "helmet", area: "helmet" },
+  { id: "armour", label: "Armour", img: "armour", area: "armour" },
+  { id: "rig", label: "Rig", img: "rig", area: "rig" },
+  { id: "backpack", label: "Backpack", img: "backpack", area: "pack" },
+  { id: "primary", label: "Primary", img: "primary", area: "prim" },
+  { id: "secondary", label: "Secondary", img: "secondary", area: "sec" },
+  { id: "holster", label: "Holster", img: "holster", area: "hol" },
+  { id: "knife", label: "Knife", img: "knife", area: "knife" },
+];
+---
+
+<figure class="loadout panel">
+  <figcaption class="eyebrow eyebrow--plain">Gear screen <kbd>Tab</kbd></figcaption>
+  <ul class="slots" aria-label="Gear slots">
+    {
+      slots.map((s) => (
+        <li class="slot" style={`grid-area: ${s.area}`}>
+          <img src={url(`images/slots/${s.img}.webp`)} alt="" loading="lazy" />
+          <span>{s.label}</span>
+        </li>
+      ))
+    }
+    <li class="slot pockets" style="grid-area: pockets">
+      <div class="pocket-row" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <span>Pockets ×4</span>
+    </li>
+  </ul>
+</figure>
+
+<style>
+  .loadout {
+    margin: 0 0 40px;
+    padding: 20px;
+  }
+
+  .slots {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "helmet armour"
+      "rig pack"
+      "prim prim"
+      "sec sec"
+      "hol knife"
+      "pockets pockets";
+  }
+
+  @media (min-width: 640px) {
+    .slots {
+      grid-template-columns: 1fr 1.6fr 1fr;
+      grid-template-areas:
+        "helmet prim pack"
+        "armour prim pack"
+        "armour sec pack"
+        "rig sec pack"
+        "rig hol knife"
+        "pockets pockets pockets";
+    }
+  }
+
+  .slot {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 96px;
+    padding: 12px 10px 30px;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(to right, rgb(216 210 195 / 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(to bottom, rgb(216 210 195 / 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
+      #15171a;
+  }
+
+  .slot img {
+    max-height: 120px;
+    width: auto;
+    opacity: 0.22;
+  }
+
+  .slot span {
+    position: absolute;
+    left: 8px;
+    bottom: 6px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+
+  .pocket-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pocket-row i {
+    width: 44px;
+    height: 44px;
+    border: 1px dashed var(--bone-faint);
+    opacity: 0.6;
+  }
+</style>

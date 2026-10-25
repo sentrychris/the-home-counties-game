@@ -1,0 +1,178 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHead from "../components/PageHead.astro";
+import Img from "../components/Img.astro";
+import Icon from "../components/Icon.astro";
+import site from "../data/site.json";
+import { url } from "../lib/url";
+
+const page = await getEntry("pages", "about");
+if (!page) throw new Error("Missing src/content/pages/about.md");
+const a = page.data;
+const { Content } = await render(page);
+const links = site.links.filter((l) => l.href);
+---
+
+<Base title={a.title} description={a.lede}>
+  <PageHead title={a.title} eyebrow={a.eyebrow} lede={a.lede} crumbs={[{ label: a.title }]} />
+
+  <section class="section section--tight">
+    <div class="wrap layout">
+      <div class="prose">
+        <Content />
+        <p><a href={url("credits/")}>Asset credits</a> for the open-licence work the game and this site use.</p>
+      </div>
+
+      <div class="side">
+        {
+          a.portrait && (
+            <figure class="photo portrait">
+              <span class="tape" aria-hidden="true" />
+              <Img src={a.portrait.src} alt={a.portrait.alt} placeholder="Portrait of Chris Rowles" />
+              <figcaption>{a.portrait.alt}</figcaption>
+            </figure>
+          )
+        }
+
+        <div class="panel box">
+          <h2 class="eyebrow eyebrow--plain">Fact sheet</h2>
+          <dl class="specs">
+            {
+              a.facts.map((f) => (
+                <div>
+                  <dt>{f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+
+        <div class="panel box">
+          <h2 class="eyebrow eyebrow--plain">Get in touch</h2>
+          {a.contact ? <p><a href={a.contact.includes("@") ? `mailto:${a.contact}` : a.contact}>{a.contact}</a></p> : <p class="muted">Contact details coming soon.</p>}
+          {
+            links.length > 0 && (
+              <ul class="links">
+                {links.map((l) => (
+                  <li><a href={l.href} rel="me noopener">{l.label}</a></li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+
+        {
+          a.pressKit.length > 0 && (
+            <div class="panel box">
+              <h2 class="eyebrow eyebrow--plain">Press kit</h2>
+              <ul class="press">
+                {a.pressKit.map((p) => (
+                  <li>
+                    <a href={url(p.href)} download>
+                      <Icon name="download" />
+                      <span>
+                        {p.label}
+                        {p.note && <small>{p.note}</small>}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    gap: 48px;
+  }
+
+  @media (min-width: 960px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+  }
+
+  .side {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .portrait {
+    transform: rotate(1.5deg);
+    max-width: 340px;
+  }
+
+  .portrait .tape {
+    top: -14px;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .portrait :global(img),
+  .portrait :global(.placeholder) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .box {
+    padding: 18px 20px;
+  }
+
+  .box h2 {
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+  }
+
+  .box p {
+    margin: 0;
+  }
+
+  .muted {
+    color: var(--bone-faint);
+  }
+
+  .links,
+  .press {
+    display: grid;
+    gap: 6px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .press a {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 6px 0;
+    text-decoration: none;
+  }
+
+  .press a:hover span {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+  }
+
+  .press :global(.icon) {
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+    color: var(--bone-faint);
+  }
+
+  .press small {
+    display: block;
+    color: var(--bone-faint);
+    font-size: 0.85rem;
+  }
+</style>

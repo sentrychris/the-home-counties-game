@@ -1,0 +1,184 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Icon from "../../components/Icon.astro";
+import LoadoutSlots from "../../components/LoadoutSlots.astro";
+import ControlsTable from "../../components/ControlsTable.astro";
+import { url } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.data.order);
+  return guides.map((guide, i) => ({
+    params: { slug: guide.id },
+    props: { guide, all: guides, prev: guides[i - 1], next: guides[i + 1] },
+  }));
+}
+
+const { guide, all, prev, next } = Astro.props;
+const { Content } = await render(guide);
+---
+
+<Base title={guide.data.title} description={guide.data.summary}>
+  <PageHead
+    title={guide.data.title}
+    eyebrow="Field manual"
+    lede={guide.data.summary}
+    crumbs={[{ label: "Guides", href: "guides/" }, { label: guide.data.title }]}
+  />
+
+  <div class="wrap layout section section--tight">
+    <article>
+      {guide.data.widget === "loadout" && <LoadoutSlots />}
+      {guide.data.widget === "controls" && <ControlsTable />}
+      <div class="prose">
+        <Content />
+      </div>
+
+      <nav class="pager" aria-label="More guides">
+        {
+          prev && (
+            <a class="panel pager-link" href={url(`guides/${prev.id}/`)}>
+              <span>Previous</span>
+              {prev.data.title}
+            </a>
+          )
+        }
+        {
+          next && (
+            <a class="panel pager-link pager-next" href={url(`guides/${next.id}/`)}>
+              <span>Next</span>
+              {next.data.title}
+            </a>
+          )
+        }
+      </nav>
+    </article>
+
+    <nav class="side" aria-label="All guides">
+      <div class="panel side-box">
+        <h2 class="eyebrow eyebrow--plain">Field manual</h2>
+        <ol>
+          {
+            all.map((g) => (
+              <li>
+                <a href={url(`guides/${g.id}/`)} aria-current={g.id === guide.id ? "page" : undefined}>
+                  {g.data.icon && <Icon name={g.data.icon} />}
+                  {g.data.title}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <a class="btn btn--small map-link" href={url("map/")}><Icon name="crosshair" />Tactical map</a>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    gap: 48px;
+  }
+
+  @media (min-width: 1000px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 280px;
+    }
+  }
+
+  .side {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+  }
+
+  @media (min-width: 1000px) {
+    .side {
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+      align-self: start;
+    }
+  }
+
+  .side-box {
+    padding: 18px 18px 10px;
+  }
+
+  .side-box h2 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .side-box ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .side-box a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--line-soft);
+    text-decoration: none;
+    color: var(--bone-dim);
+    font-weight: 600;
+  }
+
+  .side-box li:last-child a {
+    border-bottom: 0;
+  }
+
+  .side-box a:hover,
+  .side-box a[aria-current="page"] {
+    color: var(--bone);
+  }
+
+  .side-box a[aria-current="page"] {
+    box-shadow: inset 3px 0 0 var(--red);
+    padding-left: 10px;
+  }
+
+  .side-box :global(.icon) {
+    width: 18px;
+    height: 18px;
+    color: var(--bone-faint);
+  }
+
+  .map-link {
+    justify-self: start;
+  }
+
+  .pager {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    margin-top: 56px;
+  }
+
+  .pager-link {
+    display: block;
+    padding: 16px 18px;
+    text-decoration: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .pager-link span {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--bone-faint);
+  }
+
+  .pager-next {
+    text-align: right;
+    grid-column: -2;
+  }
+</style>
