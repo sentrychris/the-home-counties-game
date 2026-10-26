@@ -14,6 +14,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 
 | Field | What it does |
 | --- | --- |
+| `trailer` | The YouTube trailer on the home page. `youtubeId` is the part after `/embed/` or `?v=` in the video's link. Remove the whole block to hide the section |
 | `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, title-screen text, search-engine description |
 | `coords` | Grid position shown on the title screen and in the footer bar, like the game's map screen |
 | `cta.primary.href` | Where "Follow development" goes. Empty = the dev log. Put a Steam, itch.io or Discord link here when you have one |

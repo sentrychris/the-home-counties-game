@@ -8,6 +8,12 @@
   "description": "A single-player extraction shooter set in a collapsed, overgrown Britain. Raid Duncombe Street in Bletchley, loot what's left, and reach the red smoke before the timer runs out.",
   "tagline": "Raid the overgrown terraces, take what you can carry, and reach the red smoke before the clock runs out...",
 
+  "trailer": {
+    "youtubeId": "YCahVzC4q8o",
+    "title": "The Home Counties trailer",
+    "text": "See Duncombe Street in motion."
+  },
+
   "cta": {
     "heading": "Early days",
     "text": "The Home Counties is in early development. New builds, maps and weapons are written up in the dev log as they're added.",

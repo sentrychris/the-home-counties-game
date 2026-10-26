@@ -62,6 +62,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         <p class="tagline">{site.tagline}</p>
         <nav class="ts-buttons" aria-label="Start">
           <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
+          {site.trailer && <a class="btn btn--ghost" href="#trailer"><Icon name="play" />Watch the trailer</a>}
           <a class="btn btn--ghost" href={url(site.cta.secondary.href)}><Icon name="crosshair" />{site.cta.secondary.label}</a>
           <a class="btn btn--ghost" href={url("guides/beginners-guide/")}><Icon name="toolbox" />Read the beginner's guide</a>
         </nav>
@@ -103,6 +104,33 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
       </div>
     </div>
   </section>
+
+  {
+    site.trailer && (
+      <section id="trailer" class="section trailer" aria-labelledby="trailer-title">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Watch</p>
+              <h2 id="trailer-title">Trailer</h2>
+            </div>
+            <p>{site.trailer.text}</p>
+          </div>
+          <div class="panel trailer-frame">
+            {/* Privacy-enhanced YouTube: no cookies until the viewer presses play. */}
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${site.trailer.youtubeId}`}
+              title={site.trailer.title}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <section class="section" aria-labelledby="features-title">
     <div class="wrap">
@@ -278,6 +306,8 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     };
     const onKey = (e: KeyboardEvent) => {
       if (["Shift", "Control", "Alt", "Meta"].includes(e.key)) return;
+      // Space would also scroll the page past the menu it has just opened.
+      if (e.key === " " && e.target === document.body) e.preventDefault();
       reveal(e.target === press && (e.key === "Enter" || e.key === " "));
     };
     // A click, not pointerdown: on a phone, opening on touchstart lets the same tap land on
@@ -687,6 +717,19 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
   }
 
   /* ---------- Raid intel ---------- */
+
+  .trailer-frame {
+    padding: clamp(6px, 1vw, 10px);
+  }
+
+  .trailer-frame iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    background: #000;
+  }
 
   .intel {
     position: relative;
