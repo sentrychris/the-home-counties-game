@@ -14,7 +14,8 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 
 | Field | What it does |
 | --- | --- |
-| `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, hero text, search-engine description |
+| `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, title-screen text, search-engine description |
+| `coords` | Grid position shown on the title screen and in the footer bar, like the game's map screen |
 | `cta.primary.href` | Where "Follow development" goes. Empty = the dev log. Put a Steam, itch.io or Discord link here when you have one |
 | `links` | Footer "Follow" links. Empty `href` shows "coming soon" |
 | `nav` | Header menu |

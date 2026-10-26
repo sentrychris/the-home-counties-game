@@ -67,35 +67,36 @@ const slots = [
     }
   }
 
+  /* Empty slots, as on the game's gear screen: a dark well with a grey picture of what goes in. */
   .slot {
     position: relative;
     display: grid;
     place-items: center;
-    min-height: 96px;
-    padding: 12px 10px 30px;
-    border: 1px solid var(--line);
+    min-height: 100px;
+    padding: 30px 10px 12px;
+    border: 1px solid rgb(255 255 255 / 0.085);
     background:
-      linear-gradient(to right, rgb(216 210 195 / 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
-      linear-gradient(to bottom, rgb(216 210 195 / 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
-      #15171a;
+      linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px) 0 0 / 24px 24px,
+      var(--well);
   }
 
   .slot img {
     max-height: 120px;
     width: auto;
-    opacity: 0.22;
+    opacity: 0.3;
   }
 
   .slot span {
     position: absolute;
-    left: 8px;
-    bottom: 6px;
+    left: 10px;
+    top: 7px;
     font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.16em;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--bone-dim);
+    color: var(--caption);
   }
 
   .pocket-row {
@@ -104,9 +105,9 @@ const slots = [
   }
 
   .pocket-row i {
-    width: 44px;
-    height: 44px;
-    border: 1px dashed var(--bone-faint);
-    opacity: 0.6;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.02);
   }
 </style>

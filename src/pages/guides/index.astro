@@ -14,6 +14,7 @@ const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.d
     eyebrow="Guides"
     lede="How raids work, what to carry, and how to get out of Duncombe Street. If you're new, start with the beginner's guide."
     crumbs={[{ label: "Guides" }]}
+    image="images/screenshots/2026-10-24-234534.webp"
   />
 
   <section class="section section--tight">
@@ -54,25 +55,24 @@ const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.d
 
   .num {
     position: absolute;
-    right: 18px;
-    top: 14px;
+    right: 20px;
+    top: 18px;
     font-family: var(--font-head);
-    font-weight: 800;
-    font-size: 2.6rem;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--line);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.24em;
+    color: var(--dim);
   }
 
   .guide-icon {
     display: inline-grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     margin-bottom: 18px;
-    background: var(--panel-3);
-    border: 1px solid var(--line);
-    color: var(--red-text);
+    background: var(--card);
+    border: 1px solid var(--edge);
+    color: var(--bone);
   }
 
   .guide-icon :global(.icon) {
@@ -81,9 +81,10 @@ const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.d
   }
 
   .h3 {
-    font-size: clamp(1.45rem, 2.4vw, 1.8rem);
-    font-weight: 700;
+    font-size: clamp(1.4rem, 2.2vw, 1.7rem);
     line-height: 1.05;
     margin-bottom: 0.4em;
+    -webkit-mask-image: var(--ink-light);
+    mask-image: var(--ink-light);
   }
 </style>

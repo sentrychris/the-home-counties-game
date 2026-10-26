@@ -1,14 +1,15 @@
-/* Leaflet restyled to match the field copy. Loaded only on the map page. */
+/* Leaflet restyled to match the game's menus: worn buttons, and popups like its tooltips.
+   Loaded only on the map page. */
 
 .leaflet-container {
-  background: #0f100e;
+  background: #0b0b0b;
   font-family: var(--font-body);
   font-size: 1rem;
   outline-offset: -3px;
 }
 
 .leaflet-container a {
-  color: var(--bone);
+  color: var(--text);
 }
 
 .map.is-picking,
@@ -16,67 +17,72 @@
   cursor: crosshair;
 }
 
-/* Zoom buttons */
+/* Zoom buttons, like the square buttons in the game's top-right corner. */
 .leaflet-top.leaflet-right {
   top: 34px;
-  right: 6px;
+  right: 8px;
 }
 
 .leaflet-touch .leaflet-bar,
 .leaflet-bar {
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge-strong);
   border-radius: 0;
-  box-shadow: 0 6px 16px rgb(0 0 0 / 0.5);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.55);
 }
 
 .leaflet-bar a,
 .leaflet-touch .leaflet-bar a {
-  width: 40px;
-  height: 40px;
-  line-height: 38px;
+  width: 44px;
+  height: 44px;
+  line-height: 42px;
   border-radius: 0 !important;
   border-bottom: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--bone);
+  background-color: rgb(24 24 25);
+  background-image: linear-gradient(rgb(24 24 25 / 0.76), rgb(24 24 25 / 0.76)), var(--grunge);
+  background-size: auto, 1024px;
+  color: var(--text);
   font-family: var(--font-head);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 
 .leaflet-bar a:hover,
 .leaflet-bar a:focus-visible {
-  background: var(--bone);
-  color: var(--bg);
+  background-color: rgb(43 43 41);
+  background-image: none;
+  color: var(--bone-light);
 }
 
 .leaflet-bar a.leaflet-disabled {
-  background: var(--panel);
+  background: rgb(14 14 15);
   color: var(--line);
 }
 
 .leaflet-control-attribution,
 .leaflet-container .leaflet-control-attribution {
-  background: rgb(12 13 11 / 0.8);
-  color: var(--bone-faint);
+  background: rgb(11 11 11 / 0.82);
+  color: var(--dim);
   font-size: 0.75rem;
   padding: 2px 8px;
 }
 
 .leaflet-control-attribution a {
-  color: var(--bone-dim);
+  color: var(--caption);
 }
 
-/* Popups: a scrap of field paper. */
+/* Popups: the game's tooltip panel, dark and worn with a bone edge. */
 .leaflet-popup-content-wrapper {
   border-radius: 0;
-  background: var(--panel-2);
-  color: var(--bone);
-  border: 1px solid var(--line);
-  box-shadow: 0 14px 30px rgb(0 0 0 / 0.6);
+  background-color: rgb(25 25 26 / 0.98);
+  background-image: linear-gradient(rgb(25 25 26 / 0.75), rgb(25 25 26 / 0.75)), var(--grunge);
+  background-size: auto, 1024px;
+  color: var(--text);
+  border: 1px solid rgb(216 210 195 / 0.4);
+  box-shadow: 0 16px 34px rgb(0 0 0 / 0.65);
 }
 
 .leaflet-popup-tip {
-  background: var(--panel-2);
-  border: 1px solid var(--line);
+  background: rgb(25 25 26);
+  border: 1px solid rgb(216 210 195 / 0.4);
   box-shadow: none;
 }
 
@@ -88,12 +94,12 @@
 .leaflet-container a.leaflet-popup-close-button {
   width: 32px;
   height: 32px;
-  font: 700 22px/30px var(--font-head);
-  color: var(--bone-faint);
+  font: 600 22px/30px var(--font-head);
+  color: var(--dim);
 }
 
 .leaflet-container a.leaflet-popup-close-button:hover {
-  color: var(--bone);
+  color: var(--bone-light);
 }
 
 .pop h3 {
@@ -108,13 +114,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 4px !important;
+  margin: 0 0 6px !important;
   font-family: var(--font-head);
   font-weight: 600;
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--bone-faint);
+  color: var(--caption);
 }
 
 .pop-layer i {
@@ -128,8 +134,8 @@
   gap: 4px 14px;
   margin: 0 0 8px !important;
   font-family: var(--font-head);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   font-variant-numeric: tabular-nums;
 }
 
@@ -138,33 +144,33 @@
 }
 
 .pop-ref span + span {
-  color: var(--bone-faint);
+  color: var(--dim);
 }
 
 .pop-desc {
   margin: 0 !important;
-  color: var(--bone-dim);
+  color: var(--caption);
   font-size: 0.98rem;
 }
 
 .pop img {
   margin-top: 10px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--edge);
 }
 
 .pop-label {
   display: block;
   margin: 4px 0;
   font-size: 0.82rem;
-  color: var(--bone-faint);
+  color: var(--dim);
 }
 
 .pop textarea {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid var(--line);
-  background: #121416;
-  color: var(--bone);
+  background: var(--well);
+  color: var(--text);
   font: 0.78rem/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace;
   resize: none;
 }
@@ -172,9 +178,9 @@
 .pop-copy {
   margin-top: 8px;
   padding: 6px 14px;
-  border: 1px solid var(--bone);
-  background: transparent;
-  color: var(--bone);
+  border: 1px solid rgb(255 255 255 / 0.35);
+  background: var(--bone-btn);
+  color: var(--bg);
   font-family: var(--font-head);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -183,8 +189,7 @@
 }
 
 .pop-copy:hover {
-  background: var(--bone);
-  color: var(--bg);
+  background: #e6e0d2;
 }
 
 /* ---------- Markers ---------- */
@@ -234,7 +239,7 @@
   font-size: 0.82rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--bone);
+  color: var(--bone-light);
   text-shadow: 0 0 3px #000, 0 0 6px #000, 0 1px 2px #000;
 }
 

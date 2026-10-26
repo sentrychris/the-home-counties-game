@@ -11,64 +11,96 @@ import { url, formatDate } from "../lib/url";
 const posts = (await getCollection("devlog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+const markers = await getCollection("mapMarkers");
+const legend = map.layers
+  .filter((l) => ["starts", "exits", "scavs", "crates"].includes(l.id))
+  .map((l) => ({ ...l, count: markers.filter((m) => m.data.layer === l.id).length }));
 
 const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
+const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
 ---
 
-<Base>
-  <section class="hero" aria-labelledby="hero-title">
-    <!-- The backdrop runs up behind the see-through header and fades out on a dry-brush edge. -->
-    <div class="hero-media" aria-hidden="true">
+<Base bodyClass="page-home">
+  <!-- The title screen: the game's backdrop and wordmark, "Press any key", then the menu. -->
+  <section class="title-screen" aria-labelledby="hero-title" data-title-screen>
+    <div class="ts-media" aria-hidden="true">
       <img
-        class="hero-bg"
+        class="ts-bg"
         src={url("images/backdrop-1200.webp")}
-        srcset={`${url("images/backdrop-720.webp")} 720w, ${url("images/backdrop-1200.webp")} 1200w, ${url("images/backdrop-2000.webp")} 2000w`}
+        srcset={`${url("images/backdrop-720.webp")} 720w, ${url("images/backdrop-1200.webp")} 1200w, ${url("images/backdrop-2000.webp")} 1672w`}
         sizes="100vw"
         alt=""
-        width="2000"
-        height="1125"
+        width="1672"
+        height="941"
         fetchpriority="high"
         decoding="async"
       />
-      <div class="hero-shade"></div>
+      <canvas class="ts-rain"></canvas>
+      <div class="ts-shade"></div>
     </div>
 
-    <div class="wrap hero-inner">
-      <p class="stamp">Early access <span>Prototype build</span></p>
-      <h1 id="hero-title" class="hero-title">
-        <img src={url("images/logo-1400.webp")} srcset={`${url("images/logo-700.webp")} 700w, ${url("images/logo-1400.webp")} 1400w`} sizes="(min-width: 900px) 760px, 92vw" alt="The Home Counties" width="1400" height="285" />
-      </h1>
-      <p class="tagline">{site.tagline}</p>
-      <div class="actions">
-        <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
-        <a class="btn btn--ghost" href={url(site.cta.secondary.href)}><Icon name="crosshair" />{site.cta.secondary.label}</a>
-      </div>
-      <p class="meta">Built with {site.engine} and Claude.</p>
-    </div>
-
-    <div class="paper note hero-note" role="note">
+    <div class="paper note ts-note" role="note">
       <span class="tape" aria-hidden="true"></span>
-      <p>Download v0.0.41.</p>
+      <p>Download {site.version}.</p>
     </div>
+
+    <div class="ts-center">
+      <h1 id="hero-title" class="ts-logo">
+        <img
+          src={url("images/logo-1400.webp")}
+          srcset={`${url("images/logo-700.webp")} 700w, ${url("images/logo-1400.webp")} 1400w`}
+          sizes="(min-width: 1000px) 880px, 92vw"
+          alt="The Home Counties"
+          width="1400"
+          height="285"
+        />
+      </h1>
+
+      <button class="ts-press" type="button" data-press>Press any key</button>
+
+      <div class="ts-menu" id="title-menu">
+        <p class="tagline">{site.tagline}</p>
+        <nav class="ts-buttons" aria-label="Start">
+          <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
+          <a class="btn btn--ghost" href={url(site.cta.secondary.href)}><Icon name="crosshair" />{site.cta.secondary.label}</a>
+          <a class="btn btn--ghost" href={url("guides/beginners-guide/")}><Icon name="toolbox" />Read the beginner's guide</a>
+        </nav>
+        <p class="meta">Built with {site.engine} and Claude.</p>
+      </div>
+    </div>
+
+    <p class="ts-corner ts-corner--left">
+      Milton Keynes, UK<br /><span>{site.coords}</span>
+    </p>
+    <p class="ts-corner ts-corner--right">
+      {statusTop}<br /><span>{statusBottom}</span>
+    </p>
+    <a class="ts-scroll" href="#intel" aria-label="Scroll to raid intel"><span></span></a>
   </section>
 
-  <section class="intel" aria-labelledby="intel-title">
-    <div class="wrap intel-inner">
-      <div class="intel-where">
-        <h2 id="intel-title" class="eyebrow eyebrow--plain">Raid intel</h2>
-        <p class="where">{map.name}</p>
-        <p class="where-sub">{map.location}</p>
+  <!-- Raid intel, laid out like the stats along the top of the game's hideout. -->
+  <section id="intel" class="intel" aria-labelledby="intel-title">
+    <div class="wrap">
+      <div class="intel-inner panel">
+        <div class="intel-where">
+          <span class="badge"><Icon name="pin" /></span>
+          <div>
+            <h2 id="intel-title" class="caption">Raid intel</h2>
+            <p class="where">{map.name}</p>
+            <p class="where-sub">{map.location}</p>
+          </div>
+        </div>
+        <dl class="intel-stats">
+          {
+            map.intel.map((s) => (
+              <div>
+                <dt>{s.label}</dt>
+                <dd>{s.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
       </div>
-      <dl class="intel-stats">
-        {
-          map.intel.map((s) => (
-            <div class="panel">
-              <dt>{s.label}</dt>
-              <dd>{s.value}</dd>
-            </div>
-          ))
-        }
-      </dl>
     </div>
   </section>
 
@@ -79,12 +111,18 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
           <p class="eyebrow">The game</p>
           <h2 id="features-title">What's in it</h2>
         </div>
+        <p>{map.summary}</p>
       </div>
       <ul class="features">
         {
-          site.features.map((f) => (
-            <li class="panel feature">
-              <span class="feature-icon"><Icon name={f.icon} /></span>
+          site.features.map((f, i) => (
+            <li class="panel card feature">
+              <div class="feature-top">
+                <span class="badge">
+                  <Icon name={f.icon} />
+                </span>
+                <span class="feature-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              </div>
               <h3>{f.title}</h3>
               <p>{f.text}</p>
             </li>
@@ -114,19 +152,22 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
           <p class="eyebrow">The raid loop</p>
           <h2 id="loop-title">How a raid works</h2>
         </div>
+        <a class="btn btn--small" href={url("guides/beginners-guide/")}>Beginner's guide <Icon name="arrow" /></a>
       </div>
       <ol class="loop">
         {
           site.loop.map((step, i) => (
             <li class:list={["loop-step", { "loop-step--exit": i === site.loop.length - 1 }]}>
-              <span class="loop-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <span class="loop-node" aria-hidden="true">
+                {i === site.loop.length - 1 ? <Icon name="run" /> : String(i + 1).padStart(2, "0")}
+              </span>
+              <span class="loop-num caption" aria-hidden="true">Step {String(i + 1).padStart(2, "0")}</span>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
             </li>
           ))
         }
       </ol>
-      <p class="loop-link"><a href={url("guides/beginners-guide/")}>Read the beginner's guide <Icon name="arrow" /></a></p>
     </div>
   </section>
 
@@ -136,12 +177,29 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
         <p class="eyebrow">Tactical map</p>
         <h2 id="map-title">Plan your route</h2>
         <p>An interactive map of Duncombe Street. Pan and zoom, turn layers on and off, and click any marker for details.</p>
+        <ul class="legend" aria-label="On the map">
+          {
+            legend.map((l) => (
+              <li>
+                <span class:list={["lg", `lg--${l.icon}`]} style={`--c: ${l.colour}`} aria-hidden="true">
+                  {l.icon === "exit" && <Icon name="run" />}
+                </span>
+                <span class="lg-name">{l.name}</span>
+                <span class="lg-count">{l.count}</span>
+              </li>
+            ))
+          }
+        </ul>
         <a class="btn btn--exfil" href={url("map/")}><Icon name="crosshair" />Open the map</a>
       </div>
       <a class="teaser-map" href={url("map/")} aria-label="Open the interactive map of Duncombe Street">
+        <span class="tm-print">
+          <Img src={map.downloads.preview} alt="" width={960} height={1179} class="tm-img" />
+        </span>
         <span class="tape tape-a" aria-hidden="true"></span>
         <span class="tape tape-b" aria-hidden="true"></span>
-        <Img src={map.downloads.preview} alt="" width={960} height={1179} class="brushed" />
+        <span class="tm-north" aria-hidden="true">N<i></i></span>
+        <span class="tm-label caption" aria-hidden="true">{map.name} · field copy · {map.grid.size} m grid</span>
         <span class="teaser-note hand" aria-hidden="true">Exits are the red smoke.</span>
       </a>
     </div>
@@ -149,7 +207,7 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
 
   {
     posts.length > 0 && (
-      <section class="section section--tight" aria-labelledby="log-title">
+      <section class="section" aria-labelledby="log-title">
         <div class="wrap">
           <div class="section-head">
             <div>
@@ -162,8 +220,15 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
             {posts.map((p) => (
               <li>
                 <a class="panel card post" href={url(`devlog/${p.id}/`)}>
-                  {p.data.cover && <Img src={p.data.cover.src} alt={p.data.cover.alt} width={800} height={450} class="post-cover brushed" />}
-                  <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                  {p.data.cover && (
+                    <span class="post-cover-wrap brushed">
+                      <Img src={p.data.cover.src} alt={p.data.cover.alt} width={800} height={450} class="post-cover" />
+                    </span>
+                  )}
+                  <span class="post-meta">
+                    <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                    {p.data.version && <span class="chip chip--ver">{p.data.version}</span>}
+                  </span>
                   <h3>{p.data.title}</h3>
                   <p>{p.data.summary}</p>
                   <span class="more">Read</span>
@@ -176,175 +241,508 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
     )
   }
 
-  <section class="section" aria-labelledby="cta-title">
+  <section class="section section--tight cta-section" aria-labelledby="cta-title">
     <div class="wrap">
       <div class="panel cta">
-        <div>
+        <div class="cta-media" aria-hidden="true"></div>
+        <div class="cta-copy">
           <p class="eyebrow">{site.status}</p>
           <h2 id="cta-title">{site.cta.heading}</h2>
           <p class="lede">{site.cta.text}</p>
         </div>
-        <div class="actions">
-          <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
-          <a class="btn" href={url("about/")}>About the game</a>
+        <div class="cta-side">
+          <a class="btn btn--exfil cta-go" href={url(primaryHref)}>{site.cta.primary.label}<Icon name="run" /></a>
+          <a class="btn btn--block" href={url("about/")}>About the game</a>
         </div>
       </div>
     </div>
   </section>
 </Base>
 
+<script>
+  // Title screen: "Press any key" until the visitor does something (or a few seconds pass),
+  // then the menu. Rain falls over the backdrop while the screen is in view, unless it's
+  // turned off under Picture settings or the visitor prefers less motion.
+  const screen = document.querySelector<HTMLElement>("[data-title-screen]");
+  if (screen) {
+    const press = screen.querySelector<HTMLButtonElement>("[data-press]")!;
+    const menu = screen.querySelector<HTMLElement>(".ts-menu")!;
+    let open = false;
+
+    const reveal = (focusMenu = false) => {
+      if (open) return;
+      open = true;
+      screen.classList.add("is-open");
+      cleanup();
+      if (focusMenu) menu.querySelector<HTMLElement>("a")?.focus({ preventScroll: true });
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (["Shift", "Control", "Alt", "Meta"].includes(e.key)) return;
+      reveal(e.target === press && (e.key === "Enter" || e.key === " "));
+    };
+    // A click, not pointerdown: on a phone, opening on touchstart lets the same tap land on
+    // the menu button that has just appeared under the finger.
+    const onPointer = () => reveal();
+    const timer = window.setTimeout(() => reveal(), 4500);
+    const cleanup = () => {
+      window.clearTimeout(timer);
+      document.removeEventListener("keydown", onKey);
+      screen.removeEventListener("click", onPointer);
+      window.removeEventListener("scroll", onPointer);
+    };
+    press.addEventListener("click", () => reveal(true));
+    document.addEventListener("keydown", onKey);
+    screen.addEventListener("click", onPointer);
+    window.addEventListener("scroll", onPointer, { passive: true, once: true });
+    if (window.scrollY > 40) reveal();
+
+    // ---------- Rain ----------
+    const canvas = screen.querySelector<HTMLCanvasElement>(".ts-rain");
+    const ctx = canvas?.getContext("2d");
+    if (canvas && ctx) {
+      type Drop = { x: number; y: number; len: number; speed: number; alpha: number };
+      let drops: Drop[] = [];
+      let w = 0;
+      let h = 0;
+      let running = false;
+      let inView = true;
+      let last = 0;
+      const wind = 0.16;
+
+      const size = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.round((w * h) / 5200);
+        drops = Array.from({ length: count }, () => newDrop(true));
+      };
+      const newDrop = (anywhere: boolean): Drop => {
+        const near = Math.random();
+        return {
+          x: Math.random() * (w + 200) - 100,
+          y: anywhere ? Math.random() * h : -40 - Math.random() * 200,
+          len: 10 + near * 22,
+          speed: 700 + near * 900,
+          alpha: 0.07 + near * 0.2,
+        };
+      };
+      const frame = (t: number) => {
+        if (!running) return;
+        const dt = Math.min(0.05, (t - (last || t)) / 1000);
+        last = t;
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1;
+        ctx.lineCap = "round";
+        for (const d of drops) {
+          d.y += d.speed * dt;
+          d.x += d.speed * wind * dt;
+          if (d.y - d.len > h || d.x > w + 100) Object.assign(d, newDrop(false));
+          ctx.strokeStyle = `rgba(214, 220, 226, ${d.alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y);
+          ctx.lineTo(d.x - d.len * wind, d.y - d.len);
+          ctx.stroke();
+        }
+        requestAnimationFrame(frame);
+      };
+      const update = () => {
+        const want = inView && !document.hidden && !document.documentElement.classList.contains("fx-no-rain");
+        if (want && !running) {
+          running = true;
+          last = 0;
+          if (!drops.length) size();
+          requestAnimationFrame(frame);
+        } else if (!want && running) {
+          running = false;
+          ctx.clearRect(0, 0, w, h);
+        }
+      };
+
+      new IntersectionObserver((entries) => {
+        inView = entries[0].isIntersecting;
+        update();
+      }).observe(screen);
+      new ResizeObserver(() => {
+        if (canvas.clientWidth !== w || canvas.clientHeight !== h) size();
+      }).observe(canvas);
+      document.addEventListener("visibilitychange", update);
+      document.addEventListener("thc-fx", update);
+      update();
+    }
+  }
+</script>
+
 <style>
-  /* Hero: slides up under the see-through header. */
-  .hero {
+  /* ---------- Title screen ---------- */
+
+  .title-screen {
     position: relative;
     display: grid;
-    align-items: end;
+    grid-template-rows: 1fr auto;
     margin-top: calc(-1 * var(--header-h));
-    min-height: min(100svh, 960px);
-    padding-block: calc(var(--header-h) + clamp(64px, 12vh, 140px)) clamp(64px, 10vh, 120px);
+    min-height: max(620px, 100svh);
+    padding: calc(var(--header-h) + 4vh) var(--gutter) 0;
     overflow: hidden;
     isolation: isolate;
   }
 
-  .hero-media {
-    --fade: clamp(90px, 14vh, 160px);
+  .ts-media {
     position: absolute;
     inset: 0;
     z-index: -1;
-    -webkit-mask:
-      url("../assets/textures/brush-fade.png") bottom / 100% var(--fade) no-repeat,
-      linear-gradient(#000, #000) top / 100% calc(100% - var(--fade) + 1px) no-repeat;
-    mask:
-      url("../assets/textures/brush-fade.png") bottom / 100% var(--fade) no-repeat,
-      linear-gradient(#000, #000) top / 100% calc(100% - var(--fade) + 1px) no-repeat;
+    background: #0b0b0b;
   }
 
-  .hero-bg {
+  .ts-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 40%;
+    object-position: 50% 42%;
+    transform-origin: 50% 45%;
+    animation: drift 26s ease-out both;
   }
 
-  .hero-shade {
+  @keyframes drift {
+    from {
+      transform: scale(1.09);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .ts-rain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  :global(.fx-no-rain) .ts-rain {
+    display: none;
+  }
+
+  .ts-shade {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(to bottom, rgb(18 19 17 / 0.5) 0%, rgb(18 19 17 / 0.08) 28%, rgb(18 19 17 / 0.55) 70%, rgb(18 19 17 / 0.85) 100%),
-      radial-gradient(ellipse at 30% 60%, transparent 35%, rgb(10 11 9 / 0.55) 100%);
+      linear-gradient(to bottom, rgb(0 0 0 / 0.45) 0%, transparent 22%, transparent 55%, rgb(11 11 11 / 0.7) 85%, #0b0b0b 100%),
+      radial-gradient(ellipse 85% 75% at 50% 45%, transparent 40%, rgb(0 0 0 / 0.6) 100%);
   }
 
-  .hero-inner {
+  .ts-center {
     position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    padding-top: clamp(24px, 12vh, 150px);
+    text-align: center;
   }
 
-  .hero .stamp {
-    margin-bottom: 28px;
-    background: rgb(18 19 17 / 0.55);
-  }
-
-  .hero-title {
-    margin: 0 0 18px;
+  .ts-logo {
+    margin: 0 0 clamp(20px, 4vh, 40px);
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  .hero-title img {
-    width: min(760px, 100%);
-    filter: drop-shadow(0 6px 18px rgb(0 0 0 / 0.6));
+  .ts-logo img {
+    width: min(880px, 92vw);
+    filter: drop-shadow(0 8px 24px rgb(0 0 0 / 0.65));
+  }
+
+  /* "Press any key", with the thin rule under it, breathing slowly. */
+  .ts-press {
+    position: relative;
+    margin-top: clamp(20px, 14vh, 150px);
+    padding: 10px 28px 16px;
+    border: 0;
+    background: none;
+    color: var(--bone);
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    cursor: pointer;
+    animation: breathe 2.6s ease-in-out infinite;
+  }
+
+  .ts-press::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 0;
+    height: 1px;
+    background: rgb(216 210 195 / 0.75);
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+
+  /* Without JavaScript the menu just shows. With it, it waits for a key. */
+  :global(html:not(.js)) .ts-press {
+    display: none;
+  }
+
+  .ts-menu {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    width: min(420px, 100%);
+  }
+
+  .ts-menu::before {
+    content: "";
+    position: absolute;
+    inset: -40px -120px;
+    z-index: -1;
+    background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+    pointer-events: none;
+  }
+
+  :global(.js) .title-screen:not(.is-open) .ts-menu {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  :global(.js) .title-screen.is-open .ts-press {
+    display: none;
+  }
+
+  .title-screen.is-open .ts-menu > * {
+    animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .title-screen.is-open .ts-menu > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .title-screen.is-open .ts-menu > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .tagline {
-    max-width: 52ch;
-    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    margin: 0 0 22px;
+    max-width: 44ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
     line-height: 1.5;
-    color: var(--bone);
-    text-shadow: 0 2px 10px rgb(0 0 0 / 0.8);
+    color: var(--text);
+    text-shadow: 0 2px 10px rgb(0 0 0 / 0.9);
   }
 
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 28px;
+  .ts-buttons {
+    display: grid;
+    gap: 10px;
+    width: 100%;
   }
 
-  .btn--ghost {
-    background: rgb(18 19 17 / 0.5);
+  .ts-buttons .btn {
+    justify-content: flex-start;
+    min-height: 54px;
+    padding-inline: 18px;
   }
 
-  .btn--ghost:hover {
-    background: var(--bone);
+  .ts-buttons .btn--exfil {
+    justify-content: center;
+  }
+
+  .ts-buttons .btn--ghost {
+    --fill: 14 14 14;
+    background-color: rgb(var(--fill) / 0.72);
+    backdrop-filter: blur(2px);
   }
 
   .meta {
-    margin-top: 22px;
+    margin: 18px 0 0;
     font-family: var(--font-head);
     font-weight: 600;
-    letter-spacing: 0.16em;
+    font-size: 0.8rem;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
-    font-size: 0.95rem;
-    color: var(--bone-dim);
+    color: var(--caption);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.9);
   }
 
-  .hero-note {
+  /* The title screen's corner captions. */
+  .ts-corner {
     position: absolute;
-    right: clamp(16px, 6vw, 96px);
-    top: calc(var(--header-h) + clamp(40px, 8vh, 90px));
+    bottom: clamp(18px, 4vh, 40px);
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.78rem;
+    line-height: 1.9;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgb(216 210 195 / 0.8);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.9);
+  }
+
+  .ts-corner span {
+    white-space: pre;
+  }
+
+  .ts-corner--left {
+    left: clamp(16px, 3vw, 48px);
+  }
+
+  .ts-corner--right {
+    right: clamp(16px, 3vw, 48px);
+    text-align: right;
+  }
+
+  .ts-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    translate: -50% 0;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+
+  .ts-scroll span {
+    width: 1px;
+    height: 26px;
+    background: linear-gradient(to bottom, transparent, var(--bone));
+    animation: drip 2.2s ease-in-out infinite;
+  }
+
+  @keyframes drip {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    50% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    51% {
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
+
+  .ts-note {
+    position: absolute;
+    right: clamp(16px, 6vw, 110px);
+    top: calc(var(--header-h) + clamp(28px, 7vh, 80px));
     transform: rotate(3deg);
-    font-size: 1.6rem;
+    font-size: 1.55rem;
     max-width: 230px;
+    padding: 16px 20px 14px;
   }
 
   @media (max-width: 899px) {
-    .hero-note {
+    .ts-note {
       display: none;
     }
   }
 
-  /* Raid intel */
+  @media (max-width: 640px) {
+    .ts-corner {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+    }
+
+    .ts-scroll {
+      display: none;
+    }
+  }
+
+  @media (max-height: 760px) and (min-width: 641px) {
+    .ts-center {
+      padding-top: 4vh;
+    }
+  }
+
+  /* ---------- Raid intel ---------- */
+
+  .intel {
+    position: relative;
+    z-index: 2;
+    padding-top: 8px;
+  }
+
   .intel-inner {
     display: grid;
-    gap: 20px 40px;
-    padding-block: 8px 24px;
+    gap: 18px 40px;
+    padding: 18px clamp(18px, 3vw, 28px);
     align-items: center;
   }
 
-  @media (min-width: 820px) {
+  @media (min-width: 900px) {
     .intel-inner {
       grid-template-columns: auto 1fr;
     }
   }
 
-  .intel-where .eyebrow {
-    margin-bottom: 4px;
-    font-size: 0.9rem;
+  .intel-where {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .intel-where h2 {
+    margin: 0 0 2px;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .where {
     margin: 0;
-    font-family: var(--font-head);
-    font-weight: 800;
-    font-size: 2rem;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.9rem;
     line-height: 1;
     text-transform: uppercase;
   }
 
   .where-sub {
-    margin: 4px 0 0;
+    margin: 6px 0 0;
     font-family: var(--font-head);
-    letter-spacing: 0.18em;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    color: var(--bone-faint);
+    font-size: 0.8rem;
+    color: var(--dim);
   }
 
   .intel-stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
     margin: 0;
   }
 
@@ -354,139 +752,154 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
     }
   }
 
+  @media (min-width: 900px) {
+    .intel-stats {
+      justify-self: end;
+      grid-template-columns: repeat(4, auto);
+    }
+  }
+
   .intel-stats div {
-    padding: 12px 16px;
+    padding: 4px clamp(14px, 2.4vw, 32px);
+    border-left: 1px solid var(--line);
   }
 
   .intel-stats dt {
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--caption);
+    white-space: nowrap;
   }
 
   .intel-stats dd {
-    margin: 2px 0 0;
-    font-family: var(--font-head);
-    font-weight: 800;
-    font-size: 2rem;
+    margin: 4px 0 0;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 2.2rem;
     line-height: 1;
     text-transform: uppercase;
   }
 
-  /* Features */
+  /* ---------- Features ---------- */
+
   .features {
     display: grid;
-    gap: 18px;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: clamp(12px, 1.6vw, 18px);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   .feature {
-    padding: 26px 24px 24px;
+    padding: 22px 22px 24px;
   }
 
-  .feature-icon {
-    display: inline-grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 16px;
-    border: 1px solid var(--line);
-    background: var(--panel-3);
-    color: var(--red-text);
+  .feature-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
   }
 
-  .feature-icon :global(.icon) {
-    width: 28px;
-    height: 28px;
+  .feature-num {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.24em;
+    color: var(--dim);
   }
 
-  .feature p {
-    margin: 0;
-    color: var(--bone-dim);
+  .feature h3 {
+    font-size: 1.5rem;
   }
 
-  /* Raid loop */
+  /* ---------- Raid loop ---------- */
+
   .loop {
+    position: relative;
     display: grid;
-    gap: 16px;
+    gap: 28px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  @media (min-width: 820px) {
+  @media (min-width: 860px) {
     .loop {
       grid-template-columns: repeat(4, 1fr);
-      gap: 0;
+      gap: 24px;
+    }
+
+    /* The track the steps sit on, ending in green at the exit. */
+    .loop::before {
+      content: "";
+      position: absolute;
+      left: 24px;
+      right: calc((100% - 72px) / 4 - 24px);
+      top: 23px;
+      height: 2px;
+      background: linear-gradient(to right, var(--line) 0 72%, var(--green));
     }
   }
 
   .loop-step {
     position: relative;
-    padding: 22px 22px 8px;
   }
 
-  /* A brushed stroke along the top of each step instead of a ruled line. */
-  .loop-step::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -4px;
-    height: 9px;
-    background: var(--line);
-    -webkit-mask: url("../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
-    mask: url("../assets/textures/brush-stroke.png") center / 100% 100% no-repeat;
+  .loop-node {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    border: 1px solid var(--edge-strong);
+    background: var(--card);
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--bone);
   }
 
-  @media (min-width: 820px) {
-    .loop-step + .loop-step {
-      border-left: 1px dashed var(--line);
-    }
+  .loop-step--exit .loop-node {
+    border-color: rgb(0 0 0 / 0.4);
+    background: var(--green);
+    color: #13200a;
+    box-shadow: 0 0 0 6px rgb(143 176 90 / 0.15);
   }
 
-  .loop-step p {
-    color: var(--bone-dim);
+  .loop-node :global(.icon) {
+    width: 28px;
+    height: 28px;
   }
 
   .loop-num {
     display: block;
-    font-family: var(--font-head);
-    font-weight: 800;
-    font-size: 3.4rem;
-    line-height: 1;
-    color: var(--panel-3);
-    -webkit-text-stroke: 1px var(--bone-faint);
-    margin-bottom: 8px;
-  }
-
-  .loop-step--exit::before {
-    background: var(--green);
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    color: var(--dim);
   }
 
   .loop-step--exit .loop-num {
-    -webkit-text-stroke-color: var(--green);
+    color: var(--green);
   }
 
-  .loop-link a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .loop-step h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.3em;
   }
 
-  /* Map teaser. The tape pokes out past the map, so clip sideways only. */
+  .loop-step p {
+    margin: 0;
+    color: var(--caption);
+  }
+
+  /* ---------- Map teaser ---------- */
+
   .map-teaser {
     overflow-x: clip;
   }
@@ -503,23 +916,96 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
     }
   }
 
-  .teaser-copy p:not(.eyebrow) {
-    color: var(--bone-dim);
-    max-width: 48ch;
+  .teaser-copy > p:not(.eyebrow) {
+    color: var(--caption);
+    max-width: 46ch;
   }
 
-  .teaser-copy .btn {
-    margin-top: 12px;
+  .legend {
+    display: grid;
+    gap: 0;
+    max-width: 380px;
+    margin: 20px 0 28px;
+    padding: 0;
+    list-style: none;
   }
 
+  .legend li {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .lg-name {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .lg-count {
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--caption);
+  }
+
+  .lg {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+  }
+
+  .lg :global(.icon) {
+    width: 15px;
+    height: 15px;
+  }
+
+  .lg--start {
+    height: 15px;
+    border: 2px solid var(--c);
+    background: rgb(134 197 232 / 0.2);
+  }
+
+  .lg--exit {
+    background: var(--c);
+    color: #13200a;
+  }
+
+  .lg--scav {
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    rotate: 45deg;
+    border: 2px solid var(--c);
+    background: rgb(201 81 60 / 0.3);
+  }
+
+  .lg--crate {
+    width: 17px;
+    height: 17px;
+    margin: 2px;
+    border: 2px solid var(--c);
+    background: linear-gradient(to top right, transparent calc(50% - 1px), var(--c) 50%, transparent calc(50% + 1px)), #1b1a14;
+  }
+
+  /* The map pinned up like the one on the game's Raid tab. */
   .teaser-map {
     position: relative;
     display: block;
     width: 100%;
-    max-width: 560px;
+    max-width: 580px;
     justify-self: center;
-    filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.55));
-    transform: rotate(1.5deg);
+    padding: 12px;
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    box-shadow: 0 30px 50px rgb(0 0 0 / 0.6);
+    transform: rotate(1.2deg);
     transition: transform 0.25s;
   }
 
@@ -527,39 +1013,88 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
     transform: rotate(0deg) scale(1.01);
   }
 
-  .teaser-map :global(img) {
+  .tm-print {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+
+  /* Greyed and vignetted like the game's map print (ui_map_grade). */
+  .tm-print::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgb(0 0 0 / 0.5) 100%);
+    pointer-events: none;
+  }
+
+  .teaser-map :global(.tm-img) {
     width: 100%;
     max-height: 560px;
     object-fit: cover;
     object-position: 50% 30%;
+    filter: saturate(0.7) contrast(1.06) brightness(0.92);
   }
 
   .tape-a {
-    top: -10px;
-    left: -18px;
+    top: -12px;
+    left: -22px;
     rotate: -32deg;
   }
 
   .tape-b {
-    bottom: -8px;
-    right: -20px;
+    bottom: -10px;
+    right: -24px;
     rotate: -28deg;
+  }
+
+  .tm-north {
+    position: absolute;
+    top: 26px;
+    right: 26px;
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--bone-light);
+    text-shadow: 0 1px 4px #000;
+  }
+
+  .tm-north i {
+    width: 0;
+    height: 0;
+    border-inline: 7px solid transparent;
+    border-bottom: 18px solid var(--bone-light);
+    filter: drop-shadow(0 1px 2px #000);
+  }
+
+  .tm-label {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    padding: 4px 10px;
+    background: rgb(11 11 11 / 0.8);
+    font-size: 0.72rem;
+    color: var(--caption);
   }
 
   .teaser-note {
     position: absolute;
-    left: -10px;
-    bottom: 28px;
-    padding: 8px 14px;
+    left: -18px;
+    top: 34%;
+    padding: 8px 16px;
     background: var(--paper) url("../assets/textures/paper.webp");
     background-size: 512px;
     color: var(--ink);
-    font-size: 1.45rem;
+    font-size: 1.5rem;
     transform: rotate(-4deg);
     box-shadow: 0 10px 20px rgb(0 0 0 / 0.5);
   }
 
-  /* Posts */
+  /* ---------- Posts ---------- */
+
   .posts {
     margin: 0;
     padding: 0;
@@ -568,50 +1103,109 @@ const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
 
   .post {
     height: 100%;
-    padding: 0 0 20px;
+    padding: 0 0 22px;
   }
 
-  .post > :not(:global(.post-cover)) {
-    margin-inline: 20px;
+  .post > :not(.post-cover-wrap) {
+    margin-inline: 22px;
+  }
+
+  .post-cover-wrap {
+    display: block;
+    margin: 10px 10px 18px;
   }
 
   .post :global(.post-cover) {
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    margin-bottom: 16px;
+    filter: saturate(0.85);
+    transition: transform 0.4s ease, filter 0.4s;
+  }
+
+  .post:hover :global(.post-cover) {
+    transform: scale(1.03);
+    filter: saturate(1);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
   .post time {
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.16em;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--red-text);
-    margin-bottom: 6px;
+    color: var(--caption);
   }
 
-  /* CTA */
+  .post h3 {
+    font-size: 1.55rem;
+  }
+
+  /* ---------- Call to action, like the game's Start raid corner ---------- */
+
   .cta {
     display: grid;
-    gap: 24px 48px;
+    gap: 28px 48px;
     align-items: center;
-    padding: clamp(28px, 5vw, 56px);
-    background-color: var(--panel-2);
+    padding: clamp(26px, 4.5vw, 52px);
+    overflow: hidden;
   }
 
   @media (min-width: 900px) {
     .cta {
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr minmax(300px, 380px);
     }
+  }
+
+  .cta-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--backdrop) right 40% / cover no-repeat;
+    opacity: 0.22;
+    filter: grayscale(0.5);
+    -webkit-mask-image: linear-gradient(to right, transparent 30%, #000);
+    mask-image: linear-gradient(to right, transparent 30%, #000);
+    pointer-events: none;
+  }
+
+  .cta-copy,
+  .cta-side {
+    position: relative;
   }
 
   .cta h2 {
     max-width: 18ch;
   }
 
-  .cta .actions {
-    margin-top: 0;
+  .cta .lede {
+    margin: 0;
+  }
+
+  .cta-side {
+    display: grid;
+    gap: 10px;
+  }
+
+  .cta-go {
+    justify-content: space-between;
+    min-height: 76px;
+    padding-inline: 26px;
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .cta-go :global(.icon) {
+    width: 1.1em;
+    height: 1.1em;
   }
 </style>

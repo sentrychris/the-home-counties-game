@@ -25,6 +25,7 @@ const { Content } = await render(guide);
     eyebrow="Field manual"
     lede={guide.data.summary}
     crumbs={[{ label: "Guides", href: "guides/" }, { label: guide.data.title }]}
+    image="images/screenshots/2026-10-24-234534.webp"
   />
 
   <div class="wrap layout section section--tight">
@@ -107,7 +108,7 @@ const { Content } = await render(guide);
   }
 
   .side-box h2 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-bottom: 8px;
   }
 
@@ -122,10 +123,14 @@ const { Content } = await render(guide);
     align-items: center;
     gap: 10px;
     padding: 9px 0;
-    border-bottom: 1px dashed var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
     text-decoration: none;
-    color: var(--bone-dim);
+    color: var(--caption);
+    font-family: var(--font-head);
     font-weight: 600;
+    font-size: 1.08rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .side-box li:last-child a {
@@ -138,8 +143,9 @@ const { Content } = await render(guide);
   }
 
   .side-box a[aria-current="page"] {
-    box-shadow: inset 3px 0 0 var(--red);
-    padding-left: 10px;
+    box-shadow: inset 2px 0 0 var(--bone);
+    padding-left: 12px;
+    color: var(--bone-light);
   }
 
   .side-box :global(.icon) {
@@ -163,18 +169,23 @@ const { Content } = await render(guide);
     display: block;
     padding: 16px 18px;
     text-decoration: none;
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.3rem;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.35rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+  }
+
+  .pager-link:hover {
+    border-color: rgb(216 210 195 / 0.55);
   }
 
   .pager-link span {
     display: block;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    color: var(--bone-faint);
+    margin-bottom: 2px;
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    color: var(--dim);
   }
 
   .pager-next {

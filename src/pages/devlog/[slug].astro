@@ -20,7 +20,7 @@ const { Content } = await render(post);
 ---
 
 <Base title={p.title} description={p.summary} image={p.cover?.src}>
-  <PageHead title={p.title} lede={p.summary} crumbs={[{ label: "Dev log", href: "devlog/" }, { label: p.title }]}>
+  <PageHead title={p.title} lede={p.summary} crumbs={[{ label: "Dev log", href: "devlog/" }, { label: p.title }]} image={p.cover?.src}>
     <p class="meta">
       <time datetime={p.date.toISOString()}>{formatDate(p.date)}</time>
       {p.version && <span class="chip chip--ver">{p.version}</span>}
@@ -31,7 +31,7 @@ const { Content } = await render(post);
     <div class="wrap wrap--narrow">
       {
         p.cover && (
-          <figure class="cover">
+          <figure class="cover brushed">
             <Img src={p.cover.src} alt={p.cover.alt} loading="eager" sizes="(min-width: 860px) 780px, 100vw" />
           </figure>
         )
@@ -81,17 +81,15 @@ const { Content } = await render(post);
 
   time {
     font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.12em;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--red-text);
+    color: var(--caption);
   }
 
   .cover {
     margin: 0 0 36px;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
   }
 
   .cover :global(img) {
@@ -119,18 +117,23 @@ const { Content } = await render(post);
     display: block;
     padding: 16px 18px;
     text-decoration: none;
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.3rem;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.35rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+  }
+
+  .pager-link:hover {
+    border-color: rgb(216 210 195 / 0.55);
   }
 
   .pager-link span {
     display: block;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    color: var(--bone-faint);
+    margin-bottom: 2px;
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    color: var(--dim);
   }
 
   .pager-newer {

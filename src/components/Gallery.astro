@@ -116,7 +116,7 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
 <style>
   .shots {
     display: grid;
-    gap: clamp(12px, 2vw, 20px);
+    gap: clamp(10px, 1.6vw, 16px);
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
     margin: 0;
     padding: 0;
@@ -140,6 +140,7 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     flex-direction: column;
   }
 
+  /* Each shot is painted onto the page with dry-brushed edges. */
   figure a {
     position: relative;
     display: block;
@@ -158,6 +159,7 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     content: "";
     position: absolute;
     inset: 10px;
+    z-index: 2;
     border: 3px solid var(--bone);
   }
 
@@ -166,8 +168,8 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     height: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    filter: saturate(0.9) contrast(1.05);
-    transition: transform 0.4s ease, filter 0.4s;
+    filter: saturate(0.82) contrast(1.05);
+    transition: transform 0.5s ease, filter 0.4s;
   }
 
   figure a:hover img,
@@ -180,12 +182,13 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     position: absolute;
     right: 10px;
     top: 10px;
+    z-index: 2;
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
-    background: rgb(18 19 17 / 0.8);
-    border: 1px solid var(--line);
+    width: 36px;
+    height: 36px;
+    background: rgb(11 11 11 / 0.85);
+    border: 1px solid var(--edge-strong);
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -202,36 +205,36 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
 
   figcaption {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: baseline;
-    padding: 8px 4px 0;
-    font-size: 0.98rem;
-    color: var(--bone-dim);
+    padding: 9px 2px 0;
+    font-size: 0.96rem;
+    color: var(--caption);
   }
 
   .num {
     font-family: var(--font-head);
     font-weight: 700;
-    color: var(--red-text);
     letter-spacing: 0.08em;
+    color: var(--red-text);
   }
 
   .lightbox {
-    width: min(1400px, 96vw);
+    width: min(1440px, 96vw);
     max-height: 96vh;
     padding: 0;
-    border: 1px solid var(--line);
-    background: #0b0c0a;
-    color: var(--bone);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    background: #0b0b0b;
+    color: var(--text);
   }
 
   .lightbox::backdrop {
-    background: rgb(5 6 5 / 0.88);
+    background: rgb(4 4 4 / 0.9);
   }
 
   .lb-frame img {
     width: 100%;
-    max-height: calc(96vh - 70px);
+    max-height: calc(96vh - 72px);
     object-fit: contain;
     background: #000;
   }
@@ -242,20 +245,23 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     align-items: center;
     gap: 8px 16px;
     padding: 10px 14px;
-    border-top: 1px solid var(--line-soft);
+    border-top: 1px solid var(--line);
+    background-color: rgb(17 17 18);
+    background-image: linear-gradient(rgb(17 17 18 / 0.76), rgb(17 17 18 / 0.76)), var(--grunge);
+    background-size: auto, 1024px;
   }
 
   .lb-caption {
     margin: 0;
     flex: 1 1 240px;
-    color: var(--bone-dim);
+    color: var(--caption);
   }
 
   .lb-count {
     font-family: var(--font-head);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--bone-faint);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--dim);
   }
 
   .lb-buttons {
@@ -266,17 +272,17 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
   .lb-buttons button {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--line);
-    background: var(--panel);
-    color: var(--bone);
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--edge-strong);
+    background: rgb(24 24 25);
+    color: var(--text);
     cursor: pointer;
   }
 
   .lb-buttons button:hover {
-    background: var(--bone);
-    color: var(--bg);
+    border-color: rgb(216 210 195 / 0.6);
+    color: var(--bone-light);
   }
 
   .lb-buttons :global(.icon) {

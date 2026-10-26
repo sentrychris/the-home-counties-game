@@ -1,9 +1,10 @@
 {
   "name": "The Home Counties",
   "status": "Early access / Prototype build",
-  "version": "v0.1.41",
+  "version": "v0.1.59",
   "developer": "Chris Rowles",
   "engine": "Godot 4",
+  "coords": "51.9923° N  0.7345° W",
   "description": "A single-player extraction shooter set in a collapsed, overgrown Britain. Raid Duncombe Street in Bletchley, loot what's left, and reach the red smoke before the timer runs out.",
   "tagline": "Raid the overgrown terraces, take what you can carry, and reach the red smoke before the clock runs out...",
 

@@ -203,45 +203,47 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
 </script>
 
 <style>
+  /* The bar over the map: like the header of the game's Raid tab. */
   .map-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 12px 20px;
-    padding: 12px var(--gutter);
-    border-bottom: 1px solid var(--line-soft);
-    background: var(--bg-2);
+    padding: 14px clamp(16px, 2.4vw, 32px);
+    border-bottom: 1px solid var(--line);
+    background-color: rgb(14 14 15 / 0.96);
+    background-image: linear-gradient(rgb(14 14 15 / 0.78), rgb(14 14 15 / 0.78)), var(--grunge);
+    background-size: auto, 1024px;
   }
 
   .bar-title {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 2px 16px;
+    gap: 2px 18px;
   }
 
   .bar-title .eyebrow {
     width: 100%;
-    margin: 0;
-    font-size: 0.8rem;
+    margin: 0 0 2px;
+    font-size: 0.75rem;
   }
 
   .bar-title h1 {
     margin: 0;
-    font-size: clamp(1.9rem, 4vw, 2.6rem);
-    -webkit-mask-size: 260px;
-    mask-size: 260px;
+    font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+    max-width: none;
   }
 
   .where {
     margin: 0;
     font-family: var(--font-head);
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    color: var(--bone-faint);
+    font-size: 0.85rem;
+    color: var(--dim);
   }
 
   .bar-actions {
@@ -261,7 +263,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     }
 
     .bar-title h1 {
-      font-size: 1.7rem;
+      font-size: 1.6rem;
     }
   }
 
@@ -272,12 +274,12 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   .map-app {
     position: relative;
     display: grid;
-    height: max(520px, calc(100svh - var(--header-h) - 76px));
+    height: max(520px, calc(100svh - var(--header-h) - 78px));
   }
 
   @media (min-width: 1000px) {
     .map-app {
-      grid-template-columns: minmax(0, 1fr) 340px;
+      grid-template-columns: minmax(0, 1fr) 360px;
     }
   }
 
@@ -285,9 +287,19 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     position: relative;
     min-height: 0;
     overflow: hidden;
-    background: #0f100e;
+    background: #0b0b0b;
     /* Keep Leaflet's own z-indexes (up to 1000) inside the map. */
     isolation: isolate;
+  }
+
+  /* A soft vignette over the print, like the game's map grade. */
+  .map-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 640;
+    background: radial-gradient(ellipse at center, transparent 60%, rgb(0 0 0 / 0.45) 100%);
+    pointer-events: none;
   }
 
   .map {
@@ -303,7 +315,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     gap: 12px;
     padding: 20px;
     text-align: center;
-    color: var(--bone);
+    color: var(--text);
   }
 
   .noscript img {
@@ -328,7 +340,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     right: 0;
     top: 0;
     height: 22px;
-    background: linear-gradient(to bottom, rgb(12 13 11 / 0.85), rgb(12 13 11 / 0.4));
+    background: linear-gradient(to bottom, rgb(9 9 9 / 0.9), rgb(9 9 9 / 0.5));
     border-bottom: 1px solid rgb(216 210 195 / 0.15);
   }
 
@@ -337,7 +349,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     top: 22px;
     bottom: 0;
     width: 26px;
-    background: linear-gradient(to right, rgb(12 13 11 / 0.85), rgb(12 13 11 / 0.4));
+    background: linear-gradient(to right, rgb(9 9 9 / 0.9), rgb(9 9 9 / 0.5));
     border-right: 1px solid rgb(216 210 195 / 0.15);
   }
 
@@ -359,31 +371,34 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     display: none;
   }
 
+  /* Grid reference under the pointer, like the game's coordinates in the bottom bar. */
   .readout {
     position: absolute;
-    left: 36px;
-    bottom: 12px;
+    left: 38px;
+    bottom: 14px;
     z-index: 650;
     display: flex;
-    gap: 12px;
+    gap: 14px;
     align-items: baseline;
-    padding: 6px 12px;
-    background: rgb(12 13 11 / 0.82);
-    border: 1px solid var(--line);
+    padding: 7px 14px;
+    background: rgb(11 11 11 / 0.85);
+    border: 1px solid var(--edge-strong);
     pointer-events: none;
     font-family: var(--font-head);
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
   }
 
   .readout-ref {
-    font-size: 1.3rem;
-    color: var(--bone);
+    font-family: var(--font-title);
+    font-size: 1.35rem;
+    color: var(--bone-light);
   }
 
   .readout-xz {
-    font-size: 0.9rem;
-    color: var(--bone-faint);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    color: var(--dim);
     font-variant-numeric: tabular-nums;
   }
 
@@ -391,9 +406,9 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   .map-panel {
     overflow-y: auto;
     padding: 18px 20px 28px;
-    background-color: var(--panel);
-    background-image: var(--worn);
-    background-size: 512px, 512px;
+    background-color: rgb(17 17 18 / 0.97);
+    background-image: linear-gradient(rgb(17 17 18 / 0.76), rgb(17 17 18 / 0.76)), var(--grunge);
+    background-size: auto, 1024px;
     border-left: 1px solid var(--line);
   }
 
@@ -404,18 +419,18 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   }
 
   .panel-head h2 {
-    margin: 0 0 8px;
-    font-size: 0.9rem;
+    margin: 0 0 10px;
+    font-size: 0.8rem;
   }
 
   .panel-close {
     display: none;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     place-items: center;
-    border: 1px solid var(--line);
-    background: var(--panel-2);
-    color: var(--bone);
+    border: 1px solid var(--edge-strong);
+    background: rgb(24 24 25);
+    color: var(--text);
     cursor: pointer;
   }
 
@@ -441,7 +456,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
       z-index: 900;
       max-height: 75vh;
       border-left: 0;
-      border-top: 2px solid var(--line);
+      border-top: 1px solid rgb(216 210 195 / 0.4);
       box-shadow: 0 -20px 40px rgb(0 0 0 / 0.6);
       transform: translateY(105%);
       visibility: hidden;
@@ -462,32 +477,36 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   .intel {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
     margin: 0 0 18px;
+    border: 1px solid var(--edge);
+    background: rgb(8 8 9 / 0.7);
   }
 
   .intel div {
-    padding: 6px 8px;
-    border: 1px solid var(--line);
-    background: #15171a;
+    padding: 8px 10px;
+  }
+
+  .intel div + div {
+    border-left: 1px solid var(--line-soft);
   }
 
   .intel dt {
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--caption);
     white-space: nowrap;
   }
 
   .intel dd {
-    margin: 0;
-    font-family: var(--font-head);
-    font-weight: 800;
-    font-size: 1.25rem;
-    line-height: 1.1;
+    margin: 2px 0 0;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    line-height: 1.05;
     text-transform: uppercase;
   }
 
@@ -495,7 +514,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     margin: 0 0 18px;
     padding: 14px 0 0;
     border: 0;
-    border-top: 1px dashed var(--line);
+    border-top: 1px solid var(--line);
   }
 
   .group legend,
@@ -504,31 +523,65 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     width: 100%;
     margin: 0 0 10px;
     padding: 0;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
   }
 
   .radio {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 5px 0;
+    gap: 12px;
+    padding: 6px 0;
     clear: both;
+    cursor: pointer;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.08rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Square checks and round radios, drawn like the game's: bone inside when picked. */
+  .radio input,
+  .layer input {
+    appearance: none;
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border: 1px solid rgb(216 210 195 / 0.55);
+    background: var(--well);
+    flex: none;
     cursor: pointer;
   }
 
-  .radio input,
-  .layer input {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    accent-color: var(--green);
-    flex: none;
+  .radio input {
+    border-radius: 50%;
+  }
+
+  .radio input:checked::after,
+  .layer input:checked::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: var(--bone);
+  }
+
+  .radio input:checked::after {
+    border-radius: 50%;
+  }
+
+  .radio input:focus-visible,
+  .layer input:focus-visible {
+    outline: 2px solid var(--bone);
+    outline-offset: 2px;
   }
 
   .layer-list {
     clear: both;
     display: grid;
-    gap: 4px;
+    gap: 2px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -541,11 +594,13 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     gap: 12px;
     padding: 7px 8px;
     margin: 0 -8px;
+    border: 1px solid transparent;
     cursor: pointer;
   }
 
   .layer:hover {
-    background: rgb(216 210 195 / 0.04);
+    background: rgb(255 255 255 / 0.035);
+    border-color: var(--edge);
   }
 
   .layer-text {
@@ -555,8 +610,8 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
 
   .layer-name {
     font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.1rem;
+    font-weight: 600;
+    font-size: 1.08rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
@@ -564,12 +619,12 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   .count {
     margin-left: 4px;
     font-size: 0.85em;
-    color: var(--bone-faint);
+    color: var(--dim);
   }
 
   .layer-blurb {
     font-size: 0.85rem;
-    color: var(--bone-faint);
+    color: var(--dim);
   }
 
   /* Legend swatches, shared with the map markers' look. */
@@ -642,10 +697,10 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   }
 
   .swatch--grid {
-    border: 1px solid var(--bone-faint);
+    border: 1px solid var(--dim);
     background:
-      linear-gradient(var(--bone-faint), var(--bone-faint)) center / 1px 100% no-repeat,
-      linear-gradient(var(--bone-faint), var(--bone-faint)) center / 100% 1px no-repeat;
+      linear-gradient(var(--dim), var(--dim)) center / 1px 100% no-repeat,
+      linear-gradient(var(--dim), var(--dim)) center / 100% 1px no-repeat;
   }
 
   .tools {
@@ -659,7 +714,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   }
 
   .tools [aria-pressed="true"] {
-    background: var(--crate);
+    --fill: 214 170 72;
     border-color: var(--crate);
     color: #111;
   }
@@ -667,7 +722,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   .tool-help {
     margin: 4px 0 0;
     font-size: 0.85rem;
-    color: var(--bone-faint);
+    color: var(--dim);
   }
 
   .map-note {
@@ -677,12 +732,8 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   }
 
   /* Map index */
-  .index {
-    border-top: 1px solid var(--line-soft);
-  }
-
   .exits-panel {
-    padding: 20px 22px;
+    padding: 22px 24px;
     margin-bottom: 20px;
   }
 
@@ -691,37 +742,45 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   }
 
   .exits-panel p {
-    color: var(--bone-dim);
+    color: var(--caption);
   }
 
   .exits-panel table {
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
     border-collapse: collapse;
   }
 
   .exits-panel th,
   .exits-panel td {
-    padding: 8px 12px 8px 0;
+    padding: 9px 12px 9px 0;
     text-align: left;
-    border-bottom: 1px dashed var(--line);
+    border-bottom: 1px solid var(--line-soft);
   }
 
   .exits-panel thead th {
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.16em;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--caption);
+    border-bottom-color: var(--line);
   }
 
   .exits-panel tbody th {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.12rem;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--green);
+  }
+
+  .exits-panel tbody td {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.1rem;
   }
 
   .index-grid {
@@ -753,11 +812,13 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     width: 100%;
     gap: 12px;
     align-items: baseline;
-    padding: 7px 0;
+    padding: 7px 6px;
+    margin-inline: -6px;
+    width: calc(100% + 12px);
     border: 0;
-    border-bottom: 1px dashed var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
     background: none;
-    color: var(--bone-dim);
+    color: var(--caption);
     font: inherit;
     text-align: left;
     cursor: pointer;
@@ -768,7 +829,8 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
   }
 
   .index-group button:hover {
-    color: var(--bone);
+    color: var(--bone-light);
+    background: rgb(255 255 255 / 0.035);
   }
 
   .ref {

@@ -13,7 +13,7 @@
     "check": "astro check",
     "images": "node scripts/prepare-images.mjs",
     "tiles": "node --max-old-space-size=4096 scripts/make-map-tiles.mjs",
-    "textures": "node scripts/make-brush-textures.mjs"
+    "textures": "node scripts/make-worn-textures.mjs"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

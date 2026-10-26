@@ -24,6 +24,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     eyebrow="Database"
     lede="Everything you can wear, carry, eat or sell, with its slot, weight and value in pounds. The £/kg figure shows which items are worth their weight."
     crumbs={[{ label: "Gear and items" }]}
+    image="images/screenshots/2026-10-24-224754.webp"
   />
 
   <section class="section section--tight">
@@ -185,27 +186,28 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
 </script>
 
 <style>
+  /* Filters, laid out like the game's Settings: tabs across, fields below. */
   .toolbar {
     display: grid;
-    gap: 16px 20px;
-    padding: 18px 20px;
+    gap: 18px 20px;
+    padding: 20px 22px;
     margin-bottom: 18px;
     grid-template-columns: 1fr;
   }
 
   @media (min-width: 900px) {
     .toolbar {
-      grid-template-columns: 1.2fr 1fr 1fr;
+      grid-template-columns: 1.4fr 1fr 1fr;
     }
     .cats {
       grid-column: 1 / -1;
-      grid-row: 2;
+      grid-row: 1;
     }
   }
 
   .field {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -217,14 +219,14 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     padding: 0;
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--caption);
   }
 
   .field legend {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .input-wrap {
@@ -233,37 +235,46 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
 
   .input-wrap :global(.icon) {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     width: 18px;
     height: 18px;
     translate: 0 -50%;
-    color: var(--bone-faint);
+    color: var(--dim);
   }
 
   input[type="search"],
   select {
     width: 100%;
-    min-height: 44px;
-    padding: 8px 12px;
-    border: 1px solid var(--line);
+    min-height: 48px;
+    padding: 8px 14px;
+    border: 1px solid rgb(255 255 255 / 0.12);
     border-radius: 0;
-    background: #141618;
-    color: var(--bone);
+    background: var(--well);
+    color: var(--text);
     font: inherit;
   }
 
   input[type="search"] {
-    padding-left: 40px;
+    padding-left: 42px;
+  }
+
+  input[type="search"]::placeholder {
+    color: var(--dim);
   }
 
   select {
     appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, var(--bone-dim) 50%), linear-gradient(135deg, var(--bone-dim) 50%, transparent 50%);
-    background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%;
+    background-image: linear-gradient(45deg, transparent 50%, var(--caption) 50%), linear-gradient(135deg, var(--caption) 50%, transparent 50%);
+    background-position: calc(100% - 20px) 55%, calc(100% - 15px) 55%;
     background-size: 5px 5px;
     background-repeat: no-repeat;
-    padding-right: 36px;
+    padding-right: 40px;
+  }
+
+  input:hover,
+  select:hover {
+    border-color: rgb(216 210 195 / 0.4);
   }
 
   input:focus-visible,
@@ -275,7 +286,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
 
   .chips label {
@@ -291,23 +302,34 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     cursor: pointer;
   }
 
+  /* Category tabs: dark boxes; the picked one lighter, with a bone line along the bottom. */
   .chips span {
     display: inline-block;
-    padding: 7px 14px;
-    border: 1px solid var(--line);
-    background: #141618;
+    min-width: 92px;
+    padding: 10px 16px;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(24 24 25 / 0.95);
     font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-align: center;
     text-transform: uppercase;
-    color: var(--bone-dim);
+    color: var(--caption);
+  }
+
+  .chips label:hover span {
+    border-color: rgb(216 210 195 / 0.45);
+    color: var(--bone-light);
   }
 
   .chips input:checked + span {
-    background: var(--bone);
-    border-color: var(--bone);
-    color: var(--bg);
+    background-color: rgb(43 43 41);
+    background-image: linear-gradient(rgb(43 43 41 / 0.58), rgb(43 43 41 / 0.58)), var(--grunge);
+    background-size: auto, 1024px;
+    border-color: rgb(255 255 255 / 0.2);
+    box-shadow: inset 0 -2px 0 var(--bone);
+    color: var(--bone-light);
   }
 
   .chips input:focus-visible + span {
@@ -318,24 +340,33 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
   .count {
     font-family: var(--font-head);
     font-weight: 600;
-    letter-spacing: 0.16em;
+    font-size: 0.85rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--caption);
   }
 
   .items {
     display: grid;
-    gap: 16px;
+    gap: 14px;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  /* Each item card is a stash tile on top, tinted by category as in the game's stash. */
   .item {
+    --cat: var(--cat-gear);
     display: flex;
     flex-direction: column;
   }
+
+  .item[data-cat="Weapons"] { --cat: var(--cat-weapons); }
+  .item[data-cat="Ammo"] { --cat: var(--cat-ammo); }
+  .item[data-cat="Medical"] { --cat: var(--cat-medical); }
+  .item[data-cat="Provisions"] { --cat: var(--cat-provisions); }
+  .item[data-cat="Valuables"] { --cat: var(--cat-valuables); }
 
   .item[hidden] {
     display: none;
@@ -345,71 +376,74 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     position: relative;
     display: grid;
     place-items: center;
-    height: 150px;
-    border-bottom: 1px solid var(--line);
+    height: 156px;
+    margin: 10px 10px 0;
+    border: 1px solid rgb(255 255 255 / 0.12);
     background:
-      linear-gradient(to right, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
-      linear-gradient(to bottom, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
-      #191b1d;
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 26px 26px,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 26px 26px,
+      linear-gradient(color-mix(in srgb, var(--cat) 55%, transparent), color-mix(in srgb, var(--cat) 30%, transparent)),
+      var(--well);
   }
 
   .thumb img {
     max-width: 80%;
-    max-height: 120px;
+    max-height: 118px;
     width: auto;
     filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.6));
   }
 
   .thumb-icon {
-    color: var(--bone-dim);
+    color: var(--bone);
   }
 
   .thumb-icon :global(.icon) {
-    width: 64px;
-    height: 64px;
+    width: 62px;
+    height: 62px;
   }
 
   .cat-tag {
     position: absolute;
-    left: 10px;
-    top: 8px;
+    left: 8px;
+    top: 6px;
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.78rem;
-    letter-spacing: 0.2em;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: rgb(244 240 231 / 0.75);
   }
 
   .body {
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 16px 18px 14px;
+    padding: 14px 18px 14px;
   }
 
   .name {
-    font-size: 1.55rem;
-    font-weight: 700;
+    font-size: 1.5rem;
     margin-bottom: 0.15em;
+    -webkit-mask-image: var(--ink-light);
+    mask-image: var(--ink-light);
   }
 
   .name a {
-    text-decoration-color: var(--red);
+    text-decoration-color: rgb(216 210 195 / 0.45);
   }
 
   .slot {
     margin: 0 0 8px;
     font-family: var(--font-head);
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    font-size: 0.92rem;
-    color: var(--red-text);
+    font-size: 0.8rem;
+    color: var(--caption);
   }
 
   .desc {
-    color: var(--bone-dim);
+    color: var(--caption);
     font-size: 0.98rem;
   }
 
@@ -419,23 +453,23 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     gap: 4px 8px;
     margin: auto 0 0;
     padding-top: 12px;
-    border-top: 1px dashed var(--line);
+    border-top: 1px solid var(--line);
   }
 
   .facts dt {
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--dim);
   }
 
   .facts dd {
     margin: 0;
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     font-variant-numeric: tabular-nums;
   }
 
@@ -452,13 +486,13 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     background:
       linear-gradient(to right, var(--bg) 1px, transparent 1px) 0 0 / 6px 6px,
       linear-gradient(to bottom, var(--bg) 1px, transparent 1px) 0 0 / 6px 6px,
-      var(--bone-faint);
+      var(--caption);
   }
 
   .empty {
     padding: 40px;
     text-align: center;
-    border: 2px dashed var(--line);
-    color: var(--bone-dim);
+    border: 1px dashed var(--line);
+    color: var(--caption);
   }
 </style>

@@ -33,7 +33,7 @@
       "entries": [
         { "work": "Barlow and Barlow Condensed", "author": "Jeremy Tribby", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Barlow", "licence": "OFL 1.1" },
         { "work": "Caveat", "author": "Impallari Type", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Caveat", "licence": "OFL 1.1" },
-        { "work": "Oswald (game UI)", "author": "Vernon Adams and contributors", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Oswald", "licence": "OFL 1.1" },
+        { "work": "Oswald (game UI and the titles on this site)", "author": "Vernon Adams and contributors", "source": "Google Fonts", "link": "https://fonts.google.com/specimen/Oswald", "licence": "OFL 1.1" },
         { "work": "Noto Sans Symbols 2, heart only (game UI)", "author": "Google", "source": "Google Fonts", "link": "https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2", "licence": "OFL 1.1" }
       ]
     },

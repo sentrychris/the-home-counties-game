@@ -14,6 +14,7 @@ const weapons = (await getCollection("weapons")).sort((a, b) => a.data.order - b
     eyebrow="Armoury"
     lede="Weapons in the current prototype. More will be added in future builds."
     crumbs={[{ label: "Weapons" }]}
+    image="images/screenshots/2026-10-24-234726.webp"
   />
 
   <section class="section section--tight">
@@ -56,16 +57,18 @@ const weapons = (await getCollection("weapons")).sort((a, b) => a.data.order - b
     height: 100%;
   }
 
+  /* The weapon in a gear slot. */
   .thumb {
     display: grid;
     place-items: center;
     height: 170px;
-    margin: -22px -22px 20px;
-    border-bottom: 1px solid var(--line);
+    margin: -10px -10px 20px;
+    border: 1px solid rgb(255 255 255 / 0.1);
     background:
-      linear-gradient(to right, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-      linear-gradient(to bottom, rgb(216 210 195 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-      #191b1d;
+      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+      radial-gradient(ellipse at center, rgb(216 210 195 / 0.07), transparent 70%),
+      var(--well);
   }
 
   .thumb :global(img) {
@@ -89,7 +92,8 @@ const weapons = (await getCollection("weapons")).sort((a, b) => a.data.order - b
     height: 100%;
     min-height: 260px;
     justify-content: center;
-    border: 2px dashed var(--line);
+    border: 1px dashed var(--line);
+    background: rgb(11 11 11 / 0.5);
   }
 
   .coming .hand {

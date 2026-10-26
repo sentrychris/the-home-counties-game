@@ -29,10 +29,10 @@ const pct = Math.max(0, Math.min(100, value));
   dt {
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.95rem;
-    letter-spacing: 0.14em;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--bone-dim);
+    color: var(--caption);
   }
 
   dd {
@@ -46,8 +46,8 @@ const pct = Math.max(0, Math.min(100, value));
     position: relative;
     flex: 1;
     height: 14px;
-    background: #121416;
-    border: 1px solid var(--line);
+    background: var(--well);
+    border: 1px solid rgb(255 255 255 / 0.12);
     overflow: hidden;
   }
 
@@ -63,10 +63,31 @@ const pct = Math.max(0, Math.min(100, value));
 
   .val {
     min-width: 4.6em;
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.15rem;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 1.2rem;
     text-align: right;
     font-variant-numeric: tabular-nums;
+  }
+
+  /* On a phone the bar gets its own line under the label, full width. */
+  @media (max-width: 560px) {
+    .stat {
+      grid-template-columns: 1fr auto;
+      gap: 6px 12px;
+    }
+
+    dd {
+      display: contents;
+    }
+
+    .bar {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .val {
+      min-width: 0;
+    }
   }
 </style>

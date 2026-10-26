@@ -1,19 +1,32 @@
 ---
-// Header band for inner pages: breadcrumbs, eyebrow, distressed title, lede.
-import { url } from "../lib/url";
+// Header band for inner pages: breadcrumbs, eyebrow, worn-print title, lede, and a faded
+// street photo along the right, like the panel behind the game's "Select an item".
+import { url, publicFileExists } from "../lib/url";
 
 interface Props {
   title: string;
   eyebrow?: string;
   lede?: string;
   crumbs?: { label: string; href?: string }[];
+  /** Faded picture on the right, relative to public/. */
+  image?: string;
 }
 
-const { title, eyebrow, lede, crumbs = [] } = Astro.props;
+const BACKDROP = "images/backdrop-1200.webp";
+const { title, eyebrow, lede, crumbs = [], image } = Astro.props;
+// A picture that isn't there yet falls back to the backdrop.
+const picture = [image, BACKDROP].find((p) => publicFileExists(p));
 ---
 
 <div class="page-head">
-  <div class="wrap">
+  {
+    picture && (
+      <div class="ph-media" aria-hidden="true">
+        <img src={url(picture)} alt="" width="1200" height="675" decoding="async" />
+      </div>
+    )
+  }
+  <div class="wrap ph-inner">
     {
       crumbs.length > 0 && (
         <nav aria-label="Breadcrumb">
@@ -30,3 +43,77 @@ const { title, eyebrow, lede, crumbs = [] } = Astro.props;
     <slot />
   </div>
 </div>
+
+<style>
+  .page-head {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(40px, 7vw, 88px) clamp(28px, 4.5vw, 52px);
+    background: linear-gradient(to bottom, rgb(6 6 7 / 0.7), rgb(11 11 11 / 0.2));
+    border-bottom: 1px solid var(--line-soft);
+    isolation: isolate;
+  }
+
+  .ph-media {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(70%, 980px);
+    z-index: -1;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 55%), linear-gradient(to top, transparent, #000 40%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 55%), linear-gradient(to top, transparent, #000 40%);
+    mask-composite: intersect;
+  }
+
+  .ph-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+    opacity: 0.38;
+    filter: grayscale(0.4) contrast(1.05);
+  }
+
+  .ph-inner {
+    position: relative;
+  }
+
+  .page-head h1 {
+    margin-bottom: 0.25em;
+    max-width: 18ch;
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    margin: 0 0 1.4rem;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .crumbs li + li::before {
+    content: "/";
+    margin-right: 0.6em;
+    color: var(--line);
+  }
+
+  .crumbs a {
+    color: var(--dim);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    color: var(--bone-light);
+  }
+
+  .crumbs [aria-current] {
+    color: var(--caption);
+  }
+</style>

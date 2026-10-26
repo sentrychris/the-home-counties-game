@@ -1,6 +1,9 @@
 ---
+// Link columns over the game's bottom bar: where you are on the left, the build on the right.
 import site from "../data/site.json";
+import map from "../data/map.json";
 import { url } from "../lib/url";
+import Icon from "./Icon.astro";
 
 const year = new Date().getFullYear();
 const more = [
@@ -9,9 +12,11 @@ const more = [
   { label: "Roadmap", href: "devlog/#roadmap" },
   { label: "Credits", href: "credits/" },
 ];
+const [statusTop] = site.status.split("/").map((s) => s.trim());
+const town = map.location.split("·")[0].trim();
 ---
 
-<footer class="site-footer edge-top">
+<footer class="site-footer">
   <div class="wrap cols">
     <div class="about">
       <img src={url("images/logo-700.webp")} alt="The Home Counties" width="700" height="142" loading="lazy" />
@@ -49,28 +54,42 @@ const more = [
     </div>
   </div>
 
-  <div class="wrap">
+  <div class="bottom-bar">
+    <div class="where">
+      <Icon name="pin" />
+      <p>
+        <span class="where-name">{map.name}, {town}</span>
+        <span class="where-coords">{site.coords}</span>
+      </p>
+    </div>
     <div class="legal">
       <p>© {year} {site.developer}. {site.name} is a work in progress; everything here may change.</p>
       <p>Street data © OpenStreetMap contributors. Not affiliated with any real business shown. <a href={url("credits/")}>Asset credits</a>.</p>
     </div>
+    <p class="build">
+      <span>{statusTop}</span>
+      {site.version}
+    </p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    --edge-colour: rgb(0 0 0 / 0.32);
     margin-top: clamp(32px, 5vw, 64px);
-    padding-top: clamp(48px, 7vw, 80px);
-    background: var(--edge-colour);
+    padding-top: clamp(40px, 6vw, 72px);
+    background-color: rgb(8 8 8 / 0.9);
+    background-image: linear-gradient(rgb(8 8 8 / 0.82), rgb(8 8 8 / 0.82)), var(--grunge);
+    background-size: auto, 1024px;
+    border-top: 1px solid var(--line-soft);
     font-size: 0.98rem;
-    color: var(--bone-dim);
+    color: var(--caption);
   }
 
   .cols {
     display: grid;
     gap: 32px;
     grid-template-columns: 1fr;
+    padding-bottom: clamp(36px, 5vw, 56px);
   }
 
   @media (min-width: 720px) {
@@ -82,7 +101,7 @@ const more = [
   .about img {
     width: 220px;
     margin-bottom: 16px;
-    opacity: 0.9;
+    opacity: 0.92;
   }
 
   .about p {
@@ -91,16 +110,20 @@ const more = [
 
   .made {
     font-family: var(--font-hand);
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     font-weight: 600;
     color: var(--bone);
   }
 
   .col-title {
-    font-size: 1rem;
-    letter-spacing: 0.22em;
-    color: var(--bone-faint);
     margin-bottom: 14px;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.26em;
+    color: var(--dim);
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   ul {
@@ -112,44 +135,111 @@ const more = [
   }
 
   a {
-    color: var(--bone-dim);
+    color: var(--caption);
     text-decoration: none;
   }
 
   a:hover {
-    color: var(--bone);
+    color: var(--bone-light);
     text-decoration: underline;
-    text-decoration-color: var(--red);
   }
 
   .soon {
-    color: var(--bone-faint);
+    color: var(--dim);
   }
 
   .soon span {
     font-family: var(--font-head);
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     margin-left: 6px;
     border: 1px solid var(--line);
-    padding: 0 6px;
+    padding: 1px 6px;
+  }
+
+  /* The game's bottom bar. */
+  .bottom-bar {
+    display: grid;
+    gap: 16px 32px;
+    align-items: center;
+    padding: 18px clamp(16px, 2.4vw, 32px) 22px;
+    border-top: 1px solid var(--line);
+    background: rgb(4 4 4 / 0.6);
+  }
+
+  @media (min-width: 960px) {
+    .bottom-bar {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+
+  .where {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .where :global(.icon) {
+    width: 24px;
+    height: 24px;
+    color: var(--caption);
+  }
+
+  .where p,
+  .build {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+  }
+
+  .where-name {
+    display: block;
+    color: var(--text);
+  }
+
+  .where-coords {
+    display: block;
+    color: var(--dim);
+    white-space: pre;
   }
 
   .legal {
-    margin-top: 48px;
-    padding-block: 20px 28px;
-    border-top: 1px dashed var(--line-soft);
-    font-size: 0.9rem;
-    color: var(--bone-faint);
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+
+  @media (min-width: 960px) {
+    .legal {
+      text-align: center;
+    }
   }
 
   .legal p {
-    margin: 0 0 4px;
+    margin: 0 0 2px;
   }
 
   .legal a {
-    color: var(--bone-faint);
+    color: var(--dim);
     text-decoration: underline;
+  }
+
+  .build {
+    color: var(--caption);
+  }
+
+  .build span {
+    display: block;
+  }
+
+  @media (min-width: 960px) {
+    .build {
+      text-align: right;
+    }
   }
 </style>

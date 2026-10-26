@@ -1,7 +1,6 @@
 ---
 import "@fontsource/barlow-condensed/latin-600.css";
 import "@fontsource/barlow-condensed/latin-700.css";
-import "@fontsource/barlow-condensed/latin-800.css";
 import "@fontsource/barlow/latin-400.css";
 import "@fontsource/barlow/latin-600.css";
 import "@fontsource/caveat/latin-600.css";
@@ -23,17 +22,19 @@ const { title, description = site.description, image = "og.jpg", bodyClass } = A
 const fullTitle = title ? `${title} | ${site.name}` : `${site.name}: ${site.status}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(url(image), Astro.site);
+// The drained backdrop behind every page (see body::before in global.css).
+const backdrop = `--backdrop: url("${url("images/backdrop-1200.webp")}")`;
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" style={backdrop}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#121311" />
+    <meta name="theme-color" content="#0b0b0b" />
     <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
@@ -45,6 +46,20 @@ const ogImage = new URL(url(image), Astro.site);
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Picture settings (film grain, rain) before first paint, so nothing flickers. -->
+    <script is:inline>
+      (function () {
+        var c = document.documentElement.classList;
+        c.add("js");
+        try {
+          var fx = JSON.parse(localStorage.getItem("thc-fx-v1") || "{}");
+          var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (fx.grain === false) c.add("fx-no-grain");
+          if (fx.rain === false || (fx.rain === undefined && still)) c.add("fx-no-rain");
+        } catch (e) {}
+      })();
+    </script>
 
     <slot name="head" />
   </head>

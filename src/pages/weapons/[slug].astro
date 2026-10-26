@@ -18,7 +18,7 @@ const { Content } = await render(weapon);
 ---
 
 <Base title={w.name} description={w.summary}>
-  <PageHead title={w.name} eyebrow={w.class} lede={w.summary} crumbs={[{ label: "Weapons", href: "weapons/" }, { label: w.name }]}>
+  <PageHead title={w.name} eyebrow={w.class} lede={w.summary} crumbs={[{ label: "Weapons", href: "weapons/" }, { label: w.name }]} image={w.hero?.src}>
     <ul class="tags" aria-label="At a glance">
       <li class="chip">{w.calibre}</li>
       {w.slots.map((s) => <li class="chip">{s} slot</li>)}
@@ -194,19 +194,32 @@ const { Content } = await render(weapon);
     }
   }
 
+  /* The weapon in its gear slot, as on the game's gear screen. */
   .case {
     position: relative;
     display: grid;
     place-items: center;
-    min-height: 280px;
+    min-height: 300px;
     margin: 0;
-    padding: 48px 24px;
-    background-color: #191b1d;
-    background-image:
-      linear-gradient(to right, rgb(216 210 195 / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(216 210 195 / 0.05) 1px, transparent 1px),
-      radial-gradient(ellipse at center, rgb(216 210 195 / 0.07), transparent 70%);
-    background-size: 48px 48px, 48px 48px, auto;
+    padding: 56px 28px 48px;
+  }
+
+  .case::after {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background:
+      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 48px 48px,
+      radial-gradient(ellipse at center, rgb(216 210 195 / 0.08), transparent 70%),
+      rgb(8 8 9 / 0.75);
+    pointer-events: none;
+  }
+
+  .case > :global(*) {
+    position: relative;
+    z-index: 1;
   }
 
   .case :global(img) {
@@ -215,15 +228,15 @@ const { Content } = await render(weapon);
   }
 
   .case-label {
-    position: absolute;
-    left: 16px;
-    top: 12px;
+    position: absolute !important;
+    left: 24px;
+    top: 22px;
     font-family: var(--font-head);
     font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
+    font-size: 0.8rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--bone-faint);
+    color: var(--caption);
   }
 
   .spec-panel {
@@ -231,8 +244,8 @@ const { Content } = await render(weapon);
   }
 
   .spec-panel h2 {
-    margin-bottom: 4px;
-    font-size: 0.95rem;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
   }
 
   .hero-shot {
@@ -244,7 +257,7 @@ const { Content } = await render(weapon);
     width: 100%;
     aspect-ratio: 21 / 9;
     object-fit: cover;
-    border: 1px solid var(--line);
+    border: 1px solid var(--edge);
   }
 
   .two {
@@ -298,7 +311,7 @@ const { Content } = await render(weapon);
 
   .modes li {
     padding-left: 14px;
-    border-left: 3px solid var(--red);
+    border-left: 2px solid var(--bone);
   }
 
   .modes h3 {
@@ -319,12 +332,16 @@ const { Content } = await render(weapon);
     justify-content: space-between;
     gap: 12px;
     padding: 7px 0;
-    border-bottom: 1px dashed var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .keys div:last-child {
+    border-bottom: 0;
   }
 
   .keys dd {
     margin: 0;
-    color: var(--bone-dim);
+    color: var(--caption);
   }
 
   .points {
@@ -337,7 +354,7 @@ const { Content } = await render(weapon);
   }
 
   .points li::marker {
-    color: var(--red);
+    color: var(--bone);
   }
 
   .switching {
@@ -377,14 +394,15 @@ const { Content } = await render(weapon);
     color: var(--bone-dim);
   }
 
+  /* Ammo tiles are green, as in the game's stash. */
   .round-icon {
     display: grid;
     place-items: center;
-    width: 52px;
-    height: 52px;
-    border: 1px solid var(--line);
-    background: var(--panel-3);
-    color: var(--crate);
+    width: 54px;
+    height: 54px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: var(--cat-ammo);
+    color: var(--bone-light);
   }
 
   .round-icon :global(.icon) {
@@ -394,11 +412,13 @@ const { Content } = await render(weapon);
 
   .round--planned {
     border-style: dashed;
-    background-color: transparent;
+    background: rgb(11 11 11 / 0.5);
+    box-shadow: none;
   }
 
   .round--planned .round-icon {
-    color: var(--bone-faint);
+    background: var(--well);
+    color: var(--dim);
   }
 
   .round-stats {
@@ -433,8 +453,12 @@ const { Content } = await render(weapon);
     right: clamp(16px, 4vw, 40px);
     top: clamp(16px, 4vw, 36px);
     color: #9c3423;
-    border-color: #9c3423;
+    border: 3px solid #9c3423;
     transform: rotate(6deg);
+    -webkit-mask-image: var(--ink-heavy);
+    mask-image: var(--ink-heavy);
+    -webkit-mask-size: 300px;
+    mask-size: 300px;
   }
 
   .dossier-body {
