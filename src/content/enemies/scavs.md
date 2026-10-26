@@ -1,8 +1,8 @@
 ---
 name: Scavs
 order: 1
-tagline: The ones who stayed.
-summary: Armed scavengers who have been picking over Duncombe Street since the collapse. They know the gardens well, carry AKs, and work together to get you out of cover.
+tagline: The ones who moved in.
+summary: Armed scavengers who moved into Duncombe Street after the evacuation, from gang members to chancers to a few who never left. They know the gardens well, carry AKs, and work together to get you out of cover.
 image:
   src: images/screenshots/2026-10-24-235041.webp
   alt: A scav in a grey hoodie carrying a rifle through long grass and trees.
@@ -10,7 +10,7 @@ image:
 threat: High in groups
 
 facts:
-  - { label: On Duncombe Street, value: 12 per raid }
+  - { label: On Duncombe Street, value: 14 per raid }
   - { label: Armed with, value: AK-47 (7.62x39) }
   - { label: Notices you by, value: Sight and sound }
   - { label: Drops, value: Whatever they carried }
@@ -38,7 +38,7 @@ loadouts:
     text: Better equipped, with a rig and a helmet.
   - name: Heavy
     frequency: Rare
-    gear: [AK-47, Plate carrier, K63 helmet, First aid kit]
+    gear: [AK-47, Plate carrier, K6-3 helmet, First aid kit]
     text: Wears armour and a heavy helmet. Aim for unarmoured areas, or avoid the fight.
 
 voiceLines:
@@ -52,8 +52,8 @@ voiceLines:
   - { line: "I'm hit! I'm hit!", when: Wounded }
 ---
 
-Nobody is quite sure who the scavs were before. Some of them lived here. Some came up the railway from elsewhere. A few still wear the hi-vis they had on the day the trains stopped.
+Most of the scavs on Duncombe Street came after the government left. Some ran with the gangs Russia paid for before the strikes, and still carry the rifles that came with the money. More are opportunists who followed them in, after whatever the evacuation left behind. A few never got on the train at all.
 
-What they have in common is that they stayed. They treat Duncombe Street and everything in its houses as theirs, and they'll want whatever you're carrying.
+They treat the street and everything in its houses as theirs, and they'll want whatever you're carrying.
 
 They aren't soldiers, but they're careful. They move in twos and threes, use the gardens for cover, and keep out of the middle of the road. They know the area better than you do.

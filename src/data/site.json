@@ -5,8 +5,22 @@
   "developer": "Chris Rowles",
   "engine": "Godot 4",
   "coords": "51.9923° N  0.7345° W",
-  "description": "A single-player extraction shooter set in a collapsed, overgrown Britain. Raid Duncombe Street in Bletchley, loot what's left, and reach the red smoke before the timer runs out.",
-  "tagline": "Raid the overgrown terraces, take what you can carry, and reach the red smoke before the clock runs out...",
+  "description": "A single-player extraction shooter in a near-future Britain at war. Raid the Bletchley streets the government emptied and the gangs took over, then reach the red smoke before the timer runs out.",
+  "tagline": "The government moved on. The gangs moved in. Take what you can carry from Bletchley's empty streets, and reach the red smoke before the clock runs out...",
+
+  "story": {
+    "eyebrow": "The story so far",
+    "heading": "How it got this way",
+    "intro": "Nobody bombed Duncombe Street. It was emptied, then taken.",
+    "beats": [
+      { "title": "Britain kept the war supplied", "text": "Russia launched a full-scale invasion into Europe, and Britain became NATO's logistics hub. American and allied troops, vehicles, rifles, helmets and body armour came through its ports, airbases and depots by the shipload." },
+      { "title": "Russia paid for trouble", "text": "Britain was already divided, worn down by COVID, heatwaves, cyberattacks and one political crisis after another. Russia saw a chance to cut the link between Europe and the US, and quietly funded criminal gangs and dissident groups, each with its own agenda. The rifles came with the money." },
+      { "title": "The Home Counties", "text": "The counties around London were made a protective barrier for the capital, and a Civilian Protection and Continuity Zone for people displaced by forced requisitions, relocations and the fighting." },
+      { "title": "The strikes", "text": "Then Russian forces captured a key port in Rotterdam and launched ballistic missile strikes on the south of the UK, London included. The Home Counties plan fell apart." },
+      { "title": "Bletchley", "text": "The government relocated to Bletchley Park, and the streets around it were evacuated: one bag each, and a train to a reception centre. Then the government moved on. Criminals and opportunists moved in." }
+    ],
+    "outro": "The rest is left lying around the street: leaflets on the doormats, cards in the windows, and the soldiers' logs at the checkpoints."
+  },
 
   "trailer": {
     "youtubeId": "YCahVzC4q8o",
@@ -16,7 +30,7 @@
 
   "cta": {
     "heading": "Early days",
-    "text": "The Home Counties is in early development. New builds, maps and weapons are written up in the dev log as they're added.",
+    "text": "The Home Counties is in early development, with an early access alpha on the way. New builds, maps and weapons are written up in the dev log as they're added.",
     "primary": { "label": "Follow development", "href": "", "fallback": "devlog/" },
     "secondary": { "label": "Open the tactical map", "href": "map/" }
   },
@@ -39,24 +53,24 @@
   ],
 
   "features": [
-    { "icon": "pin", "title": "A real street", "text": "Duncombe Street in Bletchley, laid out from real map data: Victorian terraces beside the West Coast Main Line, the old Sainsbury's and its car park." },
-    { "icon": "box", "title": "Loot and extract", "text": "Twelve-minute raids, with multiple loot spots, enterable houses and scav bodies to search. Extract before the timer ends, or lose what you were carrying." },
-    { "icon": "skull", "title": "Scav AI", "text": "Scavs are armed. They take cover, flank in pairs, and come to investigate when they hear you." },
+    { "icon": "pin", "title": "A real place", "text": "The first map, Duncombe Street, is a corner of Bletchley built from real map data: Duncombe Street, Osborne Street, Water Eaton Road, Oliver Road, Clifford Avenue and the old Sainsbury's, beside the West Coast Main Line." },
+    { "icon": "box", "title": "Loot and extract", "text": "Twelve-minute raids. Search the houses people left in a hurry, the crates and the scavs you drop. Extract before the timer ends, or lose what you were carrying." },
+    { "icon": "skull", "title": "Scavs", "text": "Gang members, chancers and the odd few who never left. They're armed, they take cover, flank in pairs and come to investigate when they hear you." },
     { "icon": "run", "title": "Noise", "text": "Sprinting, gunfire and moving through long grass all make noise. Walking, crouching and leaning round corners keep you quieter." },
-    { "icon": "backpack", "title": "Gear and weight", "text": "Helmet, armour, rig, backpack, weapon slots and four pockets. The more you carry, the slower you move and the faster your stamina drains." },
-    { "icon": "stash", "title": "Overgrown", "text": "Lots of trees and hedges for cover, knee-high grass, wrecked cars and boarded-up houses. The streets are abandoned and overgrown." }
+    { "icon": "backpack", "title": "Gear and weight", "text": "US Army plate carriers next to Russian helmets: NATO kit came through Britain by the shipload, and the gangs brought AKs. Eight gear slots and four pockets, and the more you carry, the slower you move." },
+    { "icon": "stash", "title": "Left behind", "text": "Nobody has cut a hedge since the evacuation. Knee-high grass, wrecked cars, boarded-up houses, and council leaflets still on the doormats." }
   ],
 
   "loop": [
     { "title": "Gear up", "text": "Choose a loadout. Anything you take in can be lost." },
     { "title": "Deploy", "text": "You start at the west or east end of Water Eaton Road, picked at random." },
     { "title": "Loot", "text": "Search crates, houses and dead scavs. Keep an eye on your carry weight." },
-    { "title": "Extract", "text": "Reach an exit marked by red smoke and stay in the green zone for ten seconds. If you die, you lose everything you were carrying." }
+    { "title": "Extract", "text": "The army left its checkpoints when it pulled out. Reach one, find the red smoke and stay in the green zone for ten seconds. If you die, you lose everything you were carrying." }
   ],
 
   "screenshots": [
     { "src": "images/screenshots/2026-10-25-013602.webp", "alt": "First-person view down a long terraced street with streetlights, overhead wires and a burnt-out 4x4 on the right.", "caption": "Duncombe Street, looking south." },
-    { "src": "images/screenshots/2026-10-25-122647.webp", "alt": "Red smoke rising beside an abandoned police car, concrete barriers and a red hatchback.", "caption": "Red smoke marks an extraction zone exit." },
+    { "src": "images/screenshots/2026-10-25-122647.webp", "alt": "Red smoke rising beside an abandoned police car, concrete barriers and a red hatchback.", "caption": "Red smoke over an abandoned checkpoint marks a way out." },
     { "src": "images/screenshots/2026-10-24-235041.webp", "alt": "A scav in a grey hoodie carrying a rifle through long grass and trees.", "caption": "A scav moving through the back gardens." },
     { "src": "images/screenshots/2026-10-24-234818.webp", "alt": "A red-brick corner house with boarded windows, a 30 mph sign and an Osborne Street sign, terraces beyond.", "caption": "The corner of Osborne Street." },
     { "src": "images/screenshots/2026-10-24-231001.webp", "alt": "Long grass and trees under a hazy sky, a long dark fence behind them.", "caption": "Open ground by the railway." },

@@ -29,6 +29,9 @@ const mapData = {
   markers,
 };
 
+// "A, B and C", with "the old Sainsbury's" lower-cased mid-sentence.
+const area = map.area.map((a, i) => (i > 0 ? a.replace(/^The /, "the ") : a));
+const areaList = `${area.slice(0, -1).join(", ")} and ${area.at(-1)}`;
 const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark: "pin", start: "crosshair", scav: "skull", crate: "box", note: "pin" };
 ---
 
@@ -145,7 +148,7 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
           <p class="eyebrow">Map index</p>
           <h2 id="index-title">Everything on the map</h2>
         </div>
-        <p>Every marker with its grid reference. Choose one to find it on the map.</p>
+        <p>The {map.name} map takes in {areaList}. Every marker is listed with its grid reference: choose one to find it on the map.</p>
       </div>
 
       <div class="exits-panel panel">

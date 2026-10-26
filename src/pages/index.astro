@@ -89,6 +89,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
             <h2 id="intel-title" class="caption">Raid intel</h2>
             <p class="where">{map.name}</p>
             <p class="where-sub">{map.location}</p>
+            <p class="where-area">{map.area.map((a, i) => <Fragment>{i > 0 && " · "}<span>{a}</span></Fragment>)}</p>
           </div>
         </div>
         <dl class="intel-stats">
@@ -131,6 +132,34 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
       </section>
     )
   }
+
+  <!-- The backstory in five short beats; the rest is found in the game. -->
+  <section class="section band story" aria-labelledby="story-title">
+    <div class="wrap story-grid">
+      <div class="story-head">
+        <p class="eyebrow">{site.story.eyebrow}</p>
+        <h2 id="story-title">{site.story.heading}</h2>
+        <p class="story-intro">{site.story.intro}</p>
+        <div class="paper note story-note" role="note">
+          <span class="tape" aria-hidden="true"></span>
+          <p>{site.story.outro}</p>
+        </div>
+      </div>
+      <ol class="beats">
+        {
+          site.story.beats.map((b, i) => (
+            <li class="beat">
+              <span class="beat-num caption" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{b.title}</h3>
+                <p>{b.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
 
   <section class="section" aria-labelledby="features-title">
     <div class="wrap">
@@ -204,7 +233,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
       <div class="teaser-copy">
         <p class="eyebrow">Tactical map</p>
         <h2 id="map-title">Plan your route</h2>
-        <p>An interactive map of Duncombe Street. Pan and zoom, turn layers on and off, and click any marker for details.</p>
+        <p>An interactive map of Duncombe Street and the streets around it. Pan and zoom, turn layers on and off, and click any marker for details.</p>
         <ul class="legend" aria-label="On the map">
           {
             legend.map((l) => (
@@ -731,6 +760,85 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     background: #000;
   }
 
+  .story-grid {
+    display: grid;
+    gap: clamp(28px, 5vw, 64px);
+  }
+
+  @media (min-width: 960px) {
+    .story-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+    }
+
+    .story-head {
+      position: sticky;
+      top: calc(var(--header-h) + 32px);
+    }
+  }
+
+  .story-intro {
+    margin: 0.4em 0 0;
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--bone);
+    max-width: 22ch;
+  }
+
+  .story-note {
+    margin-top: clamp(28px, 4vw, 44px);
+    font-size: 1.4rem;
+    max-width: 30ch;
+  }
+
+  .beats {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Each beat hangs off a bone tick, like the dev log's timeline. */
+  .beat {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0 14px;
+    padding: 22px 0 20px;
+    border-top: 1px solid var(--line);
+    background: linear-gradient(to right, var(--bone) 0 26px, transparent 26px) top left / 100% 1px no-repeat;
+  }
+
+  .beat:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: 559px) {
+    .beat {
+      grid-template-columns: 34px 1fr;
+      gap: 0 10px;
+    }
+  }
+
+  .beat-num {
+    padding-top: 0.35em;
+    font-weight: 700;
+    color: var(--red-text);
+  }
+
+  .beat h3 {
+    margin: 0 0 0.3em;
+    font-size: clamp(1.35rem, 2.2vw, 1.6rem);
+  }
+
+  .beat p {
+    margin: 0;
+    color: var(--bone-dim);
+    max-width: 62ch;
+  }
+
   .intel {
     position: relative;
     z-index: 2;
@@ -746,7 +854,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
 
   @media (min-width: 900px) {
     .intel-inner {
-      grid-template-columns: auto 1fr;
+      grid-template-columns: minmax(0, 1fr) auto;
     }
   }
 
@@ -781,6 +889,20 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     text-transform: uppercase;
     font-size: 0.8rem;
     color: var(--dim);
+  }
+
+  .where-area {
+    margin: 8px 0 0;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    color: var(--caption);
+  }
+
+  /* Keep each place name on one line, so "The old Sainsbury's" never splits. */
+  .where-area span {
+    white-space: nowrap;
   }
 
   .intel-stats {

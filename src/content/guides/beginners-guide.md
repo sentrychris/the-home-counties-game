@@ -7,6 +7,8 @@ icon: run
 
 The Home Counties is an extraction shooter. You go into a raid with some gear and try to come out with more. If you die, you lose what you took in.
 
+Your raids start on Duncombe Street in Bletchley: a few streets that were evacuated when the government came to Bletchley Park, and have been picked over by scavs since it moved on.
+
 ## The raid loop
 
 1. **Gear up.** Choose what to take: a weapon, armour if you have it, a backpack for loot, and some meds. Everything you take in is at risk.
@@ -18,7 +20,7 @@ A raid on Duncombe Street lasts **12 minutes**. The countdown is in the top-righ
 
 ## Getting out
 
-Both exits are at the north end of the map, a long way from both starts.
+Both exits are the army's old cordon points, abandoned when the soldiers withdrew. They're at the north end of the map, a long way from both starts.
 
 - **Station Footpath**, north-west corner (grid B1). The lane up to Bletchley station.
 - **Oliver Road**, north-east corner (grid I1). By the hoarding at the old Sainsbury's.

@@ -14,6 +14,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 
 | Field | What it does |
 | --- | --- |
+| `story` | The home page's "How it got this way" section: a short intro line, the backstory as numbered `beats` (`title`, `text`), and the `outro` on the taped note |
 | `trailer` | The YouTube trailer on the home page. `youtubeId` is the part after `/embed/` or `?v=` in the video's link. Remove the whole block to hide the section |
 | `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, title-screen text, search-engine description |
 | `coords` | Grid position shown on the title screen and in the footer bar, like the game's map screen |
@@ -59,14 +60,15 @@ Copy `ak-47.md` to add a weapon; the template page builds itself. The frontmatte
 ## Gear and items: `src/data/items.json`
 
 ```json
-{ "id": "watch", "name": "Wristwatch", "category": "Valuables", "slot": "Pockets",
-  "weight": 0.1, "value": 250, "size": "1x1", "icon": "watch",
-  "description": "…", "link": "weapons/ak-47/" }
+{ "id": "watch", "name": "Gold watch", "category": "Valuables", "slot": "Pockets",
+  "weight": 0.1, "value": 450, "size": "1x1", "icon": "watch",
+  "description": "…", "about": "…", "link": "weapons/ak-47/" }
 ```
 
 - `category`: one of `Weapons`, `Gear`, `Ammo`, `Medical`, `Provisions`, `Valuables` (these are the filter buttons).
 - `slot`: free text; separate several with ` / ` (e.g. `Pockets / Rig`) and each becomes a slot filter option.
 - `weight` in kg, `value` in pounds. £/kg is worked out for you.
+- `about` (optional): where it came from, the same line the game shows under the item's details. Shown in italics on the gear page.
 - `size`: inventory cells, columns x rows (the AK-47 is `5x2`).
 - `image` (a picture in `public/`) or `icon` (an SVG name from `src/icons/`). `link` is optional.
 
@@ -121,6 +123,7 @@ The current markers were read off the field copy (`resources/duncombe-street-tac
 
 ### Map settings: `src/data/map.json`
 
+- `area`: the streets and places the map takes in, shown under the raid intel and above the map index.
 - `intel`, `fieldNote`, `distances`: the raid intel boxes, the paper note and the exits table.
 - `layers`: name, colour, whether it's on by default, and the one-line legend text.
 - `grid`: 25 m squares, starting at world `originX`/`originZ`, `cols` x `rows`.

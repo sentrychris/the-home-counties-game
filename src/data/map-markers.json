@@ -2,8 +2,8 @@
   { "id": "start-west", "layer": "starts", "name": "West start", "label": "Start", "x": -48.86, "z": 110.38, "description": "West end of Water Eaton Road, on the railway bridge. Open ground and the backs of Duncombe Street to the north. Station Footpath is about 220 m away, Oliver Road about 290 m." },
   { "id": "start-east", "layer": "starts", "name": "East start", "label": "Start", "x": 158.22, "z": 171.84, "description": "East end of Water Eaton Road, by the roadworks barriers. Clifford Avenue runs north from here. Oliver Road is about 280 m away, Station Footpath about 330 m." },
 
-  { "id": "exit-station", "layer": "exits", "name": "Station Footpath", "x": -13.88, "z": -108.06, "description": "North-west corner: the lane up to Bletchley station. Old checkpoint by the abandoned police car. Find the red smoke, then stand in the green zone for 10 seconds." },
-  { "id": "exit-oliver", "layer": "exits", "name": "Oliver Road", "x": 143.09, "z": -108.06, "description": "Top of Oliver Road, at the hoarding by the old Sainsbury's. Red smoke marks the checkpoint. Stand in the green zone for 10 seconds." },
+  { "id": "exit-station", "layer": "exits", "name": "Station Footpath", "x": -13.88, "z": -108.06, "description": "North-west corner: the lane up to Bletchley station. The army's old cordon point D1, left when the soldiers withdrew, by an abandoned police car. Find the red smoke, then stand in the green zone for 10 seconds." },
+  { "id": "exit-oliver", "layer": "exits", "name": "Oliver Road", "x": 143.09, "z": -108.06, "description": "Top of Oliver Road, at the hoarding by the old Sainsbury's: the army's old cordon point D2. Red smoke marks it. Stand in the green zone for 10 seconds." },
 
   { "id": "s-01", "layer": "scavs", "name": "Scav spawn S-01", "label": "S-01", "x": 31.59, "z": 30.16, "description": "Duncombe Street, just south of the Osborne Street junction. Covers the road both ways." },
   { "id": "s-02", "layer": "scavs", "name": "Scav spawn S-02", "label": "S-02", "x": -7.91, "z": -19.84, "description": "Back gardens on the west side of Duncombe Street, by the corner houses." },
@@ -48,7 +48,7 @@
   { "id": "h-10", "layer": "houses", "name": "Water Eaton Road house", "x": 74.38, "z": 167.81, "description": "South side of Water Eaton Road, the nearest open house to the east start. Crate C-17 inside." },
 
   { "id": "car-park", "layer": "landmarks", "name": "The car park", "x": 42.0, "z": -65.6, "description": "The old Sainsbury's car park. Open ground with no cover and long sightlines. Cross it quickly or go round the edge." },
-  { "id": "sainsburys", "layer": "landmarks", "name": "The old Sainsbury's", "x": 118.4, "z": -95.6, "description": "The big retail unit north of the car park. Shut and locked. Its hoarding marks the Oliver Road exit." },
+  { "id": "sainsburys", "layer": "landmarks", "name": "The old Sainsbury's", "x": 118.4, "z": -95.6, "description": "The big supermarket north of the car park, stripped bare and taken over by scavs. Get in under the stuck front shutter, by the back fire door or through goods-in. Four crates and two scavs inside. Its hoarding marks the Oliver Road exit." },
   { "id": "masjid", "layer": "landmarks", "name": "MK Jamee Masjid", "x": 15.3, "z": 9.9, "description": "The masjid in the terrace on the west side of Duncombe Street. A useful landmark when you're navigating the gardens." },
   { "id": "railway", "layer": "landmarks", "name": "The railway", "x": -50.0, "z": 40.0, "description": "The West Coast Main Line runs down the west edge of the raid. Out of bounds past the fence. Movement near the tracks is noisy and carries a long way." },
   { "id": "community-house", "layer": "landmarks", "name": "Community house", "x": 29.4, "z": -20.1, "description": "On Duncombe Street, by the way into the car park." },

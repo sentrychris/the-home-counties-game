@@ -22,7 +22,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
   <PageHead
     title="Gear and items"
     eyebrow="Database"
-    lede="Everything you can wear, carry, eat or sell, with its slot, weight and value in pounds. The £/kg figure shows which items are worth their weight."
+    lede="Everything you can wear, carry, eat or sell, with its slot, weight, value in pounds and, for gear, where it came from. The £/kg figure shows which items are worth their weight."
     crumbs={[{ label: "Gear and items" }]}
     image="images/screenshots/2026-10-24-224754.webp"
   />
@@ -84,7 +84,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
               <li
                 class="panel item"
                 data-name={item.name.toLowerCase()}
-                data-text={`${item.name} ${item.description} ${item.slot}`.toLowerCase()}
+                data-text={`${item.name} ${item.description} ${item.about ?? ""} ${item.slot}`.toLowerCase()}
                 data-cat={item.category}
                 data-slots={item.slots.join("|")}
                 data-value={item.value}
@@ -108,6 +108,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
                   </h2>
                   <p class="slot">{item.slot}</p>
                   <p class="desc">{item.description}</p>
+                  {item.about && <p class="about">{item.about}</p>}
                   <dl class="facts">
                     <div>
                       <dt>Weight</dt>
@@ -445,6 +446,16 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
   .desc {
     color: var(--caption);
     font-size: 0.98rem;
+  }
+
+  /* Where it came from, as the game's item panel shows it. */
+  .about {
+    margin-top: -0.3em;
+    padding-left: 10px;
+    border-left: 2px solid var(--line);
+    font-size: 0.92rem;
+    font-style: italic;
+    color: var(--dim);
   }
 
   .facts {

@@ -2,11 +2,12 @@
   "id": "duncombe-street",
   "name": "Duncombe Street",
   "location": "Bletchley · Milton Keynes · MK2",
-  "summary": "Victorian terraces by the West Coast Main Line, an abandoned Sainsbury's and its car park, and a lot of overgrown back gardens. A quiet map, suited to early runs.",
+  "area": ["Duncombe Street", "Osborne Street", "Water Eaton Road", "Oliver Road", "Clifford Avenue", "The old Sainsbury's"],
+  "summary": "The first map: the streets around Duncombe Street in Bletchley, evacuated when the government came to Bletchley Park. Victorian terraces by the West Coast Main Line, the old Sainsbury's and its car park, and a lot of overgrown back gardens.",
   "intel": [
     { "label": "Raid time", "value": "12 min" },
-    { "label": "Scavs", "value": "12" },
-    { "label": "Crate spots", "value": "17" },
+    { "label": "Scavs", "value": "14" },
+    { "label": "Crate spots", "value": "21" },
     { "label": "Exits", "value": "2" }
   ],
   "fieldNote": "Quiet area. Good for early runs. Watch the railway, you can hear movement for miles. Most crates are inside the open houses.",
@@ -49,7 +50,7 @@
 
   "layers": [
     { "id": "starts", "name": "Player starts", "icon": "start", "colour": "#86c5e8", "visible": true, "blurb": "You start at one of these two points." },
-    { "id": "exits", "name": "Exits", "icon": "exit", "colour": "#8fb05a", "visible": true, "blurb": "Old checkpoints, marked by red smoke." },
+    { "id": "exits", "name": "Exits", "icon": "exit", "colour": "#8fb05a", "visible": true, "blurb": "The army's old cordon points, marked by red smoke." },
     { "id": "scavs", "name": "Scav spawns", "icon": "scav", "colour": "#c9513c", "visible": true, "blurb": "Where scavs start the raid." },
     { "id": "crates", "name": "Loot crates", "icon": "crate", "colour": "#d6aa48", "visible": true, "blurb": "Fixed crate spots, contents vary." },
     { "id": "houses", "name": "Enterable houses", "icon": "house", "colour": "#b9895a", "visible": true, "blurb": "Open doors, floor plans inside." },

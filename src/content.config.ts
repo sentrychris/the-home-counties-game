@@ -117,6 +117,8 @@ const items = defineCollection({
     image: z.string().optional(),
     icon: z.string().optional(),
     description: z.string(),
+    /** Where it came from: the line the game shows under the item's details. */
+    about: z.string().optional(),
     link: z.string().optional(),
   }),
 });

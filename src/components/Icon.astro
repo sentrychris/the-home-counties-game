@@ -14,7 +14,10 @@ const raw = icons[`../icons/${name}.svg`];
 if (!raw) throw new Error(`Unknown icon "${name}". Add src/icons/${name}.svg or pick another name.`);
 
 const a11y = label ? `role="img" aria-label="${label.replace(/"/g, "&quot;")}"` : 'aria-hidden="true" focusable="false"';
+// Files copied in by some tools carry a <metadata> block (C2PA provenance) that would bloat every page.
 const svg = raw
+  .replace(/<metadata>[\s\S]*?<\/metadata>/g, "")
+  .replace(/\s+xmlns:c2pa="[^"]*"/g, "")
   .replace(/fill="#fff"/g, 'fill="currentColor"')
   .replace(/stroke="#fff"/g, 'stroke="currentColor"')
   .replace("<svg ", `<svg class="icon ${cls}" ${a11y} `);
