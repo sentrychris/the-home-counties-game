@@ -1,0 +1,163 @@
+[
+  {
+    "id": "chalky",
+    "name": "Chalky",
+    "role": "The Fixer",
+    "motto": "Everything's somewhere. It's only a question of whose it is this week.",
+    "card": {
+      "src": "images/traders/chalky-card.webp",
+      "alt": "Chalky's night-shift site pass from a defence logistics firm, his surname WHITE, with a barcode."
+    },
+    "about": "Army logistics, then a contractor loading NATO consignments through Milton Keynes. When the supply chain froze, he kept the paperwork. He holds very little stock, but he knows where everything is.",
+    "sells": "Armour, helmets, rigs and backpacks.",
+    "paysBestFor": "Armour, helmets, rigs and backpacks. A fair price for medical kit, phones and watches.",
+    "levels": [
+      "Walk-in",
+      "On the books",
+      "Account",
+      "Trade"
+    ],
+    "special": {
+      "title": "Special orders",
+      "text": "Once you have an Account with him, Chalky takes orders for anything on his list at your level: up to two at a time, half the price down, delivered in one or two raids. About one in ten goes missing on the way, and then the deposit comes back. He'll also hold one thing in stock for you through the next restock."
+    },
+    "jobs": [
+      {
+        "title": "What's on them",
+        "ask": "Three old phones. He's not saying why."
+      },
+      {
+        "title": "For Sofie",
+        "ask": "A surgical kit, unopened, passed on to Sofie at cost."
+      },
+      {
+        "title": "Gate guard",
+        "ask": "Two MICH helmets for a settlement's gatehouse."
+      },
+      {
+        "title": "Clean stencils",
+        "ask": "A genuine US Army plate carrier, stencil and all."
+      }
+    ]
+  },
+  {
+    "id": "carl",
+    "name": "Carl",
+    "role": "The Former Marine",
+    "motto": "It works. I've fired it.",
+    "card": {
+      "src": "images/traders/carl-card.webp",
+      "alt": "Carl's green forces identity card, his surname scratched out, rank CPL, service RM."
+    },
+    "about": "Royal Marine, two tours in Helmand, left as a corporal. Then ship security off Somalia, which is where he learned the AK. Called back to guard a NATO site, and when the order came to hand in the weapons, he loaded them into a van instead. Every gun he sells, he's test-fired.",
+    "sells": "Rifles, pistols, rounds, magazines, blades, grenades and gunsmith parts.",
+    "paysBestFor": "Guns and their parts, ammo, knives and grenades.",
+    "levels": [
+      "Crow",
+      "Known",
+      "Trusted",
+      "Oppo"
+    ],
+    "special": {
+      "title": "Coming later",
+      "text": "Carl's list already shows an M4A1, a SIG P226 and an MP-443 Grach, greyed out until those weapons are in the game."
+    },
+    "jobs": [
+      {
+        "title": "Cleaning kit",
+        "ask": "A toolbox, because he's not using a scav's toothbrush."
+      },
+      {
+        "title": "Rounds that go through",
+        "ask": "Sixty AP rounds."
+      },
+      {
+        "title": "Off the street",
+        "ask": "A Browning Hi-Power. Don't ask."
+      },
+      {
+        "title": "Foxes",
+        "ask": "Two AKs, for farmers with a fox problem. Foxes, they said."
+      }
+    ]
+  },
+  {
+    "id": "crapper",
+    "name": "Crapper",
+    "role": "The Scavenger",
+    "motto": "Everything's worth something to someone. Usually not you.",
+    "card": {
+      "src": "images/traders/crapper-card.webp",
+      "alt": "Crapper's old business card for Bletchley Clearances: house clearance, scrap metal, cash paid, no job too small, signed Crapper in biro."
+    },
+    "about": "House clearance and scrap, Bletchley born. He was sat in his loft when the soldiers came round with the stickers, so he never got on a train. He knows every house on Duncombe Street and what was in it, and he'll take almost anything off you.",
+    "sells": "Tins of beans, cider, empty bottles, copper wire, toolboxes, car batteries, painkillers, phones, laptops, watches and the odd concrete cow.",
+    "paysBestFor": "Salvage, electronics, valuables and cider. He'll take nearly everything else for a low price, papers included.",
+    "levels": [
+      "Young'un",
+      "Regular",
+      "Partner",
+      "Family"
+    ],
+    "special": null,
+    "jobs": [
+      {
+        "title": "Copper",
+        "ask": "Two lots of copper wire. Strip it out of anything."
+      },
+      {
+        "title": "A cow for the collector",
+        "ask": "One of the little concrete cows."
+      },
+      {
+        "title": "Batteries for the crews",
+        "ask": "Two car batteries. Lift with your legs."
+      },
+      {
+        "title": "Gold and silicon",
+        "ask": "A gold watch and a laptop."
+      }
+    ]
+  },
+  {
+    "id": "sofie",
+    "name": "Sofie",
+    "role": "The Doctor",
+    "motto": "People who can pay, pay for the ones who can't. You can pay.",
+    "card": {
+      "src": "images/traders/sofie-card.webp",
+      "alt": "Dr Sofie's hospital staff badge: Specialty Registrar, Emergency Medicine."
+    },
+    "about": "An emergency medicine registrar sent to run the medical post at the Bletchley rest centres. She stayed with the people who couldn't travel, and then the trains stopped. Her clinic runs on what people like you pay.",
+    "sells": "Bandages, painkillers, first aid kits, surgical kits, water and food.",
+    "paysBestFor": "Medical kit and food. A fair price for empty bottles and car batteries.",
+    "levels": [
+      "Patient",
+      "Regular",
+      "Trusted",
+      "Friend"
+    ],
+    "special": {
+      "title": "A tab",
+      "text": "From her second level, Sofie lets you buy on a tab when you're short: up to £300, then £600 and £1,000 as she trusts you more. Anything you sell her pays it off first."
+    },
+    "jobs": [
+      {
+        "title": "Bottles",
+        "ask": "Five empty water bottles, for boiling water in batches."
+      },
+      {
+        "title": "Mr Hughes's hip",
+        "ask": "Two packets of paracetamol."
+      },
+      {
+        "title": "Dressings",
+        "ask": "Three sealed field dressings."
+      },
+      {
+        "title": "Someone who can't pay",
+        "ask": "Two unopened trauma kits."
+      }
+    ]
+  }
+]

@@ -2,12 +2,12 @@
   "id": "duncombe-street",
   "name": "Duncombe Street",
   "location": "Bletchley · Milton Keynes · MK2",
-  "area": ["Duncombe Street", "Osborne Street", "Water Eaton Road", "Oliver Road", "Clifford Avenue", "The old Sainsbury's"],
-  "summary": "The first map: the streets around Duncombe Street in Bletchley, evacuated when the government came to Bletchley Park. Victorian terraces by the West Coast Main Line, the old Sainsbury's and its car park, and a lot of overgrown back gardens.",
+  "area": ["Duncombe Street", "Osborne Street", "Water Eaton Road", "Oliver Road", "Clifford Avenue", "The old Sainsbury's", "The Brunel Centre"],
+  "summary": "",
   "intel": [
-    { "label": "Raid time", "value": "12 min" },
+    { "label": "Raid time", "value": "18 min" },
     { "label": "Scavs", "value": "14" },
-    { "label": "Crate spots", "value": "21" },
+    { "label": "Crates", "value": "24" },
     { "label": "Exits", "value": "2" }
   ],
   "fieldNote": "Quiet area. Good for early runs. Watch the railway, you can hear movement for miles. Most crates are inside the open houses.",

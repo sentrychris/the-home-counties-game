@@ -5,7 +5,7 @@
       { "keys": ["W", "A", "S", "D"], "action": "Move" },
       { "keys": ["Shift"], "action": "Sprint" },
       { "keys": ["Caps Lock"], "action": "Walk" },
-      { "keys": ["C"], "action": "Crouch" },
+      { "keys": ["C"], "action": "Crouch (toggle)" },
       { "keys": ["Space"], "action": "Jump or vault" },
       { "keys": ["Q", "E"], "action": "Lean left / right" }
     ]
@@ -15,23 +15,37 @@
     "binds": [
       { "keys": ["Left mouse"], "action": "Shoot" },
       { "keys": ["Right mouse"], "action": "Aim" },
-      { "keys": ["R"], "action": "Reload" },
-      { "keys": ["T"], "action": "Switch ammo" },
+      { "keys": ["R"], "action": "Reload (fullest magazine)" },
+      { "keys": ["T"], "action": "Reload with the next ammo type" },
+      { "keys": ["Alt+T"], "action": "Check ammo" },
+      { "keys": ["Alt+I"], "action": "Inspect rifle" },
       { "keys": ["1", "2"], "action": "Primary / secondary rifle" }
+    ]
+  },
+  {
+    "group": "Grenades",
+    "binds": [
+      { "keys": ["G"], "action": "Take out a grenade (again: next kind)" },
+      { "keys": ["Left mouse"], "action": "Hold to pull the pin, let go to throw" },
+      { "keys": ["Right mouse"], "action": "Hold, then let go to lob underhand" },
+      { "keys": ["R"], "action": "Cook a frag (pin out, button held)" },
+      { "keys": ["1", "2"], "action": "Put it away" }
     ]
   },
   {
     "group": "Looting and survival",
     "binds": [
-      { "keys": ["F"], "action": "Search" },
+      { "keys": ["F"], "action": "Search, open, read" },
+      { "keys": ["F"], "action": "Hold to take a paper" },
       { "keys": ["H"], "action": "Heal" },
-      { "keys": ["Tab"], "action": "Gear" }
+      { "keys": ["Tab"], "action": "Gear" },
+      { "keys": ["X"], "action": "Drop the item under the mouse (gear screen)" }
     ]
   },
   {
     "group": "Other",
     "binds": [
-      { "keys": ["Esc"], "action": "Pause" },
+      { "keys": ["Esc"], "action": "Pause (menu only, in a squad)" },
       { "keys": ["F3"], "action": "FPS counter" },
       { "keys": ["F1"], "action": "Developer menu" }
     ]

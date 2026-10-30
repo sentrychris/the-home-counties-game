@@ -47,6 +47,8 @@
 
   /* The stash's item colours, for categories. */
   --cat-weapons: #3a3a3c;
+  --cat-attachments: #3d4045;
+  --cat-grenades: #54613a;
   --cat-gear: #4a4636;
   --cat-ammo: #3d5a2a;
   --cat-medical: #7a2c25;

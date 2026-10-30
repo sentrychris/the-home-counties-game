@@ -1,0 +1,319 @@
+---
+// The four traders. Their words and numbers live in src/data/traders.json.
+import Base from "../layouts/Base.astro";
+import PageHead from "../components/PageHead.astro";
+import Img from "../components/Img.astro";
+import Gallery from "../components/Gallery.astro";
+import traders from "../data/traders.json";
+import { url } from "../lib/url";
+
+const shots = [
+  { src: "images/screenshots/dl-traders-carl.webp", alt: "Carl's page in the Traders tab: his ID card, his line and rounds, a knife, magazines and an AK-47 for sale.", caption: "Buying from Carl." },
+  { src: "images/screenshots/dl-traders-crapper-sell.webp", alt: "Crapper's SELL tab listing what he'll pay for things in your stash.", caption: "Selling to Crapper." },
+  { src: "images/screenshots/dl-traders-crapper-job.webp", alt: "Crapper's JOB tab asking for two lots of copper wire.", caption: "A job." },
+  { src: "images/screenshots/dl-traders-chalky-orders.webp", alt: "Chalky's ORDERS tab with things he can get in for half down.", caption: "Chalky's special orders." },
+  { src: "images/screenshots/dl-traders-sofie-notes.webp", alt: "Sofie's NOTES tab with handwritten notes from her.", caption: "Notes they leave you." },
+  { src: "images/screenshots/dl-traders-confirm.webp", alt: "A box over the dimmed Traders tab asking to confirm a purchase.", caption: "Every trade asks first." },
+];
+---
+
+<Base title="Traders" description="Chalky, Carl, Crapper and Sofie: the four traders in The Home Counties, what they sell and buy, their jobs, and how standing, prices and special orders work.">
+  <PageHead
+    title="Traders"
+    eyebrow="Four people you never meet"
+    lede="Between raids you trade from your hideout with four people you only know by their ID cards, their prices and the notes they leave. Cash is never lost in a raid."
+    crumbs={[{ label: "Traders" }]}
+    image="images/screenshots/dl-traders-carl.webp"
+  />
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <ul class="traders">
+        {
+          traders.map((t) => (
+            <li class="panel trader" id={t.id}>
+              <div class="trader-head">
+                <figure class="card">
+                  <Img src={t.card.src} alt={t.card.alt} width={271} height={173} sizes="271px" />
+                </figure>
+                <div>
+                  <h2>{t.name}</h2>
+                  <p class="role caption">{t.role}</p>
+                  <p class="motto">“{t.motto}”</p>
+                </div>
+              </div>
+              <p class="about">{t.about}</p>
+              <dl class="specs">
+                <div>
+                  <dt>Sells</dt>
+                  <dd>{t.sells}</dd>
+                </div>
+                <div>
+                  <dt>Pays best for</dt>
+                  <dd>{t.paysBestFor}</dd>
+                </div>
+                <div>
+                  <dt>Standing</dt>
+                  <dd>
+                    <ol class="levels">
+                      {t.levels.map((l) => (
+                        <li>{l}</li>
+                      ))}
+                    </ol>
+                  </dd>
+                </div>
+              </dl>
+              {
+                t.special && (
+                  <div class="special">
+                    <h3>{t.special.title}</h3>
+                    <p>{t.special.text}</p>
+                  </div>
+                )
+              }
+              <div class="jobs">
+                <h3>First jobs</h3>
+                <ol>
+                  {t.jobs.map((j) => (
+                    <li>
+                      <strong>{j.title}.</strong> {j.ask}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap wrap--narrow">
+      <div class="prose">
+        <h2>How trading works</h2>
+        <p>
+          Open the <strong>Traders</strong> tab in the hideout and pick a trader down the left. Each one has a <strong>Buy</strong>, <strong>Sell</strong>, <strong>Job</strong> and <strong>Notes</strong> page, and Chalky has <strong>Orders</strong> once you have an account with him. Buying, selling, ordering and handing in a job all ask before they happen: <kbd>Enter</kbd> confirms and <kbd>Esc</kbd> backs out.
+        </p>
+
+        <h3>Money</h3>
+        <p>
+          You start with <strong>£1,000</strong>. Your cash is shown in the top bar, and the stash's worth is in its tooltip. Cash stays in the hideout, so it's never lost in a raid. Rounds are bought and sold in lots of 30.
+        </p>
+
+        <h3>Selling</h3>
+        <ul>
+          <li><strong>What they'll pay</strong> depends on how much a trader wants that kind of thing. Each has kinds of goods they pay best for, some they pay a fair or low price for, and some they won't buy at all; they'll tell you who to try instead.</li>
+          <li><strong>Wanted lists.</strong> Each trader wants two things in particular, which pay half as much again. The list changes every three raids and arrives as a note.</li>
+          <li><strong>Full up.</strong> Sell a trader three of one thing (Chalky two) and each one more pays less, down to well under half. They shift a couple of each every raid, so spread your selling about.</li>
+          <li>Nothing can be sold back for more than you'd pay for it. Used medical kit pays by what's left in it, a rifle sells with its parts, and full rigs and packs aren't taken: empty them first.</li>
+        </ul>
+
+        <h3>Standing</h3>
+        <p>
+          Every pound you trade with someone, bought or sold, and every job you do for them, raises your <strong>standing</strong> with them through four levels. The third level also takes a job done for them, and the fourth three. Standing never drops, and you don't lose it when you die. Each level opens more stock and more jobs, makes their prices kinder and pays you a little more, and they leave a note to say so.
+        </p>
+
+        <h3>Stock</h3>
+        <p>
+          Traders restock after every raid. Some lines are always there at your level and some turn up by chance. What you sell them that they stock is back on their shelf after the next raid. Anything they're out of says so.
+        </p>
+
+        <h3>Jobs</h3>
+        <p>
+          Each trader has one job at a time: four written ones, in order, as your standing allows, and then odd jobs for something they want, paying a little over its worth. Hand in from your stash. Medical kit has to be unused, and rigs and packs empty. The next job comes after a raid.
+        </p>
+
+        <h3>Notes</h3>
+        <p>
+          Each trader leaves a note when you first meet, with their wanted lists, when your standing rises and about your orders, and now and then a line after a raid. They greet you by how the last raid went. A NEW NOTE mark shows on a trader's button when there's something to read.
+        </p>
+
+        <p>
+          Carl also sells the parts for the <a href={url("guides/gunsmith/")}>gunsmith</a>, and a part you haven't got is bought from him when you assemble.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>In the game</h2>
+        <p>The Traders tab, as it looks in the current build.</p>
+      </div>
+      <Gallery shots={shots} label="Screenshots of the Traders tab" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .traders {
+    display: grid;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 980px) {
+    .traders {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .trader {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: clamp(18px, 3vw, 28px);
+    scroll-margin-top: 90px;
+  }
+
+  .trader-head {
+    display: grid;
+    gap: 18px;
+    align-items: center;
+  }
+
+  @media (min-width: 560px) {
+    .trader-head {
+      grid-template-columns: auto 1fr;
+    }
+  }
+
+  .card {
+    margin: 0;
+    width: min(100%, 271px);
+    transform: rotate(-1.5deg);
+    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.55));
+  }
+
+  .card :global(img),
+  .card :global(.placeholder) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 271 / 173;
+    border-radius: 8px;
+  }
+
+  .trader h2 {
+    margin: 0;
+  }
+
+  .role {
+    margin: 4px 0 10px;
+    color: var(--dim);
+  }
+
+  .motto {
+    margin: 0;
+    font-family: var(--font-hand);
+    font-weight: 600;
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+
+  .about {
+    margin: 0;
+    color: var(--bone-dim);
+  }
+
+  .specs {
+    display: grid;
+    gap: 0;
+    margin: 0;
+  }
+
+  .specs > div {
+    display: grid;
+    grid-template-columns: 9.5em 1fr;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  @media (max-width: 559px) {
+    .specs > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
+  .specs dt {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding-top: 0.2em;
+  }
+
+  .specs dd {
+    margin: 0;
+    text-align: left;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 1.5;
+  }
+
+  .levels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: level;
+  }
+
+  .levels li {
+    counter-increment: level;
+    padding: 2px 9px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: var(--well);
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+  }
+
+  .levels li::before {
+    content: counter(level) " ";
+    color: var(--dim);
+  }
+
+  .special,
+  .jobs {
+    padding-top: 2px;
+  }
+
+  .special h3,
+  .jobs h3 {
+    margin: 0 0 0.35em;
+    font-size: 1.05rem;
+  }
+
+  .special p {
+    margin: 0;
+    color: var(--bone-dim);
+  }
+
+  .jobs ol {
+    margin: 0;
+    padding-left: 1.3em;
+    color: var(--bone-dim);
+  }
+
+  .jobs li + li {
+    margin-top: 4px;
+  }
+
+  .jobs strong {
+    color: var(--bone);
+  }
+</style>

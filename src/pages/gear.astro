@@ -5,8 +5,8 @@ import PageHead from "../components/PageHead.astro";
 import Icon from "../components/Icon.astro";
 import { url, publicFileExists, formatPounds } from "../lib/url";
 
-const CATEGORIES = ["Weapons", "Gear", "Ammo", "Medical", "Provisions", "Valuables"] as const;
-const SLOT_ORDER = ["Primary", "Secondary", "Holster", "Knife", "Helmet", "Armour", "Rig", "Backpack", "Pockets"];
+const CATEGORIES = ["Weapons", "Attachments", "Grenades", "Gear", "Ammo", "Medical", "Provisions", "Valuables"] as const;
+const SLOT_ORDER = ["Primary", "Secondary", "Holster", "Knife", "Helmet", "Armour", "Rig", "Backpack", "Pockets", "Sight", "Mount", "Muzzle", "Stock"];
 
 const items = (await getCollection("items"))
   .map((e) => ({ id: e.id, ...e.data, slots: e.data.slot.split("/").map((s) => s.trim()) }))
@@ -364,6 +364,8 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
   }
 
   .item[data-cat="Weapons"] { --cat: var(--cat-weapons); }
+  .item[data-cat="Attachments"] { --cat: var(--cat-attachments); }
+  .item[data-cat="Grenades"] { --cat: var(--cat-grenades); }
   .item[data-cat="Ammo"] { --cat: var(--cat-ammo); }
   .item[data-cat="Medical"] { --cat: var(--cat-medical); }
   .item[data-cat="Provisions"] { --cat: var(--cat-provisions); }

@@ -2,9 +2,9 @@
   {
     "id": "prototype",
     "order": 1,
-    "phase": "Now",
+    "phase": "Done",
     "title": "Prototype build",
-    "status": "now",
+    "status": "done",
     "items": [
       { "text": "Duncombe Street raid map with 12-minute raids", "done": true },
       { "text": "Two exits at the army's old cordon points, marked by red smoke", "done": true },
@@ -22,13 +22,22 @@
   {
     "id": "between-raids",
     "order": 2,
-    "phase": "Next",
-    "title": "Between raids",
-    "status": "next",
+    "phase": "Now",
+    "title": "Between raids, and together",
+    "status": "now",
     "items": [
-      { "text": "Traders who buy loot for pounds" },
+      { "text": "Four traders who buy loot for pounds, with jobs, standing and special orders", "done": true },
+      { "text": "A gunsmith with sights, a suppressor and a stock", "done": true },
+      { "text": "AK magazines as items, loaded round by round", "done": true },
+      { "text": "Frag, flash and smoke grenades", "done": true },
+      { "text": "Co-op squads of up to four through Steam", "done": true },
+      { "text": "More of the street's story, and a board to pin it up", "done": true },
+      { "text": "Healing animated in your hands, and Alt+I to inspect", "done": true },
+      { "text": "Glass that breaks", "done": true },
+      { "text": "The Brunel Centre, The Park pub, the railway and two building sites", "done": true },
       { "text": "Pistol and secondary weapon handling" },
-      { "text": "More of the street's story to find" }
+      { "text": "Character, Map and Tasks tabs in the hideout" },
+      { "text": "Portraits for the traders" }
     ]
   },
   {
@@ -38,6 +47,7 @@
     "title": "Beyond Bletchley",
     "status": "later",
     "items": [
+      { "text": "More weapons: Carl already lists an M4A1, a SIG P226 and an MP-443" },
       { "text": "More of Milton Keynes as raid maps" },
       { "text": "More scav types and loadouts" },
       { "text": "Early access alpha and a store page" }

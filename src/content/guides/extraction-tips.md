@@ -1,7 +1,7 @@
 ---
 title: Extraction tips
 summary: Which exit to use from each start, when to leave, and how to approach an exit safely.
-order: 6
+order: 9
 icon: quit
 ---
 
@@ -23,7 +23,7 @@ You won't be walking in a straight line, so the real distance is always longer.
 
 ## Leave early
 
-A raid lasts **12 minutes**. If you're still looting with less than three minutes left, you're cutting it fine. Ten seconds in the green zone can feel like a long time if you're under fire.
+A raid lasts **18 minutes**. If you're still looting with less than three minutes left, you're cutting it fine. Ten seconds in the zone can feel like a long time if you're under fire. The extract box at the top of the screen counts them down.
 
 ## The approach
 
@@ -31,6 +31,7 @@ A raid lasts **12 minutes**. If you're still looting with less than three minute
 - **Expect scavs.** Several spawn on the routes north: by the car park ([S-04](../../map/#s-04), [S-07](../../map/#s-07)), at the corner of the old Sainsbury's ([S-08](../../map/#s-08)), and where Osborne Street meets Oliver Road ([S-09](../../map/#s-09)).
 - **Avoid crossing the car park.** It's open ground with no cover and a lookout in the middle. Go round the edge instead.
 - **Check the zone before you stand in it.** Look round the checkpoint first. The wrecked cars nearby make decent cover.
+- **Smoke it.** An M18 thrown between you and the scavs hides the last dash, and they can't see through it.
 
 ## Weight on the way out
 
@@ -43,3 +44,4 @@ If you've picked up a lot, you'll move more slowly and run out of stamina sooner
 - **Pinned near an exit?** Try the other one.
 - **Lost?** Find your grid square on the tactical map and head for the smoke.
 - **Running out of time?** Head for the nearest exit anyway. Ten seconds in the zone may still be enough.
+- **In a squad?** Each of you extracts on your own. If you get out first, **Watch squadmates** on the raid summary lets you follow the others the rest of the way.

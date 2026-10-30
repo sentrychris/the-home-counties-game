@@ -78,7 +78,6 @@ const { Content } = await render(enemy);
         <div class="wrap">
           <div class="section-head">
             <h2>Loadouts</h2>
-            <p>What scavs usually carry. You can search their bodies for it.</p>
           </div>
           <ul class="card-grid plain">
             {e.loadouts.map((l) => (
@@ -102,7 +101,7 @@ const { Content } = await render(enemy);
   }
 
   {
-    e.voiceLines.length > 0 && (
+    e.voiceLines.length < 0 && (
       <section class="section section--tight">
         <div class="wrap">
           <div class="panel chatter">

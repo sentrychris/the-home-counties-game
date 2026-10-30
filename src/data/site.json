@@ -1,11 +1,11 @@
 {
   "name": "The Home Counties",
   "status": "Early access / Prototype build",
-  "version": "v0.1.59",
+  "version": "v0.1.138",
   "developer": "Chris Rowles",
-  "engine": "Godot 4",
+  "engine": "Godot 4.7",
   "coords": "51.9923° N  0.7345° W",
-  "description": "A single-player extraction shooter in a near-future Britain at war. Raid the Bletchley streets the government emptied and the gangs took over, then reach the red smoke before the timer runs out.",
+  "description": "An extraction shooter for 1-4 players in a near-future Britain at war.",
   "tagline": "The government moved on. The gangs moved in. Take what you can carry from Bletchley's empty streets, and reach the red smoke before the clock runs out...",
 
   "story": {
@@ -14,18 +14,18 @@
     "intro": "Nobody bombed Duncombe Street. It was emptied, then taken.",
     "beats": [
       { "title": "Britain kept the war supplied", "text": "Russia launched a full-scale invasion into Europe, and Britain became NATO's logistics hub. American and allied troops, vehicles, rifles, helmets and body armour came through its ports, airbases and depots by the shipload." },
-      { "title": "Russia paid for trouble", "text": "Britain was already divided, worn down by COVID, heatwaves, cyberattacks and one political crisis after another. Russia saw a chance to cut the link between Europe and the US, and quietly funded criminal gangs and dissident groups, each with its own agenda. The rifles came with the money." },
-      { "title": "The Home Counties", "text": "The counties around London were made a protective barrier for the capital, and a Civilian Protection and Continuity Zone for people displaced by forced requisitions, relocations and the fighting." },
-      { "title": "The strikes", "text": "Then Russian forces captured a key port in Rotterdam and launched ballistic missile strikes on the south of the UK, London included. The Home Counties plan fell apart." },
-      { "title": "Bletchley", "text": "The government relocated to Bletchley Park, and the streets around it were evacuated: one bag each, and a train to a reception centre. Then the government moved on. Criminals and opportunists moved in." }
+      { "title": "Russia paid for trouble", "text": "Britain was already divided, worn down by COVID, heatwaves, cyberattacks and one political crisis after another. Russia saw a chance to cut the link between Europe and the US, and quietly funded criminal gangs and dissident groups, each with its own agenda." },
+      { "title": "The Home Counties", "text": "The counties around London were made a protective barrier for the capital, and a Civilian Protection and Continuity Zone for people displaced by the fighting." },
+      { "title": "The strikes", "text": "Russian forces captured a key port in Rotterdam and launched ballistic missile strikes on the south of the UK, London included. As a result, the Home Counties plan fell apart." },
+      { "title": "Bletchley", "text": "The government relocated to Bletchley Park, and the streets around it were evacuated. Then the government moved on. Criminals and opportunists moved in." }
     ],
-    "outro": "The rest is left lying around the street: leaflets on the doormats, cards in the windows, and the soldiers' logs at the checkpoints."
+    "outro": "The rest is left lying around the street: leaflets on the doormats, cards in the windows, letters and notes in the houses, and the soldiers' logs at the checkpoints. Take them home and pin them up."
   },
 
   "trailer": {
     "youtubeId": "YCahVzC4q8o",
     "title": "The Home Counties trailer",
-    "text": "See Duncombe Street in motion."
+    "text": ""
   },
 
   "cta": {
@@ -47,35 +47,40 @@
     { "label": "Guides", "href": "guides/" },
     { "label": "Weapons", "href": "weapons/" },
     { "label": "Gear", "href": "gear/" },
+    { "label": "Traders", "href": "traders/" },
     { "label": "Enemies", "href": "enemies/" },
     { "label": "Dev log", "href": "devlog/" },
     { "label": "About", "href": "about/" }
   ],
 
   "features": [
-    { "icon": "pin", "title": "A real place", "text": "The first map, Duncombe Street, is a corner of Bletchley built from real map data: Duncombe Street, Osborne Street, Water Eaton Road, Oliver Road, Clifford Avenue and the old Sainsbury's, beside the West Coast Main Line." },
+    { "icon": "pin", "title": "Old streets", "text": "The first map is a corner of Bletchley built from Duncombe Street, Osborne Street, Water Eaton Road, Oliver Road, Clifford Avenue and the old Sainsbury's, beside the West Coast Main Line." },
     { "icon": "box", "title": "Loot and extract", "text": "Twelve-minute raids. Search the houses people left in a hurry, the crates and the scavs you drop. Extract before the timer ends, or lose what you were carrying." },
-    { "icon": "skull", "title": "Scavs", "text": "Gang members, chancers and the odd few who never left. They're armed, they take cover, flank in pairs and come to investigate when they hear you." },
+    { "icon": "skull", "title": "Scavs", "text": "Gang members, chancers and the odd few who never left. They're armed, they take cover, flank in pairs, throw grenades and come to investigate when they hear you." },
     { "icon": "run", "title": "Noise", "text": "Sprinting, gunfire and moving through long grass all make noise. Walking, crouching and leaning round corners keep you quieter." },
     { "icon": "backpack", "title": "Gear and weight", "text": "US Army plate carriers next to Russian helmets: NATO kit came through Britain by the shipload, and the gangs brought AKs. Eight gear slots and four pockets, and the more you carry, the slower you move." },
-    { "icon": "stash", "title": "Left behind", "text": "Nobody has cut a hedge since the evacuation. Knee-high grass, wrecked cars, boarded-up houses, and council leaflets still on the doormats." }
+    { "icon": "stash", "title": "Left behind", "text": "Nobody has cut a hedge since the evacuation. Knee-high grass, ivy, wrecked cars, boarded-up houses, a looted pub, and council leaflets still on the doormats." },
+    { "icon": "squad", "title": "Squads", "text": "Raid alone or with up to three friends, through Steam with no port forwarding. Shared loot, friendly fire, and your squad can carry your kit out if you go down." },
+    { "icon": "money", "title": "Four traders", "text": "Chalky, Carl, Crapper and Sofie buy, sell and set jobs from behind their ID cards. Earn their trust for better stock, special orders and a tab at the doctor's." },
+    { "icon": "rifle", "title": "The gunsmith", "text": "Put your AK on the bench: a red dot or a picture-in-picture 4x scope, a suppressor, a stock or none, and watch its handling change before you buy a part." }
   ],
 
   "loop": [
-    { "title": "Gear up", "text": "Choose a loadout. Anything you take in can be lost." },
-    { "title": "Deploy", "text": "You start at the west or east end of Water Eaton Road, picked at random." },
-    { "title": "Loot", "text": "Search crates, houses and dead scavs. Keep an eye on your carry weight." },
-    { "title": "Extract", "text": "The army left its checkpoints when it pulled out. Reach one, find the red smoke and stay in the green zone for ten seconds. If you die, you lose everything you were carrying." }
+    { "title": "Gear up", "text": "Choose a loadout in your hideout, buy what you need from the traders and set up your rifle at the gunsmith. Anything you take in can be lost." },
+    { "title": "Deploy", "text": "Alone or with up to three friends, you start at the west or east end of Water Eaton Road, picked at random, in that raid's own weather and hour." },
+    { "title": "Loot", "text": "Search crates, houses and dead scavs, and take the papers people left behind. Keep an eye on your carry weight." },
+    { "title": "Extract", "text": "The army left its checkpoints when it pulled out. Reach one, find the red smoke and stay in the zone for ten seconds. If you die, you lose everything you were carrying." }
   ],
 
   "screenshots": [
     { "src": "images/screenshots/2026-10-25-013602.webp", "alt": "First-person view down a long terraced street with streetlights, overhead wires and a burnt-out 4x4 on the right.", "caption": "Duncombe Street, looking south." },
+    { "src": "images/screenshots/dl-pub-front.webp", "alt": "The Park, a cream-rendered corner pub with green and gold fascias and a slate roof, behind a low wall and railings.", "caption": "The Park, on the corner of Duncombe Street." },
+    { "src": "images/screenshots/dl-scope-aimed.webp", "alt": "Aiming down a 4x scope at a terraced street, the view magnified inside the eyepiece with a red chevron.", "caption": "Picture-in-picture through the 4x scope." },
+    { "src": "images/screenshots/dl-railway-six-foot.webp", "alt": "Standing between tracks of the main line: rusty rails on concrete sleepers in grey ballast, overhead wires above.", "caption": "The West Coast Main Line, weeds through the ballast." },
     { "src": "images/screenshots/2026-10-25-122647.webp", "alt": "Red smoke rising beside an abandoned police car, concrete barriers and a red hatchback.", "caption": "Red smoke over an abandoned checkpoint marks a way out." },
-    { "src": "images/screenshots/2026-10-24-235041.webp", "alt": "A scav in a grey hoodie carrying a rifle through long grass and trees.", "caption": "A scav moving through the back gardens." },
-    { "src": "images/screenshots/2026-10-24-234818.webp", "alt": "A red-brick corner house with boarded windows, a 30 mph sign and an Osborne Street sign, terraces beyond.", "caption": "The corner of Osborne Street." },
-    { "src": "images/screenshots/2026-10-24-231001.webp", "alt": "Long grass and trees under a hazy sky, a long dark fence behind them.", "caption": "Open ground by the railway." },
-    { "src": "images/screenshots/2026-10-25-021958.webp", "alt": "Brick terraced houses with tall chimneys; a car with a shattered windscreen in the foreground.", "caption": "Terraces, chimneys and a smashed windscreen." },
-    { "src": "images/screenshots/2026-10-24-224625.webp", "alt": "A burning barrel under a tree in a garden of long grass, terraced houses behind.", "caption": "A burning barrel in the back gardens." },
-    { "src": "images/screenshots/2026-10-24-224754.webp", "alt": "A narrow overgrown garden between tall wooden fences, with a table and two chairs.", "caption": "A fenced back garden, with plenty of cover." }
+    { "src": "images/screenshots/dl-camp-hcz-sign.webp", "alt": "A closed army gate under a big HOME COUNTIES ZONE sign with Union flags and floodlights.", "caption": "The closed checkpoint at the end of Osborne Street." },
+    { "src": "images/screenshots/dl-brunel-signs.webp", "alt": "The Brunel Centre's black glass curtain wall with a grid of faded shop signs behind it.", "caption": "The Brunel Centre, beside the old supermarket." },
+    { "src": "images/screenshots/dl-ghost-overcast.webp", "alt": "The gable end of a grey rendered house with a faded painted advert for Sunlight Soap.", "caption": "A ghost sign on Clifford Avenue." },
+    { "src": "images/screenshots/dl-clifford-overview.webp", "alt": "An abandoned building site from above: brick foundations, materials and a portaloo behind a fence.", "caption": "The housing site on Clifford Avenue, abandoned mid-build." }
   ]
 }

@@ -21,7 +21,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
 ---
 
 <Base bodyClass="page-home">
-  <!-- The title screen: the game's backdrop and wordmark, "Press any key", then the menu. -->
+  <!-- The title screen: the game's backdrop and wordmark, then "Press any key" carries on into the page. -->
   <section class="title-screen" aria-labelledby="hero-title" data-title-screen>
     <div class="ts-media" aria-hidden="true">
       <img
@@ -51,18 +51,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         />
       </h1>
 
-      <button class="ts-press" type="button" data-press>Press any key</button>
-
-      <div class="ts-menu" id="title-menu">
-        <p class="tagline">{site.tagline}</p>
-        <nav class="ts-buttons" aria-label="Start">
-          <a class="btn btn--exfil" href={url(primaryHref)}><Icon name="run" />{site.cta.primary.label}</a>
-          {site.trailer && <a class="btn btn--ghost" href="#trailer"><Icon name="play" />Watch the trailer</a>}
-          <a class="btn btn--ghost" href={url(site.cta.secondary.href)}><Icon name="crosshair" />{site.cta.secondary.label}</a>
-          <a class="btn btn--ghost" href={url("guides/beginners-guide/")}><Icon name="toolbox" />Read the beginner's guide</a>
-        </nav>
-        <p class="meta">Built with {site.engine} and Claude.</p>
-      </div>
+      <a class="ts-press" href="#intel" data-press>Press any key</a>
     </div>
 
     <p class="ts-corner ts-corner--left">
@@ -191,7 +180,6 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
           <p class="eyebrow">From the build</p>
           <h2 id="shots-title">Screenshots</h2>
         </div>
-        <p>Taken in the current prototype build. Select one to see it full size.</p>
       </div>
       <Gallery shots={site.screenshots} feature label="Screenshots from the prototype" />
     </div>
@@ -312,43 +300,33 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
 </Base>
 
 <script>
-  // Title screen: "Press any key" until the visitor does something (or a few seconds pass),
-  // then the menu. Rain falls over the backdrop while the screen is in view, unless it's
-  // turned off under Picture settings or the visitor prefers less motion.
+  // Title screen: like the game, "Press any key" carries straight on in, here down to the
+  // raid intel. Rain falls over the backdrop while the screen is in view, unless it's turned
+  // off under Picture settings or the visitor prefers less motion.
   const screen = document.querySelector<HTMLElement>("[data-title-screen]");
   if (screen) {
-    const press = screen.querySelector<HTMLButtonElement>("[data-press]")!;
-    const menu = screen.querySelector<HTMLElement>(".ts-menu")!;
-    let open = false;
+    const press = screen.querySelector<HTMLAnchorElement>("[data-press]")!;
+    // Scrolls smoothly unless the visitor prefers less motion (scroll-behavior in global.css).
+    const goIn = () => document.getElementById("intel")?.scrollIntoView();
+    const atTitle = () => window.scrollY < screen.offsetHeight * 0.5;
+    // Keys that already move around the page, or the focus, are left alone.
+    const passKeys = ["Shift", "Control", "Alt", "Meta", "Tab", "Escape", "CapsLock", "PageUp", "PageDown", "Home", "End"];
 
-    const reveal = (focusMenu = false) => {
-      if (open) return;
-      open = true;
-      screen.classList.add("is-open");
-      cleanup();
-      if (focusMenu) menu.querySelector<HTMLElement>("a")?.focus({ preventScroll: true });
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (["Shift", "Control", "Alt", "Meta"].includes(e.key)) return;
-      // Space would also scroll the page past the menu it has just opened.
-      if (e.key === " " && e.target === document.body) e.preventDefault();
-      reveal(e.target === press && (e.key === "Enter" || e.key === " "));
-    };
-    // A click, not pointerdown: on a phone, opening on touchstart lets the same tap land on
-    // the menu button that has just appeared under the finger.
-    const onPointer = () => reveal();
-    const timer = window.setTimeout(() => reveal(), 4500);
-    const cleanup = () => {
-      window.clearTimeout(timer);
-      document.removeEventListener("keydown", onKey);
-      screen.removeEventListener("click", onPointer);
-      window.removeEventListener("scroll", onPointer);
-    };
-    press.addEventListener("click", () => reveal(true));
-    document.addEventListener("keydown", onKey);
-    screen.addEventListener("click", onPointer);
-    window.addEventListener("scroll", onPointer, { passive: true, once: true });
-    if (window.scrollY > 40) reveal();
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || passKeys.includes(e.key) || e.key.startsWith("Arrow")) return;
+      // Only when nothing else has the focus, so links, buttons and fields keep their keys.
+      if (e.target !== document.body && e.target !== press) return;
+      if (!atTitle()) return;
+      e.preventDefault();
+      goIn();
+    });
+    // A click or tap on the picture counts as a key; links and buttons on it keep theirs.
+    screen.addEventListener("click", (e) => {
+      const control = (e.target as Element).closest("a, button");
+      if (control && control !== press) return;
+      e.preventDefault();
+      goIn();
+    });
 
     // ---------- Rain ----------
     const canvas = screen.querySelector<HTMLCanvasElement>(".ts-rain");
@@ -513,6 +491,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
   /* "Press any key", with the thin rule under it, breathing slowly. */
   .ts-press {
     position: relative;
+    display: inline-block;
     margin-top: clamp(20px, 14vh, 150px);
     padding: 10px 28px 16px;
     border: 0;
@@ -523,6 +502,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     font-size: clamp(1rem, 1.6vw, 1.2rem);
     letter-spacing: 0.32em;
     text-transform: uppercase;
+    text-decoration: none;
     cursor: pointer;
     animation: breathe 2.6s ease-in-out infinite;
   }
@@ -545,102 +525,6 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     50% {
       opacity: 0.45;
     }
-  }
-
-  /* Without JavaScript the menu just shows. With it, it waits for a key. */
-  :global(html:not(.js)) .ts-press {
-    display: none;
-  }
-
-  .ts-menu {
-    position: relative;
-    display: grid;
-    justify-items: center;
-    width: min(420px, 100%);
-  }
-
-  .ts-menu::before {
-    content: "";
-    position: absolute;
-    inset: -40px -120px;
-    z-index: -1;
-    background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
-    pointer-events: none;
-  }
-
-  :global(.js) .title-screen:not(.is-open) .ts-menu {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-  }
-
-  :global(.js) .title-screen.is-open .ts-press {
-    display: none;
-  }
-
-  .title-screen.is-open .ts-menu > * {
-    animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  }
-
-  .title-screen.is-open .ts-menu > :nth-child(2) {
-    animation-delay: 0.08s;
-  }
-
-  .title-screen.is-open .ts-menu > :nth-child(3) {
-    animation-delay: 0.16s;
-  }
-
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  .tagline {
-    margin: 0 0 22px;
-    max-width: 44ch;
-    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
-    line-height: 1.5;
-    color: var(--text);
-    text-shadow: 0 2px 10px rgb(0 0 0 / 0.9);
-  }
-
-  .ts-buttons {
-    display: grid;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .ts-buttons .btn {
-    justify-content: flex-start;
-    min-height: 54px;
-    padding-inline: 18px;
-  }
-
-  .ts-buttons .btn--exfil {
-    justify-content: center;
-  }
-
-  .ts-buttons .btn--ghost {
-    --fill: 14 14 14;
-    background-color: rgb(var(--fill) / 0.72);
-    backdrop-filter: blur(2px);
-  }
-
-  .meta {
-    margin: 18px 0 0;
-    font-family: var(--font-head);
-    font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--caption);
-    text-shadow: 0 1px 6px rgb(0 0 0 / 0.9);
   }
 
   /* The title screen's corner captions. */

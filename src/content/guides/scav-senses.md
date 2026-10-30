@@ -1,7 +1,7 @@
 ---
 title: How scavs see and hear you
 summary: Sound, sightlines, cover and leaning. How to stay unnoticed, and what scavs do when they notice you.
-order: 5
+order: 8
 icon: skull
 ---
 

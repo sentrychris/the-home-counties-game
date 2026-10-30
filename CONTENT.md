@@ -6,7 +6,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 
 **Missing images become placeholders.** If a path points at a file that isn't in `public/` yet, the page shows a dashed "Image to come" box with the exact path to drop the file at. Nothing breaks.
 
-**Numbers to check.** Item weights and values, the AK-47's stats (rate of fire, the 0–100 bars), scav loadouts and voice lines are first drafts, not numbers from the game. Replace them with the real ones.
+**Numbers to check.** Item weights, values and sizes, the AK-47's specs and the scav loadouts were taken from the game as of v0.1.138 (the AK-47 is listed as it comes, with its wooden stock). The AK-47's 0–100 stat bars and the scav voice lines are judgement calls, not numbers from the game. Check them again after a balance change.
 
 ---
 
@@ -16,7 +16,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 | --- | --- |
 | `story` | The home page's "How it got this way" section: a short intro line, the backstory as numbered `beats` (`title`, `text`), and the `outro` on the taped note |
 | `trailer` | The YouTube trailer on the home page. `youtubeId` is the part after `/embed/` or `?v=` in the video's link. Remove the whole block to hide the section |
-| `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, title-screen text, search-engine description |
+| `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, a one-line pitch (not shown on the site at the moment), search-engine description |
 | `coords` | Grid position shown on the title screen and in the footer bar, like the game's map screen |
 | `cta.primary.href` | Where "Follow development" goes. Empty = the dev log. Put a Steam, itch.io or Discord link here when you have one |
 | `links` | Footer "Follow" links. Empty `href` shows "coming soon" |
@@ -51,7 +51,11 @@ Normal Markdown. Tables work.
 > A blockquote turns into a taped paper field note.
 
 Link to a map marker with its id: [S-04](../../map/#s-04)
+
+A picture: <img src="../../images/screenshots/dl-gunsmith-build.webp" alt="What it shows" loading="lazy" />
 ```
+
+Write pictures in guides as an `<img>` tag like the one above, not as `![]()`: Astro tries to bundle Markdown images and stops the build when it can't find them next to the guide.
 
 ## Weapons: `src/content/weapons/*.md`
 
@@ -65,12 +69,19 @@ Copy `ak-47.md` to add a weapon; the template page builds itself. The frontmatte
   "description": "…", "about": "…", "link": "weapons/ak-47/" }
 ```
 
-- `category`: one of `Weapons`, `Gear`, `Ammo`, `Medical`, `Provisions`, `Valuables` (these are the filter buttons).
+- `category`: one of `Weapons`, `Attachments`, `Grenades`, `Gear`, `Ammo`, `Medical`, `Provisions`, `Valuables` (these are the filter buttons). To add a category, add it to the list in `src/content.config.ts`, to `CATEGORIES` in `src/pages/gear.astro`, and give it a `--cat-…` colour in `src/styles/global.css`.
 - `slot`: free text; separate several with ` / ` (e.g. `Pockets / Rig`) and each becomes a slot filter option.
 - `weight` in kg, `value` in pounds. £/kg is worked out for you.
 - `about` (optional): where it came from, the same line the game shows under the item's details. Shown in italics on the gear page.
 - `size`: inventory cells, columns x rows (the AK-47 is `5x2`).
 - `image` (a picture in `public/`) or `icon` (an SVG name from `src/icons/`). `link` is optional.
+- Item pictures come from the game's inventory art: copy the PNGs from the game's `ui/items/` into `resources/ui/items/`, run `npm run images`, and point `image` at `images/items/<name>.webp`.
+
+## Traders: `src/data/traders.json`
+
+One entry per trader, in the order they appear on the Traders page: `id` (also the link, `/traders/#carl`), `name`, `role`, `motto`, `card` (their ID card picture and its `alt`), `about`, `sells`, `paysBestFor`, `levels` (the four standing levels), `special` (`title` and `text`, or `null`) and `jobs` (`title` and `ask`). The "How trading works" text and the screenshots are in `src/pages/traders.astro`.
+
+Keep months and years out of the traders' text, the same as the game's papers.
 
 ## Enemies: `src/content/enemies/*.md`
 
@@ -100,7 +111,7 @@ Each column has a `phase` label, a `title`, a `status` (`done`, `now`, `next`, `
 
 ## About and credits
 
-- `src/content/pages/about.md`: fact sheet, contact (`contact` can be an email or a URL), press-kit downloads, and the page text. Drop a portrait at `public/images/about/chris-rowles.webp`.
+- `src/content/pages/about.md`: fact sheet, contact (`contact` can be an email or a URL), press-kit downloads, and the page text. The picture beside the fact sheet is `portrait` (for now The Park pub); to use a photo of yourself, drop it at `public/images/about/chris-rowles.webp` and point `portrait.src` and `portrait.alt` at it.
 - `src/data/credits.json`: one group per kind of asset. **Add your CC BY models, textures and sounds to the "3D models, textures and sounds" group** and remove its `"placeholder": true` line. Licence names that match the `licences` list are linked automatically.
 
 ## The tactical map

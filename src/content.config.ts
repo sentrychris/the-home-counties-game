@@ -109,7 +109,7 @@ const items = defineCollection({
   loader: file("src/data/items.json"),
   schema: z.object({
     name: z.string(),
-    category: z.enum(["Weapons", "Gear", "Ammo", "Medical", "Provisions", "Valuables"]),
+    category: z.enum(["Weapons", "Attachments", "Grenades", "Gear", "Ammo", "Medical", "Provisions", "Valuables"]),
     slot: z.string(),
     weight: z.number().nonnegative(),
     value: z.number().nonnegative(),

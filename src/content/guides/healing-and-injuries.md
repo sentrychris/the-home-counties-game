@@ -1,15 +1,17 @@
 ---
 title: Healing and injuries
 summary: Reading your health, seeing where you've been hit, and healing during a raid.
-order: 4
+order: 7
 icon: medkit
 ---
 
-You have **440 HP**, shown in the bottom-left corner of the HUD under a figure of your body.
+You have **440 HP** across seven body parts: head, chest, stomach, both arms and both legs. The figure of your body in the bottom-left corner of the HUD shows how each part is doing.
 
 ## Where you've been hit
 
-When you take damage, the figure shows **which part of you** was hit: head, chest, arms or legs. Head and chest hits are the most dangerous, which is what helmets and armour are for.
+When you take damage, the part that was hit flashes, then glows **yellow, orange or red** as it loses health, and goes **black** once it's destroyed. A **blood drop** over a part means it's bleeding. Head and chest hits are the most dangerous, which is what helmets and armour are for.
+
+You'll feel it too: each hit jolts your view away from the shooter and blurs the edge of the screen on that side, so you know where it came from. Lose a lot of blood and the colour drains out of everything and throbs with your heartbeat. All of this except the jolt can be turned off with **Injury effects** in Settings > Picture.
 
 > If the figure starts lighting up, stop looting, get into cover and heal.
 
@@ -17,7 +19,7 @@ When you take damage, the figure shows **which part of you** was hit: head, ches
 
 Press <kbd>H</kbd> and the game picks the most sensible treatment from what you're carrying, or right-click an item and choose **Use on** to pick the body part yourself.
 
-Healing takes time. Your rifle goes down, you move at half speed, and a bar under the crosshair shows how long is left. Firing, or switching to a rifle, stops it. So heal somewhere out of sight, such as behind a wall, inside a house or behind a shed, rather than out in the car park.
+Healing takes time, and you do it with your own hands. Your rifle goes down, the item comes up and you see it used: the first aid kit unzipped and a pad pressed on, a bandage wound round your hand, a capsule popped out of its blister, a wound stitched with the surgical kit's needle holder. You move at half speed, and a bar under the crosshair shows how long is left. Firing, or switching to a rifle, stops it. So heal somewhere out of sight, such as behind a wall, inside a house or behind a shed, rather than out in the car park.
 
 Medical items on Duncombe Street, most of them out of military stores:
 
@@ -28,7 +30,7 @@ Medical items on Duncombe Street, most of them out of military stores:
 
 Food and water don't heal you.
 
-Keep meds in your pockets or rig, where they're quick to reach, rather than in your backpack.
+Keep meds in your pockets or rig, where they're quick to reach, rather than in your backpack. Sofie, the doctor, sells all of them, and once she knows you she'll let you buy on a tab.
 
 ## Staying alive
 

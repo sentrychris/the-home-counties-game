@@ -1,6 +1,6 @@
 # The Home Counties: website
 
-Promotional site for *The Home Counties*, a single-player extraction shooter made in Godot 4 by Chris Rowles.
+Promotional site for *The Home Counties*, an extraction shooter for one to four players, made in Godot 4.7 by Chris Rowles.
 
 Built with [Astro](https://astro.build) as a fully static site, with [Leaflet](https://leafletjs.com) for the tactical map. Everything you'd want to change (words, items, weapons, map markers, dev log posts) lives in JSON or Markdown. **[CONTENT.md](CONTENT.md) explains how to edit all of it.**
 
@@ -60,7 +60,7 @@ To build for a sub-folder locally (bash): `SITE_URL=https://you.github.io BASE_P
 src/
   content/          Markdown: guides, devlog, weapons, enemies, pages/about.md
   data/             JSON: site.json, items.json, map.json, map-markers.json,
-                    roadmap.json, credits.json, controls.json
+                    roadmap.json, credits.json, controls.json, traders.json
   pages/            one file per route; [slug].astro files are the templates
   components/       Header, Footer, Gallery, Img (with placeholders), StatBar, ...
   scripts/map.ts    the interactive map
