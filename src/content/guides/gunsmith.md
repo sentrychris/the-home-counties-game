@@ -5,7 +5,7 @@ order: 5
 icon: rifle
 ---
 
-The **GUNSMITH** tab in the hideout is where you build your rifle, as in Arena Breakout. You can also right-click a rifle anywhere and pick **Modify at the gunsmith**.
+The **GUNSMITH** tab in the hideout is where you build your rifle. You can also right-click a rifle anywhere and pick **Modify at the gunsmith**.
 
 <img src="../../images/screenshots/dl-gunsmith-build.webp" srcset="../../images/screenshots/dl-gunsmith-build-800.webp 800w, ../../images/screenshots/dl-gunsmith-build.webp 1600w" sizes="(min-width: 800px) 720px, 100vw" width="1600" height="884" alt="The gunsmith: an AK-47 on the bench with a card for each slot, the parts on the left and the stats on the right." loading="lazy" decoding="async" />
 

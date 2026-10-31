@@ -47,7 +47,7 @@ The usual advice for extraction shooters applies: **only take in what you can af
 
 ## Reading the HUD
 
-The HUD is kept minimal, as in Tarkov and Arena Breakout. Most of the time it's just this:
+The HUD is kept minimal. Most of the time it's just this:
 
 | Where | What it tells you |
 | --- | --- |

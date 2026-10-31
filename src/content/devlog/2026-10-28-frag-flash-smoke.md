@@ -40,4 +40,4 @@ Scavs carry them too. They run for cover from a frag or flash they see land, lob
 
 ## Smoke like it should be
 
-The first smoke was a bit thin, so it was redone to look like the smoke in Arena Breakout: it billows out of the can into a pale grey wall head-high within a few seconds, solid down to the ground, its top fraying into haze. The sun lights its near side and leaves the far side darker. At its thickest it costs about 3 ms a frame. See the [Grenades](../../guides/grenades/) guide for the details.
+The first smoke was a bit thin, so it was redone: it billows out of the can into a pale grey wall head-high within a few seconds, solid down to the ground, its top fraying into haze. The sun lights its near side and leaves the far side darker. At its thickest it costs about 3 ms a frame. See the [Grenades](../../guides/grenades/) guide for the details.

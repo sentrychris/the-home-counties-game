@@ -1,7 +1,7 @@
 ---
 title: "A HUD that stays out of the way"
 date: 2026-10-27T01:50:00Z
-summary: "A minimal in-raid HUD in the Tarkov and Arena Breakout mould: a compass, an extract box, a body figure that glows where you're hurt, and ammo only when you check it."
+summary: "A minimal in-raid HUD: a compass, an extract box, a body figure that glows where you're hurt, and ammo only when you check it."
 version: v0.1.62
 tags: [UI]
 cover:

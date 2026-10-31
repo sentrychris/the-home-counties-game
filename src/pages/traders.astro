@@ -63,24 +63,6 @@ const shots = [
                   </dd>
                 </div>
               </dl>
-              {
-                t.special && (
-                  <div class="special">
-                    <h3>{t.special.title}</h3>
-                    <p>{t.special.text}</p>
-                  </div>
-                )
-              }
-              <div class="jobs">
-                <h3>First jobs</h3>
-                <ol>
-                  {t.jobs.map((j) => (
-                    <li>
-                      <strong>{j.title}.</strong> {j.ask}
-                    </li>
-                  ))}
-                </ol>
-              </div>
             </li>
           ))
         }

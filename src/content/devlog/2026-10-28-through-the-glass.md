@@ -1,7 +1,7 @@
 ---
 title: "Through the glass"
 date: 2026-10-28T14:10:00Z
-summary: "The 4x scope goes picture-in-picture like Arena Breakout's, and an open red dot sight joins the gunsmith."
+summary: "The 4x scope goes picture-in-picture, and an open red dot sight joins the gunsmith."
 version: v0.1.95
 tags: [weapons, graphics]
 cover:
@@ -26,7 +26,7 @@ screenshots:
 ---
 ## Picture-in-picture
 
-Aiming the 4x scope used to zoom the whole screen. Now it works the way a real scope does, as in Arena Breakout. Raising it brings the eyepiece up to your eye and zooms your view only a little; the rifle, the scope and the world round it stay as they are, and inside the eyepiece is the view down the scope at four times the size, with a lit red chevron, a post and holdover lines. Your view turns more slowly while you're looking through it.
+Aiming the 4x scope used to zoom the whole screen. Now it works the way a real scope does. Raising it brings the eyepiece up to your eye and zooms your view only a little; the rifle, the scope and the world round it stay as they are, and inside the eyepiece is the view down the scope at four times the size, with a lit red chevron, a post and holdover lines. Your view turns more slowly while you're looking through it.
 
 The scope's own view is only drawn while you're aimed, at about the eyepiece's size on screen, and without the most expensive lighting, to keep the frame rate up.
 

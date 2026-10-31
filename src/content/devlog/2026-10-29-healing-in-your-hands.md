@@ -52,4 +52,4 @@ The rifle goes down while you work and comes back up when you're done. A few rou
 
 ## Alt+I
 
-**Alt+I** in a raid lifts your rifle and turns it to show you its right side, then its left, as in Tarkov and Arena Breakout. Handy for checking what you've fitted.
+**Alt+I** in a raid lifts your rifle and turns it to show you its right side, then its left. Handy for checking what you've fitted.

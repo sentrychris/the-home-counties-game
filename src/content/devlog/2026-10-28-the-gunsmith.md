@@ -1,7 +1,7 @@
 ---
 title: "The gunsmith"
 date: 2026-10-28T05:20:00Z
-summary: "An Arena Breakout-style gunsmith in the hideout: turn your rifle on a bench, swap the sight, muzzle, stock and magazine, and watch its stats change."
+summary: "A gunsmith in the hideout: turn your rifle on a bench, swap the sight, muzzle, stock and magazine, and watch its stats change."
 version: v0.1.92
 tags: [weapons, UI]
 cover:
@@ -37,4 +37,4 @@ Pick a slot and its parts are listed with what they do. Point at one to see it o
 - **7.62 compact suppressor**: no muzzle flash, and heard at under a third of the distance.
 - **The wooden stock**, now a part of its own. Take it off and the rifle's lighter and quicker to raise, but it kicks a third more.
 
-The stats are the ones Arena Breakout uses: ergonomics, vertical and horizontal recoil control, accuracy, muzzle velocity, effective range, fire rate and weight. They change how the rifle really handles in a raid, and the AK as it comes shoots exactly as it did before. Every number is in the [Gunsmith](../../guides/gunsmith/) guide.
+The stats are: ergonomics, vertical and horizontal recoil control, accuracy, muzzle velocity, effective range, fire rate and weight. They change how the rifle really handles in a raid, and the AK as it comes shoots exactly as it did before. Every number is in the [Gunsmith](../../guides/gunsmith/) guide.

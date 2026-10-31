@@ -20,7 +20,7 @@ screenshots:
 ---
 ## Mags as items
 
-Until now the AK simply had thirty rounds in it. Magazines are now items of their own, as in Tarkov and Arena Breakout. Each one holds thirty rounds of one kind, takes two squares, and shows its calibre, capacity and what's loaded in it.
+Until now the AK simply had thirty rounds in it. Magazines are now items of their own. Each one holds thirty rounds of one kind, takes two squares, and shows its calibre, capacity and what's loaded in it.
 
 - **Loading:** drag a pile of rounds onto a magazine, or right-click it > **Load with...**, which lists every kind of ammo you have with how many in brackets.
 - **Fitting:** drag a magazine onto a rifle, or right-click the rifle > **Load magazine...** to pick one. A rifle with no magazine in it shows without one in its picture.

@@ -43,4 +43,4 @@ The cars in the road are now real British models, every one of them wrecked or l
 
 ## Gritty
 
-The picture has a harder, grittier look now, closer to Tarkov and Arena Breakout. It's the default, but each effect can be switched off under Settings > Picture, and the old Natural look is still there if you prefer it.
+The picture has a harder, grittier look now. It's the default, but each effect can be switched off under Settings > Picture, and the old Natural look is still there if you prefer it.
