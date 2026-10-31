@@ -49,7 +49,8 @@ const backdrop = `--backdrop: url("${url("images/backdrop-1200.webp")}")`;
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Picture settings (film grain, rain, light and mist, dust) before first paint, so nothing
-         flickers. Moving effects start off for visitors who ask for less motion. -->
+         flickers. Light and mist start off until switched on; the other moving effects start off for
+         visitors who ask for less motion. -->
     <script is:inline>
       (function () {
         var c = document.documentElement.classList;
@@ -59,7 +60,7 @@ const backdrop = `--backdrop: url("${url("images/backdrop-1200.webp")}")`;
           var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
           if (fx.grain === false) c.add("fx-no-grain");
           if (fx.rain === false || (fx.rain === undefined && still)) c.add("fx-no-rain");
-          if (fx.light === false || (fx.light === undefined && still)) c.add("fx-no-light");
+          if (fx.light !== true) c.add("fx-no-light");
           if (fx.particles === false || (fx.particles === undefined && still)) c.add("fx-no-particles");
         } catch (e) {}
       })();
