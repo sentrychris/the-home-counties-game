@@ -29,6 +29,10 @@ Each exit is an extraction zone with a **red smoke flare**. If you lose your bea
 
 > Work out where the nearest smoke is early in the raid, not when the timer is nearly out.
 
+## After the raid
+
+When a raid ends, for better or worse, you see yourself in the kit you wore beside five numbers: how long you were in, the scavs you killed, what you looted, the damage you took and how many times you healed. If you didn't make it out, the loot line shows what you lost instead. **Return to hideout** takes you home.
+
 ## What you lose when you die
 
 If you're killed, or the timer reaches zero before you extract, **you lose everything you took into the raid and everything you picked up in it**: weapon, armour, backpack and loot.
@@ -43,6 +47,7 @@ The usual advice for extraction shooters applies: **only take in what you can af
 - **Leave time to get out.** Head for an exit with a few minutes still on the clock.
 - **Use the map.** The [tactical map](../../map/) shows every crate spot, scav spawn and open house.
 - **Read what you find.** Papers left in the houses tell the street's story. Hold <kbd>F</kbd> to take one home and it goes on the board in your hideout.
+- **Take on a task.** Each trader has three tasks to start with, on the hideout's **Tasks** tab. They pay well, and they're a reason to go somewhere new.
 - **Bring friends.** Up to four can raid together. See [Co-op squads](../co-op-squads/).
 
 ## Reading the HUD
@@ -52,7 +57,7 @@ The HUD is kept minimal. Most of the time it's just this:
 | Where | What it tells you |
 | --- | --- |
 | Top | A compass, for bearings only |
-| Top right | Time left in the raid |
+| Top right | Time left in the raid. Below it, a box when you complete part of a task |
 | Top middle, in an exit | The extract box, counting you out |
 | Bottom left, figure | Your body. Hurt parts glow yellow, then orange, then red, and go black when destroyed. A blood drop means that part is bleeding |
 | Beside the figure | The gear you're wearing on one side; on the other, bleeds, destroyed limbs, painkillers working and an overload weight |

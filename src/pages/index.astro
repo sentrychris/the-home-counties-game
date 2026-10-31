@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import Img from "../components/Img.astro";
 import Gallery from "../components/Gallery.astro";
+import Tasks from "../components/Tasks.astro";
 import site from "../data/site.json";
 import map from "../data/map.json";
 import { url, formatDate } from "../lib/url";
@@ -24,17 +25,29 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
   <!-- The title screen: the game's backdrop and wordmark, then "Press any key" carries on into the page. -->
   <section class="title-screen" aria-labelledby="hero-title" data-title-screen>
     <div class="ts-media" aria-hidden="true">
-      <img
-        class="ts-bg"
-        src={url("images/backdrop-1200.webp")}
-        srcset={`${url("images/backdrop-720.webp")} 720w, ${url("images/backdrop-1200.webp")} 1200w, ${url("images/backdrop-2000.webp")} 1672w`}
-        sizes="100vw"
-        alt=""
-        width="1672"
-        height="941"
-        fetchpriority="high"
-        decoding="async"
-      />
+      <div class="ts-pic">
+        <img
+          class="ts-bg"
+          src={url("images/backdrop-1200.webp")}
+          srcset={`${url("images/backdrop-720.webp")} 720w, ${url("images/backdrop-1200.webp")} 1200w, ${url("images/backdrop-2000.webp")} 1672w`}
+          sizes="100vw"
+          alt=""
+          width="1672"
+          height="941"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <!-- Light laid over the picture, pinned to it as it's cropped: the break in the clouds, the
+             street lamp, and the far-off war flashing behind the rooftops. Lighting under Picture settings. -->
+        <div class="ts-scene">
+          <span class="fx-rays"></span>
+          <span class="fx-lamp"></span>
+        </div>
+      </div>
+      <div class="ts-pic ts-pic--still">
+        <div class="ts-scene ts-flashes"><span class="fx-flash"></span></div>
+      </div>
+      <div class="mist mist--title"><span></span></div>
       <canvas class="ts-rain"></canvas>
       <div class="ts-shade"></div>
     </div>
@@ -211,6 +224,9 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     </div>
   </section>
 
+  <!-- The traders' tasks, teased: the first one's briefing with the rest blacked out. -->
+  <Tasks />
+
   <section class="section band map-teaser" aria-labelledby="map-title">
     <div class="wrap teaser-grid">
       <div class="teaser-copy">
@@ -285,6 +301,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     <div class="wrap">
       <div class="panel cta">
         <div class="cta-media" aria-hidden="true"></div>
+        <div class="mist mist--cta" aria-hidden="true"><span></span></div>
         <div class="cta-copy">
           <p class="eyebrow">{site.status}</p>
           <h2 id="cta-title">{site.cta.heading}</h2>
@@ -301,8 +318,9 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
 
 <script>
   // Title screen: like the game, "Press any key" carries straight on in, here down to the
-  // raid intel. Rain falls over the backdrop while the screen is in view, unless it's turned
-  // off under Picture settings or the visitor prefers less motion.
+  // raid intel. Rain and drifting dust fall over the backdrop, a street lamp fails and the war
+  // flashes beyond the rooftops while the screen is in view, unless they're turned off under
+  // Picture settings or the visitor prefers less motion.
   const screen = document.querySelector<HTMLElement>("[data-title-screen]");
   if (screen) {
     const press = screen.querySelector<HTMLAnchorElement>("[data-press]")!;
@@ -328,29 +346,57 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
       goIn();
     });
 
-    // ---------- Rain ----------
+    // The effects below run only while the title screen is on screen and the tab is showing.
+    const root = document.documentElement.classList;
+    let inView = true;
+    const watchers: (() => void)[] = [];
+    const watch = (fn: () => void) => {
+      watchers.push(fn);
+      fn();
+    };
+    const live = () => inView && !document.hidden;
+    new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      watchers.forEach((fn) => fn());
+    }).observe(screen);
+    document.addEventListener("visibilitychange", () => watchers.forEach((fn) => fn()));
+    document.addEventListener("thc-fx", () => watchers.forEach((fn) => fn()));
+    const dprOf = () => Math.min(window.devicePixelRatio || 1, 1.5);
+
+    // ---------- Rain, dust, ash and the odd ember, on one canvas ----------
+    // Rain and the drifting motes each have their own switch under Picture settings, but share a
+    // canvas and a frame loop, so the browser has only one moving layer to put on screen.
     const canvas = screen.querySelector<HTMLCanvasElement>(".ts-rain");
     const ctx = canvas?.getContext("2d");
     if (canvas && ctx) {
       type Drop = { x: number; y: number; len: number; speed: number; alpha: number };
+      type Mote = { x: number; y: number; r: number; vx: number; vy: number; a: number; ph: number; ember: boolean };
       let drops: Drop[] = [];
+      let motes: Mote[] = [];
       let w = 0;
       let h = 0;
       let running = false;
-      let inView = true;
+      let rain = false;
+      let dust = false;
       let last = 0;
       const wind = 0.16;
 
-      const size = () => {
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-        w = canvas.clientWidth;
-        h = canvas.clientHeight;
-        canvas.width = Math.round(w * dpr);
-        canvas.height = Math.round(h * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        const count = Math.round((w * h) / 5200);
-        drops = Array.from({ length: count }, () => newDrop(true));
+      // Soft round sprites, drawn once and stamped, so nothing is blurred per frame.
+      const sprite = (rgb: string) => {
+        const c = document.createElement("canvas");
+        c.width = c.height = 32;
+        const g = c.getContext("2d")!;
+        const grad = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+        grad.addColorStop(0, `rgba(${rgb}, 1)`);
+        grad.addColorStop(0.35, `rgba(${rgb}, 0.55)`);
+        grad.addColorStop(1, `rgba(${rgb}, 0)`);
+        g.fillStyle = grad;
+        g.fillRect(0, 0, 32, 32);
+        return c;
       };
+      const dustSprite = sprite("226, 216, 196");
+      const emberSprite = sprite("255, 150, 72");
+
       const newDrop = (anywhere: boolean): Drop => {
         const near = Math.random();
         return {
@@ -361,27 +407,70 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
           alpha: 0.07 + near * 0.2,
         };
       };
+      const newMote = (anywhere: boolean): Mote => {
+        const ember = Math.random() < 0.12;
+        const near = Math.random();
+        return {
+          x: Math.random() * w,
+          y: anywhere ? Math.random() * h : ember ? h + 10 : Math.random() * h,
+          r: ember ? 1.6 + near * 2.2 : 1.2 + near * 3.2,
+          vx: 8 + near * 22,
+          vy: ember ? -(14 + near * 26) : 2 + near * 7,
+          a: ember ? 0.45 + near * 0.4 : 0.08 + near * 0.22,
+          ph: Math.random() * 6.28,
+          ember,
+        };
+      };
+      const size = () => {
+        const dpr = dprOf();
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drops = Array.from({ length: Math.round((w * h) / 5200) }, () => newDrop(true));
+        motes = Array.from({ length: Math.round((w * h) / 22000) }, () => newMote(true));
+      };
       const frame = (t: number) => {
         if (!running) return;
         const dt = Math.min(0.05, (t - (last || t)) / 1000);
         last = t;
         ctx.clearRect(0, 0, w, h);
-        ctx.lineWidth = 1;
-        ctx.lineCap = "round";
-        for (const d of drops) {
-          d.y += d.speed * dt;
-          d.x += d.speed * wind * dt;
-          if (d.y - d.len > h || d.x > w + 100) Object.assign(d, newDrop(false));
-          ctx.strokeStyle = `rgba(214, 220, 226, ${d.alpha})`;
-          ctx.beginPath();
-          ctx.moveTo(d.x, d.y);
-          ctx.lineTo(d.x - d.len * wind, d.y - d.len);
-          ctx.stroke();
+        if (dust) {
+          for (const m of motes) {
+            m.ph += dt * (m.ember ? 2.4 : 0.6);
+            m.x += (m.vx + Math.sin(m.ph) * 9) * dt;
+            m.y += (m.vy + Math.cos(m.ph * 0.7) * 5) * dt;
+            if (m.x > w + 20) m.x = -20;
+            if (m.y > h + 20 || m.y < -20) Object.assign(m, newMote(false));
+            // Embers flicker and fade as they rise; everything thins out towards the sky.
+            const lift = m.ember ? Math.max(0, Math.min(1, m.y / h - 0.15)) : 1;
+            const flicker = m.ember ? 0.65 + 0.35 * Math.sin(m.ph * 3.1) : 1;
+            ctx.globalAlpha = m.a * lift * flicker * Math.min(1, (m.y / h) * 2.5);
+            ctx.drawImage(m.ember ? emberSprite : dustSprite, m.x - m.r, m.y - m.r, m.r * 2, m.r * 2);
+          }
+          ctx.globalAlpha = 1;
+        }
+        if (rain) {
+          ctx.lineWidth = 1;
+          ctx.lineCap = "round";
+          for (const d of drops) {
+            d.y += d.speed * dt;
+            d.x += d.speed * wind * dt;
+            if (d.y - d.len > h || d.x > w + 100) Object.assign(d, newDrop(false));
+            ctx.strokeStyle = `rgba(214, 220, 226, ${d.alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(d.x, d.y);
+            ctx.lineTo(d.x - d.len * wind, d.y - d.len);
+            ctx.stroke();
+          }
         }
         requestAnimationFrame(frame);
       };
       const update = () => {
-        const want = inView && !document.hidden && !document.documentElement.classList.contains("fx-no-rain");
+        rain = !root.contains("fx-no-rain");
+        dust = !root.contains("fx-no-particles");
+        const want = live() && (rain || dust);
         if (want && !running) {
           running = true;
           last = 0;
@@ -393,16 +482,29 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         }
       };
 
-      new IntersectionObserver((entries) => {
-        inView = entries[0].isIntersecting;
-        update();
-      }).observe(screen);
       new ResizeObserver(() => {
         if (canvas.clientWidth !== w || canvas.clientHeight !== h) size();
       }).observe(canvas);
-      document.addEventListener("visibilitychange", update);
-      document.addEventListener("thc-fx", update);
-      update();
+      watch(update);
+    }
+
+    // ---------- The far-off war, flashing beyond the rooftops now and then ----------
+    const scene = screen.querySelector<HTMLElement>(".ts-flashes");
+    if (scene) {
+      let timer = 0;
+      const next = (first = false) => {
+        clearTimeout(timer);
+        if (!live() || root.contains("fx-no-light")) return;
+        timer = window.setTimeout(fire, (first ? 2500 : 5000) + Math.random() * 9000);
+      };
+      const fire = () => {
+        scene.style.setProperty("--flash-x", `${6 + Math.random() * 62}%`);
+        scene.classList.add("is-flash");
+        // Take it off afterwards, so the glow isn't kept as a layer between flashes.
+        window.setTimeout(() => scene.classList.remove("is-flash"), 2600);
+        next();
+      };
+      watch(() => next(true));
     }
   }
 </script>
@@ -428,6 +530,20 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     background: #0b0b0b;
   }
 
+  /* The picture and the light on it drift in together. */
+  .ts-pic {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    container-type: size;
+    transform-origin: 50% 45%;
+    animation: drift 26s ease-out both;
+  }
+
+  .ts-pic--still {
+    animation: none;
+  }
+
   .ts-bg {
     position: absolute;
     inset: 0;
@@ -435,9 +551,116 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     height: 100%;
     object-fit: cover;
     object-position: 50% 42%;
-    transform-origin: 50% 45%;
-    animation: drift 26s ease-out both;
   }
+
+  /* The same box as the cropped picture (object-fit: cover, 50% 42%), so the light stays on
+     the lamp and the clouds at any window shape. */
+  .ts-scene {
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    width: max(100vw, 100svh * 1672 / 941);
+    width: max(100cqw, 100cqh * 1672 / 941);
+    aspect-ratio: 1672 / 941;
+    translate: -50% -42%;
+    pointer-events: none;
+  }
+
+  /* Only the lamp and the flashes move, so the rest is painted once with the picture instead of
+     being put together again every frame. */
+  .ts-scene > span {
+    position: absolute;
+    display: block;
+  }
+
+  /* Sun through the break in the clouds. Still, so it costs nothing after the first paint;
+     the dust drifting through it does the moving. */
+  .fx-rays {
+    right: -2%;
+    top: -3%;
+    width: 58%;
+    height: 82%;
+    background: url("../assets/fx/rays.webp") right top / 100% 100% no-repeat;
+    opacity: 0.7;
+  }
+
+  /* The street lamp on the left, failing. */
+  .fx-lamp {
+    left: 18.1%;
+    top: 20.6%;
+    width: 11%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(255 230 180 / 0.9) 0 3%, rgb(255 200 130 / 0.36) 9%, rgb(255 176 100 / 0.1) 34%, transparent 68%);
+    animation: lamp 9.7s steps(1, end) infinite;
+  }
+
+  .fx-lamp::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: 210%;
+    height: 520%;
+    translate: -50% 0;
+    background: radial-gradient(ellipse 34% 100% at 50% 0, rgb(255 190 120 / 0.13), transparent 70%);
+  }
+
+  @keyframes lamp {
+    0% { opacity: 0.85; }
+    31% { opacity: 0.3; }
+    32% { opacity: 0.85; }
+    33.5% { opacity: 0.15; }
+    34.5% { opacity: 0.8; }
+    58% { opacity: 0.92; }
+    71% { opacity: 0.55; }
+    72% { opacity: 0.88; }
+    88% { opacity: 0.08; }
+    89.2% { opacity: 0.7; }
+    90% { opacity: 0.2; }
+    91% { opacity: 0.85; }
+  }
+
+  /* Shelling beyond the rooftops: a glow low on the horizon lighting the clouds above it. The
+     script moves it along the skyline and sets it off now and then. It sits outside the drifting
+     picture, so a flash never makes the browser repaint the picture. */
+  .fx-flash {
+    left: var(--flash-x, 30%);
+    top: 35%;
+    width: 40%;
+    height: 30%;
+    translate: -50% -100%;
+    background:
+      radial-gradient(ellipse 45% 38% at 50% 100%, rgb(255 176 100 / 0.8), rgb(255 128 64 / 0.25) 45%, transparent 75%),
+      radial-gradient(ellipse 50% 85% at 50% 100%, rgb(255 196 150 / 0.22), transparent 80%);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .ts-flashes.is-flash .fx-flash {
+    visibility: visible;
+    animation: flash 2.2s ease-out;
+  }
+
+  @keyframes flash {
+    0% { opacity: 0; }
+    6% { opacity: 1; }
+    18% { opacity: 0.35; }
+    26% { opacity: 0.75; }
+    100% { opacity: 0; }
+  }
+
+  :global(.fx-no-light) .ts-scene,
+  :global(.fx-no-light) .mist--title {
+    display: none;
+  }
+
+  .mist--title {
+    --mist-h: 50%;
+    --mist-o: 0.5;
+  }
+
 
   @keyframes drift {
     from {
@@ -456,7 +679,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     pointer-events: none;
   }
 
-  :global(.fx-no-rain) .ts-rain {
+  :global(.fx-no-rain.fx-no-particles) .ts-rain {
     display: none;
   }
 
@@ -1218,6 +1441,11 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     -webkit-mask-image: linear-gradient(to right, transparent 30%, #000);
     mask-image: linear-gradient(to right, transparent 30%, #000);
     pointer-events: none;
+  }
+
+  .mist--cta {
+    --mist-h: 70%;
+    --mist-o: 0.18;
   }
 
   .cta-copy,

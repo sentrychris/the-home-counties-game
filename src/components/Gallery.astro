@@ -178,6 +178,26 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     filter: saturate(1) contrast(1.05);
   }
 
+  /* A glint of light across the shot on hover, like sun catching a print. */
+  figure a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(105deg, transparent 32%, rgb(255 236 210 / 0.16) 50%, transparent 68%);
+    transform: translateX(-110%);
+    pointer-events: none;
+  }
+
+  figure a:hover::before {
+    transform: translateX(110%);
+    transition: transform 0.9s ease;
+  }
+
+  :global(.fx-no-light) figure a::before {
+    display: none;
+  }
+
   .zoom {
     position: absolute;
     right: 10px;

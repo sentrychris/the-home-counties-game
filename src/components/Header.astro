@@ -56,6 +56,16 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
             <span class="toggle-box" aria-hidden="true"></span>
             <span>Rain on the title screen</span>
           </label>
+          <label class="toggle">
+            <input type="checkbox" data-fx="light" checked />
+            <span class="toggle-box" aria-hidden="true"></span>
+            <span>Light and mist</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" data-fx="particles" checked />
+            <span class="toggle-box" aria-hidden="true"></span>
+            <span>Dust and embers</span>
+          </label>
           <p class="fx-note">Saved in this browser.</p>
         </div>
       </div>
@@ -91,7 +101,7 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     matchMedia("(min-width: 1100px)").addEventListener("change", () => setOpen(false));
   }
 
-  // Picture settings: film grain and rain, remembered in this browser only.
+  // Picture settings: film grain, rain, light and mist, and dust, remembered in this browser only.
   const fxBtn = document.querySelector<HTMLButtonElement>(".fx-toggle");
   const fxPanel = document.getElementById("fx-panel");
   if (fxBtn && fxPanel) {

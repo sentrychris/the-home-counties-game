@@ -6,7 +6,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 
 **Missing images become placeholders.** If a path points at a file that isn't in `public/` yet, the page shows a dashed "Image to come" box with the exact path to drop the file at. Nothing breaks.
 
-**Numbers to check.** Item weights, values and sizes, the AK-47's specs and the scav loadouts were taken from the game as of v0.1.138 (the AK-47 is listed as it comes, with its wooden stock). The AK-47's 0–100 stat bars and the scav voice lines are judgement calls, not numbers from the game. Check them again after a balance change.
+**Numbers to check.** Item weights, values and sizes, the AK-47's specs and the scav loadouts were taken from the game as of v0.1.138, and the backpacks as of v0.1.160 (the AK-47 is listed as it comes, with its wooden stock). The AK-47's 0–100 stat bars and the scav voice lines are judgement calls, not numbers from the game. Check them again after a balance change.
 
 ---
 
@@ -21,7 +21,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 | `cta.primary.href` | Where "Follow development" goes. Empty = the dev log. Put a Steam, itch.io or Discord link here when you have one |
 | `links` | Footer "Follow" links. Empty `href` shows "coming soon" |
 | `nav` | Header menu |
-| `features` | The six feature cards. `icon` is a file name from `src/icons/` without `.svg` |
+| `features` | The feature cards. `icon` is a file name from `src/icons/` without `.svg` |
 | `loop` | The four "In, loot, out" steps |
 | `screenshots` | Home page gallery: `src`, `alt` (describe the image for screen readers), `caption` |
 
@@ -82,6 +82,15 @@ Copy `ak-47.md` to add a weapon; the template page builds itself. The frontmatte
 One entry per trader, in the order they appear on the Traders page: `id` (also the link, `/traders/#carl`), `name`, `role`, `motto`, `card` (their ID card picture and its `alt`), `about`, `sells`, `paysBestFor`, `levels` (the four standing levels), `special` (`title` and `text`, or `null`) and `jobs` (`title` and `ask`). The "How trading works" text and the screenshots are in `src/pages/traders.astro`.
 
 Keep months and years out of the traders' text, the same as the game's papers.
+
+## Tasks on the home page: `src/data/tasks.json`
+
+The "Tasks" section between "How a raid works" and the map. It's meant to tease, so keep it short:
+
+- `intro`, `stats`: the paragraph and the three big numbers.
+- `briefing`: the task shown on the taped sheet (Dead Air). `objectives` are shown in order: `{ "text": "…" }` prints a line, `"done": true` ticks it, and `{ "hidden": 64 }` blacks out a line that wide (in % of the sheet). The reward is always blacked out.
+- `toast`: the game's OBJECTIVE COMPLETE box that slides in over the screenshot (`shot`).
+- `others`: other tasks shown by name and place only. `locked` is the line under "Stages 2 and 3".
 
 ## Enemies: `src/content/enemies/*.md`
 

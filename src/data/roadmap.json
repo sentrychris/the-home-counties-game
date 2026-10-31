@@ -6,7 +6,7 @@
     "title": "Prototype build",
     "status": "done",
     "items": [
-      { "text": "Duncombe Street raid map with 12-minute raids", "done": true },
+      { "text": "Duncombe Street raid map with 18-minute raids", "done": true },
       { "text": "Two exits at the army's old cordon points, marked by red smoke", "done": true },
       { "text": "AK-47 with FMJ, AP and hollow-point ammo", "done": true },
       { "text": "Scav AI that uses cover, flanks and hunts by sound", "done": true },
@@ -35,8 +35,11 @@
       { "text": "Healing animated in your hands, and Alt+I to inspect", "done": true },
       { "text": "Glass that breaks", "done": true },
       { "text": "The Brunel Centre, The Park pub, the railway and two building sites", "done": true },
+      { "text": "Tasks from every trader, 36 in all, in three stages", "done": true },
+      { "text": "An end-of-raid screen with your stats", "done": true },
+      { "text": "Real insides for the open houses, upstairs included" },
       { "text": "Pistol and secondary weapon handling" },
-      { "text": "Character, Map and Tasks tabs in the hideout" },
+      { "text": "Character and Map tabs in the hideout" },
       { "text": "Portraits for the traders" }
     ]
   },

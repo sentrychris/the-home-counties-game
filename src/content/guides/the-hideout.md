@@ -1,6 +1,6 @@
 ---
 title: The hideout
-summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board and Settings.
+summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board, your tasks and Settings.
 order: 3
 icon: stash
 ---
@@ -11,7 +11,7 @@ The game starts in your hideout. Everything between raids happens here, through 
 
 ## Raid
 
-Pick a map (Duncombe Street for now, or the Practice yard to try things out), check **Your kit** and what it's worth, and press **Start raid**. You're asked to confirm, then the raid loads behind a loading screen with tips. In a squad, only the host can start, once everyone's back. Each raid gets its own weather and time of day.
+Pick where to go (Duncombe Street for now, or the Practice yard to try things out), look over the map and the note taped beside it, check **Your kit** and what it's worth, and press **Start raid**. You're asked to confirm, then the raid loads behind a loading screen with tips. In a squad, only the host can start, once everyone's back. Each raid gets its own weather and time of day.
 
 ## Storage
 
@@ -20,6 +20,10 @@ Your gear on the left and your stash on the right. Drag things between them, rig
 ## Traders
 
 Four traders to buy from, sell to and do jobs for: Chalky, Carl, Crapper and Sofie. Each has their own stock, prices, notes and standing. See [Traders](../../traders/).
+
+## Tasks
+
+The traders' tasks: nine from each trader, in three stages, done out in a raid. The tab shows what each trader has for you, what you've done and what's still locked. A stage opens when you've done the one before and your standing with that trader is high enough. In a raid, your current tasks are on the gear screen (<kbd>Tab</kbd>) and the pause menu, and a box at the top right tells you each time you tick one off.
 
 ## Gunsmith
 
@@ -39,4 +43,4 @@ The icons on the right of the top bar open the **Squad** box (see [Co-op squads]
 - **Picture:** Colours, from Natural to Gritty (darker and more muted), and camera effects you can switch on and off: film grain, sharpening, vignette, colour fringing, sun glare and injury effects.
 - **Sound:** master, effects, voices, background (wind, birds and the far-off war) and music volumes.
 
-The Character, Map and Tasks tabs are greyed out for now. They're coming in later builds.
+The Character and Map tabs are greyed out for now. They're coming in later builds.

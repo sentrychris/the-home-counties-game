@@ -1,0 +1,137 @@
+---
+// Atmosphere on every page: a little dust drifting behind the panels, and a soft warm light that
+// follows the mouse like a torch held low. Both are switched under Picture settings ("Dust and
+// embers", "Light and mist") and start off for visitors who prefer less motion.
+// The dust is a few tiny dots moved by CSS alone, so it costs the page no script time at all, and
+// any mist on the page stops drifting while it's scrolled out of view.
+
+// The same dots on every build: a small seeded random.
+let seed = 1966;
+const rand = () => {
+  seed = (seed * 16807) % 2147483647;
+  return seed / 2147483647;
+};
+const motes = Array.from({ length: 18 }, () => {
+  const near = rand();
+  const x0 = rand() * 100;
+  const y0 = rand() * 100;
+  const drift = 18 + near * 30;
+  return [
+    `--x0: ${x0.toFixed(1)}vw`,
+    `--y0: ${y0.toFixed(1)}vh`,
+    `--x1: ${(x0 + drift).toFixed(1)}vw`,
+    `--y1: ${(y0 + (rand() - 0.35) * 22).toFixed(1)}vh`,
+    `--s: ${(2 + near * 4).toFixed(1)}px`,
+    `--a: ${(0.12 + near * 0.22).toFixed(2)}`,
+    `--d: ${Math.round(34 + (1 - near) * 40)}s`,
+    `--dl: -${Math.round(rand() * 60)}s`,
+  ].join("; ");
+});
+---
+
+<div class="atmos-dust" aria-hidden="true">
+  {motes.map((style) => <i style={style}></i>)}
+</div>
+<div class="atmos-torch" aria-hidden="true"></div>
+
+<script>
+  // Mist only drifts while it's on screen.
+  const mists = document.querySelectorAll<HTMLElement>(".mist");
+  if (mists.length && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.target.classList.toggle("is-away", !e.isIntersecting);
+    });
+    mists.forEach((m) => io.observe(m));
+  }
+
+  // The torch: a soft light under the mouse, moved once a frame at most.
+  const torch = document.querySelector<HTMLElement>(".atmos-torch");
+  if (torch && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    let x = 0;
+    let y = 0;
+    let queued = false;
+    const place = () => {
+      queued = false;
+      torch.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+    document.addEventListener(
+      "pointermove",
+      (e) => {
+        if (e.pointerType !== "mouse") return;
+        x = e.clientX;
+        y = e.clientY;
+        torch.classList.add("is-on");
+        if (!queued) {
+          queued = true;
+          requestAnimationFrame(place);
+        }
+      },
+      { passive: true },
+    );
+    document.documentElement.addEventListener("pointerleave", () => torch.classList.remove("is-on"));
+  }
+</script>
+
+<style>
+  .atmos-dust {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .atmos-dust i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(230 220 200), rgb(230 220 200 / 0) 70%);
+    opacity: 0;
+    animation: mote var(--d) linear var(--dl) infinite;
+  }
+
+  @keyframes mote {
+    0% {
+      transform: translate3d(var(--x0), var(--y0), 0);
+      opacity: 0;
+    }
+    12%,
+    85% {
+      opacity: var(--a);
+    }
+    100% {
+      transform: translate3d(var(--x1), var(--y1), 0);
+      opacity: 0;
+    }
+  }
+
+  :global(.fx-no-particles) .atmos-dust {
+    display: none;
+  }
+
+  .atmos-torch {
+    position: fixed;
+    left: -340px;
+    top: -340px;
+    z-index: 999;
+    width: 680px;
+    height: 680px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(255 224 178 / 0.075), rgb(255 206 150 / 0.03) 38%, transparent 68%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    will-change: transform;
+  }
+
+  .atmos-torch.is-on {
+    opacity: 1;
+  }
+
+  :global(.fx-no-light) .atmos-torch {
+    display: none;
+  }
+</style>

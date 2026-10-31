@@ -1,0 +1,38 @@
+{
+  "eyebrow": "Work for the traders",
+  "heading": "Tasks",
+  "intro": "Every trader has work that can't be bought off a shelf: nine tasks each, in three stages, done out on the street. Find something, look in on somewhere, carry something across, settle a score. What they're really about is for you to find out.",
+  "stats": [
+    { "value": "36", "label": "Tasks" },
+    { "value": "4", "label": "Traders" },
+    { "value": "3", "label": "Stages each" }
+  ],
+  "briefing": {
+    "trader": "Chalky",
+    "role": "The Fixer",
+    "stage": "Stage 1",
+    "title": "Dead Air",
+    "area": "Duncombe Street",
+    "text": [
+      "Someone's been broadcasting on an old emergency frequency. Same message, every evening. I've got a feeling it's coming from one of the houses near the railway.",
+      "Find yourself a wind-up radio, tune it in and have a listen. I want to know who's still talking out there."
+    ],
+    "objectives": [
+      { "text": "Find the wind-up radio in one of the houses on Duncombe Street.", "done": true },
+      { "hidden": 82 },
+      { "hidden": 64 },
+      { "text": "Extract from the raid." }
+    ]
+  },
+  "toast": { "head": "Objective complete", "text": "Found the wind-up radio", "sub": "Dead Air for Chalky" },
+  "shot": {
+    "src": "images/screenshots/dl-quest-listening.webp",
+    "alt": "A terraced street in the game, rifle in hand, with LISTENING in the middle of the screen and a line of the broadcast as a subtitle."
+  },
+  "others": [
+    { "trader": "Carl", "title": "Duff Rounds", "area": "Clifford Avenue" },
+    { "trader": "Crapper", "title": "Read All About It", "area": "Osborne Street" },
+    { "trader": "Sofie", "title": "Cold Chain", "area": "Old Sainsbury's" }
+  ],
+  "locked": "Stages two and three stay locked until a trader trusts you."
+}

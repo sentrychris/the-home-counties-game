@@ -167,6 +167,51 @@ body::after {
   }
 }
 
+/* Drifting mist: a fog band that tiles sideways, drawn twice at different sizes on one moving
+   layer. The band fades out upwards in the picture itself, so no mask is needed (masks cost
+   every frame), and it stops while it's off screen (Atmosphere.astro adds .is-away).
+   Put <div class="mist"><span></span></div> at the bottom of a positioned box.
+   Part of "Light and mist" under Picture settings. */
+.mist {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--mist-h, 42%);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: var(--mist-o, 0.5);
+}
+
+.mist span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  background:
+    url("../assets/fx/mist.webp") 37% 100% / 25% 70% repeat-x,
+    url("../assets/fx/mist.webp") 0 100% / 50% 100% repeat-x;
+  animation: mist 110s linear infinite;
+}
+
+.mist.is-away span {
+  animation-play-state: paused;
+}
+
+@keyframes mist {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.fx-no-light .mist {
+  display: none;
+}
+
 main {
   flex: 1;
 }
