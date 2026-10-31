@@ -11,7 +11,7 @@
   "story": {
     "eyebrow": "The story so far",
     "heading": "How it got this way",
-    "intro": "Nobody bombed Duncombe Street. It was emptied, then taken.",
+    "intro": "What happened?",
     "beats": [
       { "title": "Britain kept the war supplied", "text": "Russia launched a full-scale invasion into Europe, and Britain became NATO's logistics hub. American and allied troops, vehicles, rifles, helmets and body armour came through its ports, airbases and depots by the shipload." },
       { "title": "Russia paid for trouble", "text": "Britain was already divided, worn down by COVID, heatwaves, cyberattacks and one political crisis after another. Russia saw a chance to cut the link between Europe and the US, and quietly funded criminal gangs and dissident groups, each with its own agenda." },
@@ -19,12 +19,12 @@
       { "title": "The strikes", "text": "Russian forces captured a key port in Rotterdam and launched ballistic missile strikes on the south of the UK, London included. As a result, the Home Counties plan fell apart." },
       { "title": "Bletchley", "text": "The government relocated to Bletchley Park, and the streets around it were evacuated. Then the government moved on. Criminals and opportunists moved in." }
     ],
-    "outro": "The rest is left lying around the street: leaflets on the doormats, cards in the windows, letters and notes in the houses, and the soldiers' logs at the checkpoints. Take them home and pin them up."
+    "outro": "The story is left lying around the street: leaflets on the doormats, cards in the windows, letters and notes in the houses, and the soldiers' logs at the checkpoints. Take them home and pin them up."
   },
 
   "trailer": {
-    "youtubeId": "YCahVzC4q8o",
-    "title": "The Home Counties trailer",
+    "youtubeId": "gxPISJpIfSk",
+    "title": "The Home Counties: A dev tour",
     "text": ""
   },
 

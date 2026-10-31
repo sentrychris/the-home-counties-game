@@ -1,7 +1,7 @@
 ---
 title: "Packing for a raid"
 date: 2026-10-24T21:40:00Z
-summary: "Tarkov-style gear slots, a hideout with Raid and Storage tabs, gear screens during the raid, gear you can drop, and scavs that wear what they carry."
+summary: "Gear slots, a hideout with Raid and Storage tabs, gear screens during the raid, gear you can drop, and scavs that wear what they carry."
 tags: [gear, UI]
 cover:
   src: images/screenshots/history-loadout-street.webp

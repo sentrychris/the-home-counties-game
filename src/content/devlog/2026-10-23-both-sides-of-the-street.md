@@ -47,4 +47,4 @@ A depth pass followed. Brick and roof tiles have real depth now, walls have prop
 
 ## Also
 
-New AK, reload, near-miss and hit sounds, smoother scav movement with reactions when they're hit, and a body outline on the HUD showing each part's health, like Tarkov's.
+New AK, reload, near-miss and hit sounds, smoother scav movement with reactions when they're hit, and a body outline on the HUD showing each part's health.

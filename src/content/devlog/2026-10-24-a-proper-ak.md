@@ -37,4 +37,4 @@ Settings > Weapon lets you pick your rifle: the worn AK, or a cleaner AK in wood
 
 ## Field of view
 
-A field of view setting went in with a new, Tarkov-style rifle position, and Settings is now split into tabs.
+A field of view setting went in with a new rifle position, and Settings is now split into tabs.

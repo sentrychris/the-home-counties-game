@@ -17,7 +17,7 @@ There are three grenades on Duncombe Street, all US Army issue from the NATO sto
 
 ## Carrying them
 
-Grenades go in your **rig or pockets**, one square each. The backpack is too slow to get at, as in Tarkov. Carl sells smoke from the start, and flashbangs and frags once he knows you. Scavs carry them too, so check their rigs.
+Grenades go in your **rig or pockets**, one square each. The backpack is too slow to get at. Carl sells smoke from the start, and flashbangs and frags once he knows you. Scavs carry them too, so check their rigs.
 
 ## Throwing
 

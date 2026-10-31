@@ -36,7 +36,7 @@ The icons on the right of the top bar open the **Squad** box (see [Co-op squads]
 - **Game:** mouse sensitivity, field of view and the list of keys.
 - **Display:** window mode, resolution, FSR upscaling, VSync, a frame-rate limit and the Menu size.
 - **Graphics:** the overall quality, how far grass is drawn, anti-aliasing, ambient occlusion, texture sharpness and sun shadows.
-- **Picture:** Colours, from Natural to Gritty (darker and more muted, like Tarkov), and camera effects you can switch on and off: film grain, sharpening, vignette, colour fringing, sun glare and injury effects.
+- **Picture:** Colours, from Natural to Gritty (darker and more muted), and camera effects you can switch on and off: film grain, sharpening, vignette, colour fringing, sun glare and injury effects.
 - **Sound:** master, effects, voices, background (wind, birds and the far-off war) and music volumes.
 
 The Character, Map and Tasks tabs are greyed out for now. They're coming in later builds.
