@@ -22,7 +22,7 @@ Your gear is set up in the hideout's **Storage** tab, and in a raid <kbd>Tab</kb
 | Knife | Melee | Ka-Bar knife |
 | Pockets (4) | One-square items | Ammo, bandages, painkillers, grenades |
 
-Swap between your two rifles with <kbd>1</kbd> and <kbd>2</kbd>.
+Swap between your two rifles with <kbd>1</kbd> and <kbd>2</kbd>. <kbd>3</kbd> draws the pistol from your holster and <kbd>4</kbd> the knife.
 
 ## Inventory space
 
@@ -38,7 +38,7 @@ Inside a backpack or rig, items take up space on a grid. Small items like bandag
 
 ## Magazines and ammo
 
-The AK takes 30-round magazines, and each magazine holds one kind of round. To load one, drag a pile of rounds onto it, or right-click it and pick **Load with...**. To fit one, drag it onto the rifle or right-click the rifle and pick **Load magazine...**. In a raid, <kbd>R</kbd> swaps in your fullest magazine of the same ammo and <kbd>T</kbd> one with the next kind. Keep spare magazines in your rig: from a backpack it takes longer.
+The AK takes 30-round magazines and the Hi-Power 13-round ones, and each magazine holds one kind of round. To load one, drag a pile of rounds onto it, or right-click it and pick **Load with...**. To fit one, drag it onto the rifle or right-click the rifle and pick **Load magazine...**. In a raid, <kbd>R</kbd> swaps in your fullest magazine of the same ammo and <kbd>Y</kbd> one with the next kind. Keep spare magazines in your rig: from a backpack it takes longer. A Hi-Power magazine is one square, so it fits a pocket; an AK magazine doesn't.
 
 The [gear and items database](../../gear/) lists sizes, weights and values.
 

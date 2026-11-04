@@ -37,9 +37,16 @@
       { "text": "The Brunel Centre, The Park pub, the railway and two building sites", "done": true },
       { "text": "Tasks from every trader, 36 in all, in three stages", "done": true },
       { "text": "An end-of-raid screen with your stats", "done": true },
-      { "text": "Real insides for the open houses, upstairs included" },
-      { "text": "Pistol and secondary weapon handling" },
-      { "text": "Character and Map tabs in the hideout" },
+      { "text": "Real insides for the open houses, upstairs included", "done": true },
+      { "text": "A Browning Hi-Power and a Ka-Bar knife, for you and the scavs", "done": true },
+      { "text": "Rails and weapon lights", "done": true },
+      { "text": "Change any key in Settings > Controls", "done": true },
+      { "text": "Photo mode, and F12 to hide the HUD", "done": true },
+      { "text": "Scavs in their own clothes", "done": true },
+      { "text": "Kerbstones, patched tarmac pavements and smooth humps", "done": true },
+      { "text": "A Maps tab in the hideout", "done": true },
+      { "text": "Night raids (being tuned in the developer menu)" },
+      { "text": "A Character tab in the hideout" },
       { "text": "Portraits for the traders" }
     ]
   },
@@ -51,7 +58,7 @@
     "status": "later",
     "items": [
       { "text": "More weapons: Carl already lists an M4A1, a SIG P226 and an MP-443" },
-      { "text": "More of Milton Keynes as raid maps" },
+      { "text": "More of Milton Keynes as raid maps, with The Station and Central MK next" },
       { "text": "More scav types and loadouts" },
       { "text": "Early access alpha and a store page" }
     ]

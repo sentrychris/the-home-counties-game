@@ -1,11 +1,11 @@
 ---
 title: The hideout
-summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board, your tasks and Settings.
+summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board, the maps, your tasks and Settings.
 order: 3
 icon: stash
 ---
 
-The game starts in your hideout. Everything between raids happens here, through the tabs along the top bar. Your cash, and how many raids you've done, got out of and been killed in, are in the top right.
+The game starts in your hideout. Everything between raids happens here, through the tabs along the top bar: Hideout, Raid, Character, Traders, Gunsmith, Papers, Maps and Tasks. Your cash, and how many raids you've done, got out of and been killed in, are in the top right.
 
 <img src="../../images/screenshots/dl-hideout-storage.webp" srcset="../../images/screenshots/dl-hideout-storage-800.webp 800w, ../../images/screenshots/dl-hideout-storage.webp 1600w" sizes="(min-width: 800px) 720px, 100vw" width="1600" height="884" alt="The hideout's Storage tab: your gear on the left and the stash grid on the right." loading="lazy" decoding="async" />
 
@@ -27,20 +27,25 @@ The traders' tasks: nine from each trader, in three stages, done out in a raid. 
 
 ## Gunsmith
 
-Your rifle on a bench, to fit a sight, mount, muzzle, stock and magazine and see how it changes the rifle's handling. See [the Gunsmith guide](../gunsmith/).
+Your rifle or pistol on a bench, to fit a sight, mount, muzzle, handguard, light, stock and magazine and see how it changes the gun's handling. See [the Gunsmith guide](../gunsmith/) and [Weapon lights](../weapon-lights/).
 
 ## Papers
 
 A cork board for the papers you've brought home from raids: leaflets, logs, letters, notes and a newspaper. Each one you take stays pinned up for good, and the board shows how many of them you've found. Click one to read it.
 
+## Maps
+
+The maps you can raid, as cards: Duncombe Street and the practice yard, with The Station and Central MK marked coming soon. Open one for its full tactical map: scroll to zoom, drag to move, and double-click to look closer. It's the same map as the [tactical map](../../map/) on this site.
+
 ## Squad, Settings and quitting
 
-The icons on the right of the top bar open the **Squad** box (see [Co-op squads](../co-op-squads/)), **Settings** and **Quit**. Settings has five pages:
+The icons on the right of the top bar open the **Squad** box (see [Co-op squads](../co-op-squads/)), **Settings** and **Quit**. Settings has six pages:
 
-- **Game:** mouse sensitivity, field of view and the list of keys.
+- **Game:** mouse sensitivity, field of view, the crosshair (off unless you turn it on) and the finish on your AK (wood, woodland, desert or winter).
+- **Controls:** every key, in three columns. Click one and press the new key to change it; see [Controls](../controls/).
 - **Display:** window mode, resolution, FSR upscaling, VSync, a frame-rate limit and the Menu size.
 - **Graphics:** the overall quality, how far grass is drawn, anti-aliasing, ambient occlusion, texture sharpness and sun shadows.
 - **Picture:** Colours, from Natural to Gritty (darker and more muted), and camera effects you can switch on and off: film grain, sharpening, vignette, colour fringing, sun glare and injury effects.
 - **Sound:** master, effects, voices, background (wind, birds and the far-off war) and music volumes.
 
-The Character and Map tabs are greyed out for now. They're coming in later builds.
+The Character tab is greyed out for now. It's coming in a later build.

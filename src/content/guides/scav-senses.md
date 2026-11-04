@@ -29,6 +29,12 @@ Scavs see you when you're in their line of sight and close enough to make out. T
 - **Fences, hedges and walls block line of sight.** The back gardens are slower to move through, but you can't be spotted from the road.
 - **Long grass and bushes help**, but they don't hide you completely. A scav looking straight at you will see you.
 
+## In the dark, and in your light
+
+At night scavs can't see as far: a bit over half as far on a clear night, and less in cloud, rain or mist. Night raids are being tested in the developer menu for now.
+
+Two things undo that. A **weapon light** shining their way lets them see you from as far off as they would by day, and they spot you up to two and a half times as fast while they're in the beam, at any time of day. And a shot without a suppressor gives away where you are with its muzzle flash. See [Weapon lights](../weapon-lights/).
+
 ## Cover and leaning
 
 **Cover** is anything that stops bullets: brick walls, cars, the corners of houses. **Concealment** only hides you: hedges, grass, a wooden fence. It's worth knowing which one you're behind.
@@ -41,5 +47,6 @@ Scavs see you when you're in their line of sight and close enough to make out. T
 - **They take cover.** Shoot at a scav and it gets behind something before shooting back.
 - **They flank.** When there's more than one, expect one to keep you pinned while another moves round the side.
 - **They search.** If they lose sight of you, they search where they last saw or heard you.
+- **They close in.** A scav that runs dry close to you may draw a pistol instead of reloading, and right up close, it'll go for its knife.
 
 The easiest fights are the ones where scavs never know you're there. If a fight does start, moving after every few shots makes you harder to pin down.

@@ -2,7 +2,7 @@
   "id": "duncombe-street",
   "name": "Duncombe Street",
   "location": "Bletchley · Milton Keynes · MK2",
-  "area": ["Duncombe Street", "Osborne Street", "Water Eaton Road", "Oliver Road", "Clifford Avenue", "The old Sainsbury's", "The Brunel Centre"],
+  "area": ["Duncombe Street", "Osborne Street", "Water Eaton Road", "Oliver Road", "Clifford Avenue", "The old Sainsbury's", "The Brunel Centre", "The army camp"],
   "summary": "",
   "intel": [
     { "label": "Raid time", "value": "18 min" },
@@ -10,17 +10,17 @@
     { "label": "Crates", "value": "24" },
     { "label": "Exits", "value": "2" }
   ],
-  "fieldNote": "Quiet area. Good for early runs. Watch the railway, you can hear movement for miles. Most crates are inside the open houses.",
+  "fieldNote": "Scavs camp in the old Sainsbury's. Watch the railway, you can hear movement for miles. Most crates are inside the open houses.",
   "distances": [
     { "exit": "Station Footpath", "fromWest": "220 m", "fromEast": "330 m" },
     { "exit": "Oliver Road", "fromWest": "290 m", "fromEast": "280 m" }
   ],
 
   "source": {
-    "image": "resources/duncombe-street-tactical-map-military.png",
-    "crop": { "left": 0, "top": 0, "width": 5040, "height": 6188 },
+    "image": "resources/duncombe-street-tactical-map-178.jpg",
+    "crop": { "left": 0, "top": 0, "width": 6060, "height": 6796 },
     "pxPerMetre": 16,
-    "worldOriginPx": [1700, 2627]
+    "worldOriginPx": [1702, 3206]
   },
   "tiles": {
     "url": "map/duncombe-street/tiles/{z}/{x}/{y}.webp",
@@ -41,19 +41,19 @@
 
   "grid": {
     "size": 25,
-    "originX": -61.91,
-    "originZ": -121.81,
-    "cols": 10,
-    "rows": 13
+    "originX": -62,
+    "originZ": -160,
+    "cols": 12,
+    "rows": 14
   },
-  "boundary": { "minX": -61.91, "minZ": -121.81, "maxX": 171.88, "maxZ": 182.06 },
+  "boundary": { "minX": -62, "minZ": -156, "maxX": 226, "maxZ": 182 },
 
   "layers": [
     { "id": "starts", "name": "Player starts", "icon": "start", "colour": "#86c5e8", "visible": true, "blurb": "You start at one of these two points." },
     { "id": "exits", "name": "Exits", "icon": "exit", "colour": "#8fb05a", "visible": true, "blurb": "The army's old cordon points, marked by red smoke." },
     { "id": "scavs", "name": "Scav spawns", "icon": "scav", "colour": "#c9513c", "visible": true, "blurb": "Where scavs start the raid." },
     { "id": "crates", "name": "Loot crates", "icon": "crate", "colour": "#d6aa48", "visible": true, "blurb": "Fixed crate spots, contents vary." },
-    { "id": "houses", "name": "Enterable houses", "icon": "house", "colour": "#b9895a", "visible": true, "blurb": "Open doors, floor plans inside." },
+    { "id": "houses", "name": "Enterable houses", "icon": "house", "colour": "#b9895a", "visible": true, "blurb": "Open doors, furnished rooms and an upstairs." },
     { "id": "landmarks", "name": "Landmarks", "icon": "landmark", "colour": "#d8d2c3", "visible": true, "blurb": "Named places to navigate by." },
     { "id": "notes", "name": "Field notes", "icon": "note", "colour": "#d8d2c3", "visible": false, "blurb": "Handwritten notes from the field copy." }
   ]

@@ -4,14 +4,15 @@ order: 1
 tagline: The ones who moved in.
 summary: Armed scavengers who moved into the area after the evacuation, from gang members to chancers to a few who never left. They know the gardens well.
 image:
-  src: images/screenshots/2026-10-24-235041.webp
-  alt: A scav in a grey hoodie carrying a rifle through long grass and trees.
-  caption: A scav cutting through the back gardens.
+  src: images/screenshots/dl-scav-beanie-light.webp
+  alt: A scav in a grey beanie, hoodie and light jeans walking through a shaft of light in the old Sainsbury's, rifle in hand.
+  caption: A scav crossing the light in the old Sainsbury's.
 threat: High in groups
 
 facts:
   - { label: On Duncombe Street, value: "14 per raid, and 2 more for each squadmate" }
-  - { label: Armed with, value: "AK-47 (7.62x39), sometimes grenades" }
+  - { label: Armed with, value: "AK-47 (7.62x39), often a Hi-Power or a Ka-Bar, sometimes grenades" }
+  - { label: Wears, value: "Tracksuits, everyday clothes or army surplus" }
   - { label: Notices you by, value: Sight and sound }
   - { label: Drops, value: Whatever they carried }
 
@@ -28,14 +29,18 @@ behaviours:
     text: Stand still close beside a scav and it catches you out of the corner of its eye. Right behind one, at arm's length, it'll turn round within a couple of seconds.
   - title: They throw grenades
     text: Holding an angle, a scav now and then lobs a frag or flashbang at where it last saw you. Falling back, it often pops smoke first. Scavs run for cover from grenades too.
+  - title: They close in
+    text: A scav that runs dry within about 15 metres draws its pistol rather than reloading. Get right up close and, if its rifle is no use, it'll go for its knife.
+  - title: They see less at night
+    text: In the dark a scav sees a bit over half as far, unless your weapon light is on or you've just fired without a suppressor.
   - title: They watch
     text: Scavs have the advantage on open ground. The lookout in the car park can see right across it.
 
 loadouts:
-  - name: Tracksuit
+  - name: Street clothes
     frequency: Common
-    gear: [AK-47, Spare magazines, 7.62x39 FMJ, Hoodie and joggers]
-    text: The most common type. No armour or helmet.
+    gear: [AK-47, Spare magazines, 7.62x39 FMJ, Tracksuit or hoodie, Beanie]
+    text: The most common type. No armour or helmet, in a tracksuit, a hoodie and jeans, or old army surplus.
   - name: Kitted
     frequency: Uncommon
     gear: [AK-47, Chest rig, MICH helmet, Bandages]
@@ -46,8 +51,8 @@ loadouts:
     text: Wears armour and a heavy helmet. Aim for unarmoured areas, or avoid the fight.
   - name: Extras
     frequency: Any of them
-    gear: [M67 frag, M84 flashbang, M18 smoke, Red dot, 4x scope, Suppressor]
-    text: Any scav might carry a grenade, and some have fitted parts to their rifles. Their bodies keep whatever they had, and you can take it.
+    gear: [Browning Hi-Power, Ka-Bar knife, M67 frag, M84 flashbang, M18 smoke, Red dot, 4x scope, Suppressor, Railed handguard]
+    text: About a third carry a pistol and about a third a knife, any of them might have a grenade, and some have fitted parts to their rifles. Their bodies keep whatever they had, and you can take it.
 
 voiceLines:
   - { line: "Oi! Who's that?", when: Hears something }
@@ -63,5 +68,7 @@ voiceLines:
 Most of the scavs came after the government left. Some ran with the gangs Russia paid for before the strikes, and still carry the rifles that came with the money. More are opportunists who followed them in, after whatever the evacuation left behind. A few never got on the train at all.
 
 They treat the street and everything in its houses as theirs, and they'll want whatever you're carrying.
+
+They wear whatever they could find: tracksuits, hoodies and jeans, or army surplus from the depots, with a beanie against the cold. No two look quite the same.
 
 They aren't soldiers, but they're careful. They move in twos and threes, use the gardens for cover, and keep out of the middle of the road. They know the area better than you do.

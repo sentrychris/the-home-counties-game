@@ -1,7 +1,7 @@
 {
   "name": "The Home Counties",
   "status": "Early access / Prototype build",
-  "version": "v0.1.160",
+  "version": "v0.1.179",
   "developer": "Chris Rowles",
   "engine": "Godot 4.7",
   "coords": "51.9923° N  0.7345° W",
@@ -56,13 +56,13 @@
   "features": [
     { "icon": "pin", "title": "Old streets", "text": "The first map is a corner of Bletchley built from Duncombe Street, Osborne Street, Water Eaton Road, Oliver Road, Clifford Avenue and the old Sainsbury's, beside the West Coast Main Line." },
     { "icon": "box", "title": "Loot and extract", "text": "Eighteen-minute raids. Search the houses people left in a hurry, the crates and the scavs you drop. Extract before the timer ends, or lose what you were carrying." },
-    { "icon": "skull", "title": "Scavs", "text": "Gang members, chancers and the odd few who never left. They're armed, they take cover, flank in pairs, throw grenades and come to investigate when they hear you." },
+    { "icon": "skull", "title": "Scavs", "text": "Gang members, chancers and the odd few who never left, each in whatever they could find to wear. They're armed, they take cover, flank in pairs, throw grenades, draw a pistol or a knife up close, and come to investigate when they hear you." },
     { "icon": "run", "title": "Noise", "text": "Sprinting, gunfire and moving through long grass all make noise. Walking, crouching and leaning round corners keep you quieter." },
-    { "icon": "backpack", "title": "Gear and weight", "text": "US Army plate carriers next to Russian helmets: NATO kit came through Britain by the shipload, and the gangs brought AKs. Eight gear slots and four pockets, and the more you carry, the slower you move." },
-    { "icon": "stash", "title": "Left behind", "text": "Nobody has cut a hedge since the evacuation. Knee-high grass, ivy, wrecked cars, boarded-up houses, a looted pub, and council leaflets still on the doormats." },
+    { "icon": "backpack", "title": "Gear and weight", "text": "US Army plate carriers next to Russian helmets: NATO kit came through Britain by the shipload, and the gangs brought AKs. Two rifles, a pistol and a knife, eight gear slots and four pockets, and the more you carry, the slower you move." },
+    { "icon": "stash", "title": "Left behind", "text": "Nobody has cut a hedge since the evacuation. Knee-high grass, ivy, wrecked cars, houses with the furniture still in, a looted pub, and council leaflets still on the doormats." },
     { "icon": "squad", "title": "Squads", "text": "Raid alone or with up to three friends, through Steam with no port forwarding. Shared loot, friendly fire, and your squad can carry your kit out if you go down." },
     { "icon": "money", "title": "Four traders", "text": "Chalky, Carl, Crapper and Sofie buy, sell and hand out work from behind their ID cards. Earn their trust for new tasks, better stock, special orders and a tab at the doctor's." },
-    { "icon": "rifle", "title": "The gunsmith", "text": "Put your AK on the bench: a red dot or a picture-in-picture 4x scope, a suppressor, a stock or none, and watch its handling change before you buy a part." }
+    { "icon": "rifle", "title": "The gunsmith", "text": "Put your AK or your Hi-Power on the bench: a red dot or a picture-in-picture 4x scope, a suppressor, a railed handguard and a weapon light, a stock or none, and watch its handling change before you buy a part." }
   ],
 
   "loop": [
@@ -73,14 +73,14 @@
   ],
 
   "screenshots": [
-    { "src": "images/screenshots/dl-rain-flare.webp", "alt": "A red flare burning on a wet street at the top of Oliver Road, smoke and rain lit red between concrete barriers.", "caption": "Red smoke in the rain marks a way out." },
+    { "src": "images/screenshots/dl-mist-meadow.webp", "alt": "Morning mist over the long grass behind a terrace, the low sun burning through between two trees.", "caption": "Morning mist on the open ground." },
+    { "src": "images/screenshots/dl-patrol-outfits.webp", "alt": "Two scavs walking away up a terraced street, one in a helmet and rig, the other in camouflage trousers.", "caption": "Two scavs on patrol." },
+    { "src": "images/screenshots/dl-night-aisle-scav.webp", "alt": "A scav caught in a weapon light's beam between empty shelves, seen through a red dot sight.", "caption": "By torchlight in the old Sainsbury's." },
     { "src": "images/screenshots/dl-store-aisle-gloom.webp", "alt": "A dark supermarket aisle with a few boxes left on the shelves and tins and bottles strewn across a dusty floor.", "caption": "Inside the old Sainsbury's." },
-    { "src": "images/screenshots/dl-park-crane-smoke.webp", "alt": "The Park, a cream-rendered corner pub, with red smoke rising beside a tower crane over the building site behind it.", "caption": "The Park, with red smoke over the building site." },
-    { "src": "images/screenshots/dl-mist-sun-copse.webp", "alt": "Low sun burning through thick mist in a copse, the rifle held low.", "caption": "Morning mist in the copse." },
-    { "src": "images/screenshots/dl-scope-aimed.webp", "alt": "Aiming down a 4x scope at a terraced street, the view magnified inside the eyepiece with a red chevron.", "caption": "Picture-in-picture through the 4x scope." },
-    { "src": "images/screenshots/dl-checkpoint-sun.webp", "alt": "The closed army checkpoint at the end of Osborne Street under its HOME COUNTIES ZONE sign, the sun flaring over the gate.", "caption": "The closed checkpoint at the end of Osborne Street." },
-    { "src": "images/screenshots/dl-railway-gantry.webp", "alt": "The main line's overhead wires on a steel gantry against a bright, cloudy sky, weeds growing through the tracks.", "caption": "The West Coast Main Line, gone quiet." },
-    { "src": "images/screenshots/dl-mist-gardens.webp", "alt": "Long grass behind the back fences of a terrace, the houses fading into mist.", "caption": "Behind the back gardens." },
-    { "src": "images/screenshots/dl-ghost-overcast.webp", "alt": "The gable end of a grey rendered house with a faded painted advert for Sunlight Soap.", "caption": "A ghost sign on Clifford Avenue." }
+    { "src": "images/screenshots/dl-street-crane-golden.webp", "alt": "Looking down a terraced street from above in the late sun, a burning barrel in the road and the overhead wires catching the light.", "caption": "Late sun over the terraces." },
+    { "src": "images/screenshots/dl-extract-run.webp", "alt": "A red flare burning on the pavement between concrete barriers, a scoped rifle at the bottom of the view.", "caption": "Red smoke marks the way out." },
+    { "src": "images/screenshots/dl-gate-arc.webp", "alt": "The closed army checkpoint at the end of Osborne Street: a gate under a HOME COUNTIES ZONE sign, a hut, a STOP sign and cones.", "caption": "The closed checkpoint at the end of Osborne Street." },
+    { "src": "images/screenshots/dl-house-lounge.webp", "alt": "The front room of an open house: red curtains at the bay window, an armchair and sunlight across the carpet.", "caption": "Inside one of the open houses." },
+    { "src": "images/screenshots/dl-rail-mist.webp", "alt": "The West Coast Main Line disappearing into mist under its overhead wires and gantries.", "caption": "The main line, gone quiet." }
   ]
 }

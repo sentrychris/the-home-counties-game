@@ -22,8 +22,8 @@ A raid on Duncombe Street lasts **18 minutes**. The countdown is in the top-righ
 
 Both exits are the army's old cordon points, abandoned when the soldiers withdrew. They're at the north end of the map, a long way from both starts.
 
-- **Station Footpath**, north-west corner (grid B1). The lane up to Bletchley station.
-- **Oliver Road**, north-east corner (grid I1). By the hoarding at the old Sainsbury's.
+- **Station Footpath**, north-west corner (grid B3). The lane up to Bletchley station.
+- **Oliver Road**, north-east corner (grid I3). By the hoarding at the old Sainsbury's.
 
 Each exit is an extraction zone with a **red smoke flare**. If you lose your bearings, look for the smoke above the rooftops; the compass along the top of the screen gives you bearings but doesn't mark the exits. To extract, walk into the zone and stay there for ten seconds. A box at the top of the screen counts you down.
 

@@ -28,11 +28,11 @@ Only the host can start a raid, once everyone's back in the hideout. Then you al
 
 ## In the raid
 
-- **Your squadmates** wear a near-black tracksuit (scavs wear white), in their own gear, with their name over their head within 60 metres. You hear their footsteps and shots.
+- **Your squadmates** wear a near-black tracksuit, in their own gear, with their name over their head within 60 metres. Scavs wear all sorts, but never dark from top to bottom. You hear your squad's footsteps and shots, and see their weapon lights.
 - **Scavs** are run by the host's game for everyone, with two extra for each friend who came. Each one goes after whichever of you it can see, and turns on whoever shoots it.
 - **Friendly fire is on.** Watch your angles.
 - **Loot is shared.** Everyone sees the same crates, bodies and dropped items. One of you searches a thing at a time; anyone else who tries is told who's in it. What you take is gone for the others.
-- **No pause.** Esc opens the menu, but the raid carries on round you.
+- **No pause.** Esc opens the menu, but the raid carries on round you, so there's no photo mode in a squad.
 
 ## When it's over
 

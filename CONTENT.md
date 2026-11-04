@@ -6,7 +6,7 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 
 **Missing images become placeholders.** If a path points at a file that isn't in `public/` yet, the page shows a dashed "Image to come" box with the exact path to drop the file at. Nothing breaks.
 
-**Numbers to check.** Item weights, values and sizes, the AK-47's specs and the scav loadouts were taken from the game as of v0.1.138, and the backpacks as of v0.1.160 (the AK-47 is listed as it comes, with its wooden stock). The AK-47's 0–100 stat bars and the scav voice lines are judgement calls, not numbers from the game. Check them again after a balance change.
+**Numbers to check.** Item weights, values and sizes, the AK-47's specs and the scav loadouts were taken from the game as of v0.1.138, the backpacks as of v0.1.160, and the Hi-Power, the Ka-Bar, 9 mm, the handguards, rails and lights as of v0.1.178 (the AK-47 is listed as it comes, with its wooden stock and lower handguard). The 0–100 stat bars on the weapon pages are the gunsmith's own numbers, but the range bars and the Ka-Bar's damage bars, and the scav voice lines, are judgement calls. Check them again after a balance change.
 
 ---
 
@@ -139,7 +139,7 @@ Each column has a `phase` label, a `title`, a `status` (`done`, `now`, `next`, `
 
 **Getting coordinates without the game:** on the map, press **Drop a pin** and click anywhere. The popup gives the grid reference and a ready-to-paste JSON line.
 
-The current markers were read off the field copy (`resources/duncombe-street-tactical-map-military.png`) and the game's own `duncombe_street.json`, so they line up with the printed map to within half a metre.
+The current markers come straight from the game's own `maps/duncombe_street.json` as of v0.1.178, and the map image is the game's v0.1.178 field copy (`resources/duncombe-street-tactical-map-178.jpg`, drawn by the game's `tools/ui/tacmap/` at 16 px/m), so they line up exactly. When the game's map changes, redraw the field copy with that tool and run `npm run tiles` again.
 
 ### Map settings: `src/data/map.json`
 

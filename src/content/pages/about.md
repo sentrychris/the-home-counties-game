@@ -20,7 +20,7 @@ pressKit:
 
 ## The game
 
-The Home Counties is an extraction shooter, played alone or in a squad of up to four. You go into a raid with a loadout, search houses, crates and fallen scavs, fight armed scavs who use cover, flank and search for you, and need to reach an exit before the raid timer runs out. If you die or run out of time, you lose everything you were carrying. Between raids you're in your hideout: trading with four traders you never meet, building your rifle at the gunsmith, and pinning up the papers you've brought home.
+The Home Counties is an extraction shooter, played alone or in a squad of up to four. You go into a raid with a loadout, search houses, crates and fallen scavs, fight armed scavs who use cover, flank and search for you, and need to reach an exit before the raid timer runs out. If you die or run out of time, you lose everything you were carrying. Between raids you're in your hideout: trading with four traders you never meet, building your guns at the gunsmith, and pinning up the papers you've brought home.
 
 ## The story so far
 
@@ -38,6 +38,6 @@ In the chaos the government relocated to Bletchley Park, and the streets around 
 
 The Home Counties is made by Chris Rowles in Godot 4.7.
 
-The current build is an early prototype: one map, one rifle you can build up at the gunsmith, three kinds of grenade, fourteen scavs (more in a squad), four traders and co-op for up to four.
+The current build is an early prototype: one map, an AK and a pistol you can build up at the gunsmith, a knife, weapon lights, three kinds of grenade, fourteen scavs (more in a squad), four traders, a photo mode and co-op for up to four.
 
 New features are written up in the [dev log](../devlog/).

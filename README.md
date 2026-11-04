@@ -24,7 +24,7 @@ The web-ready images are already in `public/` and `src/assets/`. You only need t
 
 ```sh
 npm run images     # resources/ -> public/images (screenshots, item art, key art), textures, social card
-npm run tiles      # the tactical map -> public/map/duncombe-street/tiles (about 700 tiles, ~5 MB)
+npm run tiles      # the tactical map -> public/map/duncombe-street/tiles (about 870 tiles, ~9 MB)
 npm run textures   # the game's worn menu textures (resources/ui/worn) -> src/assets/textures
 ```
 
@@ -34,7 +34,7 @@ Useful classes: `.panel` (worn box), `.card` (lighter box, like an item card), `
 
 The home page opens like the game: the title screen with rain and "Press any key", then the menu. Light is laid over the title picture (sun through the clouds, a failing street lamp, the far-off war flashing beyond the rooftops), with drifting mist, dust and the odd ember; the same mist drifts behind the Tasks section and the closing panel, a little dust drifts behind every page, and a soft light follows the mouse. The cog at the top right is Picture settings, which turns the film grain, the rain, the light and mist, and the dust on and off one by one. Light and mist start off until a visitor switches them on. The choice is kept in the browser (`thc-fx-v1` in local storage). The mist and light-ray textures in `src/assets/fx/` are made by `scripts/make-fx-textures.py` (Python, only needed to remake them).
 
-`npm run tiles` reads the 64 MB source map from `resources/`, which is git-ignored by default because of its size. The generated tiles in `public/` are what the site uses, so commit those.
+`npm run tiles` reads the 21 MB source map from `resources/`, which is git-ignored by default because of its size. The generated tiles in `public/` are what the site uses, so commit those.
 
 ## Deploying
 
