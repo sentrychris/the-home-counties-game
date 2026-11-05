@@ -1,6 +1,6 @@
 ---
 title: The hideout
-summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board, the maps, your tasks and Settings.
+summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board, the maps, your tasks, the music player and Settings.
 order: 3
 icon: stash
 ---
@@ -36,6 +36,10 @@ A cork board for the papers you've brought home from raids: leaflets, logs, lett
 ## Maps
 
 The maps you can raid, as cards: Duncombe Street and the practice yard, with The Station and Central MK marked coming soon. Open one for its full tactical map: scroll to zoom, drag to move, and double-click to look closer. It's the same map as the [tactical map](../../map/) on this site.
+
+## Music
+
+The music player is on the right of the bottom bar, beside the build number. It shows the track playing and how far in it is, with buttons for **shuffle**, **previous**, **play/stop**, **next** and the **track list**. Previous goes back to the start of the track if it's more than a few seconds in. The track list (the list button, or click the track's name) has every track with its length: click one to play it, drag along the line under them to skip through, or set the music's volume. Stop the music and it stays off, after raids and the next time you play too, until you press play again.
 
 ## Squad, Settings and quitting
 
