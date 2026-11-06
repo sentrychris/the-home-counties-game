@@ -12,7 +12,7 @@ These are the default keys in the current prototype. You can change any of them 
 
 - <kbd>Caps Lock</kbd> **walk.** Slower than running, and much quieter. Useful when scavs are nearby.
 - <kbd>Q</kbd> and <kbd>E</kbd> **lean.** Look round a corner or a fence post without stepping out, so less of you is exposed.
-- <kbd>R</kbd> **reload.** Swaps in your fullest magazine of the same ammo, from your rig and pockets first. A magazine from your backpack takes longer.
+- <kbd>R</kbd> **reload.** Swaps in a magazine with more rounds in it than the one in the gun: one with the same ammo if you have one, from your rig and pockets first, the fullest there. A magazine from your backpack takes longer.
 - <kbd>Y</kbd> **next ammo.** Swaps in a magazine loaded with the next kind of ammo you're carrying.
 - <kbd>T</kbd> **weapon light.** Turns the light on your rifle or pistol on and off. See [Weapon lights](../weapon-lights/).
 - <kbd>Alt</kbd>+<kbd>T</kbd> **check ammo.** The HUD doesn't show your ammo all the time. This shows the rounds in the magazine and what you carry of that type for a few seconds, then fades.

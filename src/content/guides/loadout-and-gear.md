@@ -6,7 +6,7 @@ icon: backpack
 widget: loadout
 ---
 
-Your gear is set up in the hideout's **Storage** tab, and in a raid <kbd>Tab</kbd> opens it. Everything you wear goes into a slot, and each slot holds one item.
+Your gear is set up in the hideout's **Hideout** tab, and in a raid <kbd>Tab</kbd> opens it. Everything you wear goes into a slot, and each slot holds one item.
 
 ## The slots
 
@@ -38,7 +38,7 @@ Inside a backpack or rig, items take up space on a grid. Small items like bandag
 
 ## Magazines and ammo
 
-The AK takes 30-round magazines and the Hi-Power 13-round ones, and each magazine holds one kind of round. To load one, drag a pile of rounds onto it, or right-click it and pick **Load with...**. To fit one, drag it onto the rifle or right-click the rifle and pick **Load magazine...**. In a raid, <kbd>R</kbd> swaps in your fullest magazine of the same ammo and <kbd>Y</kbd> one with the next kind. Keep spare magazines in your rig: from a backpack it takes longer. A Hi-Power magazine is one square, so it fits a pocket; an AK magazine doesn't.
+The AK takes 30-round magazines and the Hi-Power 13-round ones, and each magazine holds one kind of round. To load one, drag a pile of rounds onto it, or right-click it and pick **Load with...**. To fit one, drag it onto the rifle or right-click the rifle and pick **Load magazine...**. In a raid, <kbd>R</kbd> swaps in a magazine with more rounds in it than the one in the gun (the same ammo if you have one, the fullest in your rig and pockets first) and <kbd>Y</kbd> one with the next kind. Keep spare magazines in your rig: from a backpack it takes longer. A Hi-Power magazine is one square, so it fits a pocket; an AK magazine doesn't.
 
 The [gear and items database](../../gear/) lists sizes, weights and values.
 
@@ -50,7 +50,7 @@ Your carry weight is shown at the top of your gear, and a weight icon appears be
 
 ## What to take
 
-- **Early on:** one rifle with a couple of loaded magazines, a bandage and a small backpack. Cheap to lose. **Pack essentials** on the Storage tab fills your rig and pockets for you.
+- **Early on:** one rifle with a couple of loaded magazines, a bandage and a small backpack. Cheap to lose. **Pack essentials** on the Hideout tab fills your rig and pockets for you.
 - **Once you have more kit:** add a helmet and a rig. Armour is the heaviest thing you'll wear, and the most likely to keep you alive.
 - **Every raid:** something to heal with, and room to bring loot back.
 - **When you can afford it:** a grenade or two in the rig. A smoke covers a dash across the road; a frag clears a room. See [Grenades](../grenades/).

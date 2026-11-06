@@ -7,15 +7,15 @@ icon: stash
 
 The game starts in your hideout. Everything between raids happens here, through the tabs along the top bar: Hideout, Raid, Character, Traders, Gunsmith, Papers, Maps and Tasks. Your cash, and how many raids you've done, got out of and been killed in, are in the top right.
 
-<img src="../../images/screenshots/dl-hideout-storage.webp" srcset="../../images/screenshots/dl-hideout-storage-800.webp 800w, ../../images/screenshots/dl-hideout-storage.webp 1600w" sizes="(min-width: 800px) 720px, 100vw" width="1600" height="884" alt="The hideout's Storage tab: your gear on the left and the stash grid on the right." loading="lazy" decoding="async" />
+<img src="../../images/screenshots/dl-hideout-tab.webp" srcset="../../images/screenshots/dl-hideout-tab-800.webp 800w, ../../images/screenshots/dl-hideout-tab.webp 1600w" sizes="(min-width: 800px) 720px, 100vw" width="1600" height="900" alt="The hideout's Hideout tab: your gear on the left, the stash grid on the right, and along the bottom the Hideout and Raid tabs and the music player." loading="lazy" decoding="async" />
+
+## Hideout
+
+Your gear on the left and your stash on the right. Drag things between them, right-click for an item's menu, double-click a bag to open it, and use **Pack essentials** to fill your rig and pockets with loaded magazines and meds, or **Empty pockets and bags** to put it all back. **AUTO-ORGANISE** tidies the stash. More in [Loadout and gear](../loadout-and-gear/). The Hideout and Raid tabs are on the bottom bar too.
 
 ## Raid
 
 Pick where to go (Duncombe Street for now, or the Practice yard to try things out), look over the map and the note taped beside it, check **Your kit** and what it's worth, and press **Start raid**. You're asked to confirm, then the raid loads behind a loading screen with tips. In a squad, only the host can start, once everyone's back. Each raid gets its own weather and time of day.
-
-## Storage
-
-Your gear on the left and your stash on the right. Drag things between them, right-click for an item's menu, double-click a bag to open it, and use **Pack essentials** to fill your rig and pockets with loaded magazines and meds, or **Empty pockets and bags** to put it all back. **AUTO-ORGANISE** tidies the stash. More in [Loadout and gear](../loadout-and-gear/).
 
 ## Traders
 
@@ -39,7 +39,7 @@ The maps you can raid, as cards: Duncombe Street and the practice yard, with The
 
 ## Music
 
-The music player is on the right of the bottom bar, beside the build number. It shows the track playing and how far in it is, with buttons for **shuffle**, **previous**, **play/stop**, **next** and the **track list**. Previous goes back to the start of the track if it's more than a few seconds in. The track list (the list button, or click the track's name) has every track with its length: click one to play it, drag along the line under them to skip through, or set the music's volume. Stop the music and it stays off, after raids and the next time you play too, until you press play again.
+The music player is on the right of the bottom bar, beside the build number. It shows the track playing and how far in it is, with buttons for **shuffle**, **previous**, **play/stop**, **next** and the **track list**. Previous goes back to the start of the track if it's more than a few seconds in. The track list (the list button, or click the track's name) has every track with its length: click one to play it, drag along the line under them to skip through, or set the music's volume. Untick a track to leave it out of the rotation: next, shuffle and the end of a track skip it, but you can still click it to play it. The speaker beside the volume mutes the music, and moving the volume brings it back. Stop the music and it stays off, after raids and the next time you play too, until you press play again.
 
 ## Squad, Settings and quitting
 

@@ -30,7 +30,9 @@ behaviours:
   - title: They throw grenades
     text: Holding an angle, a scav now and then lobs a frag or flashbang at where it last saw you. Falling back, it often pops smoke first. Scavs run for cover from grenades too.
   - title: They close in
-    text: A scav that runs dry within about 15 metres draws its pistol rather than reloading. Get right up close and, if its rifle is no use, it'll go for its knife.
+    text: A scav that runs dry within about 15 metres draws its pistol rather than reloading. Get right up close and, if its rifle is no use, it'll go for its knife: when you see the blade go up overhead, step back, as the blow lands about half a second later.
+  - title: They reload where you can see it
+    text: Changing magazines takes a scav about three seconds. You can see it pull the empty one out and fish a full one from its rig, and hear the magazine click home and the bolt rack. When you hear the bolt, it's about to fire again.
   - title: They see less at night
     text: In the dark a scav sees a bit over half as far, unless your weapon light is on or you've just fired without a suppressor.
   - title: They watch
