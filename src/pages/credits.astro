@@ -1,13 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
 import PageHead from "../components/PageHead.astro";
-import credits from "../data/credits.json";
+import creditsData from "../data/credits.json";
+import { langOf, localize, t } from "../i18n";
+
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const credits = localize(lang, creditsData);
 
 const licences: Record<string, string> = credits.licences;
 ---
 
-<Base title="Credits" description="Open-licence assets used in The Home Counties and on this website, with attribution.">
-  <PageHead title="Credits" eyebrow="Attribution" lede={credits.intro} crumbs={[{ label: "About", href: "about/" }, { label: "Credits" }]} />
+<Base title={_("Credits")} description={_("Open-licence assets used in The Home Counties and on this website, with attribution.")}>
+  <PageHead title={_("Credits")} eyebrow={_("Attribution")} lede={credits.intro} crumbs={[{ label: _("About"), href: "about/" }, { label: _("Credits") }]} />
 
   <section class="section section--tight">
     <div class="wrap groups">
@@ -22,19 +27,19 @@ const licences: Record<string, string> = credits.licences;
               <table>
                 <thead>
                   <tr>
-                    <th scope="col">Work</th>
-                    <th scope="col">By</th>
-                    <th scope="col">From</th>
-                    <th scope="col">Licence</th>
+                    <th scope="col">{_("Work")}</th>
+                    <th scope="col">{_("By")}</th>
+                    <th scope="col">{_("From")}</th>
+                    <th scope="col">{_("Licence")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {g.entries.map((e) => (
                     <tr>
-                      <td data-label="Work">{e.work}</td>
-                      <td data-label="By">{e.author}</td>
-                      <td data-label="From">{e.link ? <a href={e.link} rel="noopener">{e.source}</a> : e.source}</td>
-                      <td data-label="Licence">{licences[e.licence] ? <a href={licences[e.licence]} rel="license noopener">{e.licence}</a> : e.licence}</td>
+                      <td data-label={_("Work")}>{e.work}</td>
+                      <td data-label={_("By")}>{e.author}</td>
+                      <td data-label={_("From")}>{e.link ? <a href={e.link} rel="noopener">{e.source}</a> : e.source}</td>
+                      <td data-label={_("Licence")}>{licences[e.licence] ? <a href={licences[e.licence]} rel="license noopener">{e.licence}</a> : e.licence}</td>
                     </tr>
                   ))}
                 </tbody>

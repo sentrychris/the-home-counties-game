@@ -1,0 +1,11 @@
+---
+// The Russian page: the same page as src/pages/weapons/[slug].astro, in Russian (src/i18n/).
+import Page from "../../weapons/[slug].astro";
+import { weaponPaths } from "../../../i18n/paths";
+
+export function getStaticPaths() {
+  return weaponPaths("ru");
+}
+---
+
+<Page {...Astro.props} />

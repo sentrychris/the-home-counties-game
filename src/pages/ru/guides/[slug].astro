@@ -1,0 +1,11 @@
+---
+// The Russian page: the same page as src/pages/guides/[slug].astro, in Russian (src/i18n/).
+import Page from "../../guides/[slug].astro";
+import { guidePaths } from "../../../i18n/paths";
+
+export function getStaticPaths() {
+  return guidePaths("ru");
+}
+---
+
+<Page {...Astro.props} />

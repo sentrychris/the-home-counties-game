@@ -33,7 +33,21 @@ interface MapData {
   boundary: { minX: number; minZ: number; maxX: number; maxZ: number };
   layers: Layer[];
   markers: MarkerData[];
+  /** Words this script writes, in the page's language (map.astro). */
+  text?: Partial<Record<keyof typeof EN, string>>;
 }
+
+const EN = {
+  zoomIn: "Zoom in",
+  zoomOut: "Zoom out",
+  grid: "Grid",
+  outOfBounds: "out of bounds",
+  droppedPin: "Dropped pin",
+  markerJson: "Marker JSON for src/data/map-markers.json",
+  copy: "Copy",
+  copied: "Copied",
+  pressCopy: "Press Ctrl+C",
+};
 
 const STORE = "thc-map-v1";
 const el = document.getElementById("map");
@@ -43,6 +57,7 @@ if (el && dataEl) init(el, JSON.parse(dataEl.textContent ?? "{}") as MapData);
 
 function init(el: HTMLElement, data: MapData) {
   const { geo, grid } = data;
+  const tx = { ...EN, ...data.text };
 
   // Game world: x east, z south, in metres. Leaflet: lat north, lng east.
   const ll = (x: number, z: number) => L.latLng(-z, x);
@@ -69,7 +84,7 @@ function init(el: HTMLElement, data: MapData) {
     maxBoundsViscosity: 0.85,
   });
   map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-  L.control.zoom({ position: "topright", zoomInTitle: "Zoom in", zoomOutTitle: "Zoom out" }).addTo(map);
+  L.control.zoom({ position: "topright", zoomInTitle: tx.zoomIn, zoomOutTitle: tx.zoomOut }).addTo(map);
   map.fitBounds(playBounds, { padding: [24, 24] });
 
   const saved = load();
@@ -198,7 +213,7 @@ function init(el: HTMLElement, data: MapData) {
     div.innerHTML = `
       <p class="pop-layer"><i style="background:${layer.colour}"></i>${esc(layer.name)}</p>
       <h3>${esc(m.name)}</h3>
-      <p class="pop-ref"><span>Grid ${m.grid ?? "out of bounds"}</span><span>x ${m.x.toFixed(1)} · z ${m.z.toFixed(1)}</span></p>
+      <p class="pop-ref"><span>${esc(tx.grid)} ${m.grid ?? esc(tx.outOfBounds)}</span><span>x ${m.x.toFixed(1)} · z ${m.z.toFixed(1)}</span></p>
       ${m.description ? `<p class="pop-desc">${esc(m.description)}</p>` : ""}
       ${m.image ? `<img src="${esc(m.image)}" alt="" loading="lazy">` : ""}`;
     return div;
@@ -211,14 +226,14 @@ function init(el: HTMLElement, data: MapData) {
     const isNote = layer.icon === "note";
     const marker = L.marker(ll(m.x, m.z), {
       icon: makeIcon(m, layer),
-      title: isNote ? undefined : `${m.name}${m.grid ? `, grid ${m.grid}` : ""}`,
+      title: isNote ? undefined : `${m.name}${m.grid ? `, ${tx.grid.toLowerCase()} ${m.grid}` : ""}`,
       keyboard: !isNote,
       interactive: !isNote,
       riseOnHover: true,
     });
     if (!isNote) {
       marker.bindPopup(() => popupFor(m, layer), { maxWidth: 300, minWidth: 220, autoPanPadding: [40, 40] });
-      marker.on("add", () => marker.getElement()?.setAttribute("aria-label", `${m.name}${m.grid ? `, grid ${m.grid}` : ""}. ${layer.name}.`));
+      marker.on("add", () => marker.getElement()?.setAttribute("aria-label", `${m.name}${m.grid ? `, ${tx.grid.toLowerCase()} ${m.grid}` : ""}. ${layer.name}.`));
       marker.on("popupopen", () => history.replaceState(null, "", `#${m.id}`));
       marker.on("popupclose", () => {
         if (location.hash === `#${m.id}`) history.replaceState(null, "", location.pathname + location.search);
@@ -324,27 +339,27 @@ function init(el: HTMLElement, data: MapData) {
     const { x, z } = toWorld(e.latlng);
     const rx = Math.round(x * 100) / 100;
     const rz = Math.round(z * 100) / 100;
-    const ref = gridRef(grid, x, z) ?? "out of bounds";
+    const ref = gridRef(grid, x, z) ?? tx.outOfBounds;
     const snippet = `{ "id": "new-marker", "layer": "crates", "name": "", "x": ${rx}, "z": ${rz}, "description": "" }`;
     const div = document.createElement("div");
     div.className = "pop pop--pin";
     div.innerHTML = `
-      <p class="pop-layer"><i style="background:#d6aa48"></i>Dropped pin</p>
-      <h3>Grid ${ref}</h3>
+      <p class="pop-layer"><i style="background:#d6aa48"></i>${esc(tx.droppedPin)}</p>
+      <h3>${esc(tx.grid)} ${esc(ref)}</h3>
       <p class="pop-ref"><span>x ${rx}</span><span>z ${rz}</span></p>
-      <label class="pop-label" for="pin-json">Marker JSON for src/data/map-markers.json</label>
+      <label class="pop-label" for="pin-json">${esc(tx.markerJson)}</label>
       <textarea id="pin-json" readonly rows="3"></textarea>
-      <button type="button" class="pop-copy">Copy</button>`;
+      <button type="button" class="pop-copy">${esc(tx.copy)}</button>`;
     const ta = div.querySelector("textarea")!;
     ta.value = snippet;
     const copy = div.querySelector<HTMLButtonElement>(".pop-copy")!;
     copy.addEventListener("click", async () => {
       try {
         await navigator.clipboard.writeText(snippet);
-        copy.textContent = "Copied";
+        copy.textContent = tx.copied;
       } catch {
         ta.select();
-        copy.textContent = "Press Ctrl+C";
+        copy.textContent = tx.pressCopy;
       }
     });
     if (pin) pin.setLatLng(e.latlng);

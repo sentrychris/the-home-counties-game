@@ -1,22 +1,24 @@
 ---
 // A mock-up of the in-game gear screen, using the game's empty-slot silhouettes.
 import { url } from "../lib/url";
+import { langOf, t } from "../i18n";
+const _ = t(langOf(Astro.url));
 
 const slots = [
-  { id: "helmet", label: "Helmet", img: "helmet", area: "helmet" },
-  { id: "armour", label: "Armour", img: "armour", area: "armour" },
-  { id: "rig", label: "Rig", img: "rig", area: "rig" },
-  { id: "backpack", label: "Backpack", img: "backpack", area: "pack" },
-  { id: "primary", label: "Primary", img: "primary", area: "prim" },
-  { id: "secondary", label: "Secondary", img: "secondary", area: "sec" },
-  { id: "holster", label: "Holster", img: "holster", area: "hol" },
-  { id: "knife", label: "Knife", img: "knife", area: "knife" },
+  { id: "helmet", label: _("Helmet"), img: "helmet", area: "helmet" },
+  { id: "armour", label: _("Armour"), img: "armour", area: "armour" },
+  { id: "rig", label: _("Rig"), img: "rig", area: "rig" },
+  { id: "backpack", label: _("Backpack"), img: "backpack", area: "pack" },
+  { id: "primary", label: _("Primary"), img: "primary", area: "prim" },
+  { id: "secondary", label: _("Secondary"), img: "secondary", area: "sec" },
+  { id: "holster", label: _("Holster"), img: "holster", area: "hol" },
+  { id: "knife", label: _("Knife"), img: "knife", area: "knife" },
 ];
 ---
 
 <figure class="loadout panel">
-  <figcaption class="eyebrow eyebrow--plain">Gear screen <kbd>Tab</kbd></figcaption>
-  <ul class="slots" aria-label="Gear slots">
+  <figcaption class="eyebrow eyebrow--plain">{_("Gear screen")} <kbd>Tab</kbd></figcaption>
+  <ul class="slots" aria-label={_("Gear slots")}>
     {
       slots.map((s) => (
         <li class="slot" style={`grid-area: ${s.area}`}>
@@ -27,7 +29,7 @@ const slots = [
     }
     <li class="slot pockets" style="grid-area: pockets">
       <div class="pocket-row" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <span>Pockets ×4</span>
+      <span>{_("Pockets")} ×4</span>
     </li>
   </ul>
 </figure>

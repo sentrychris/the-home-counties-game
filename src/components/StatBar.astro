@@ -5,7 +5,9 @@ interface Props {
   value: number;
   display?: string;
 }
+import { langOf, t } from "../i18n";
 const { label, value, display } = Astro.props;
+const _ = t(langOf(Astro.url));
 const pct = Math.max(0, Math.min(100, value));
 ---
 
@@ -13,7 +15,7 @@ const pct = Math.max(0, Math.min(100, value));
   <dt>{label}</dt>
   <dd>
     <span class="bar" aria-hidden="true"><i style={`--v: ${pct}%`}></i></span>
-    <span class="val">{display ?? `${pct}`}<span class="visually-hidden">{display ? ` (${pct} out of 100)` : " out of 100"}</span></span>
+    <span class="val">{display ?? `${pct}`}<span class="visually-hidden">{display ? ` (${_("{n} out of 100", { n: pct })})` : ` ${_("out of 100")}`}</span></span>
   </dd>
 </div>
 

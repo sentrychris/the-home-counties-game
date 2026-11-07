@@ -1,16 +1,21 @@
 ---
-import { getEntry, render } from "astro:content";
+import { render } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHead from "../components/PageHead.astro";
 import Img from "../components/Img.astro";
 import Icon from "../components/Icon.astro";
 import site from "../data/site.json";
 import { url } from "../lib/url";
+import { langOf, link, t } from "../i18n";
+import { getLocalEntry } from "../i18n/content";
 
-const page = await getEntry("pages", "about");
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const page = await getLocalEntry(lang, "pages", "about");
 if (!page) throw new Error("Missing src/content/pages/about.md");
 const a = page.data;
-const { Content } = await render(page);
+const { Content } = await render(page.source);
 const links = site.links.filter((l) => l.href);
 ---
 
@@ -21,7 +26,7 @@ const links = site.links.filter((l) => l.href);
     <div class="wrap layout">
       <div class="prose">
         <Content />
-        <p><a href={url("credits/")}>Asset credits</a> for the open-licence work the game and this site use.</p>
+        <p><a href={L("credits/")}>{_("Asset credits")}</a> {_("for the open-licence work the game and this site use.")}</p>
       </div>
 
       <div class="side">
@@ -29,14 +34,14 @@ const links = site.links.filter((l) => l.href);
           a.portrait && (
             <figure class="photo portrait">
               <span class="tape" aria-hidden="true" />
-              <Img src={a.portrait.src} alt={a.portrait.alt} placeholder="Portrait of Chris Rowles" />
+              <Img src={a.portrait.src} alt={a.portrait.alt} placeholder={_("Portrait of Chris Rowles")} />
               <figcaption>{a.portrait.alt}</figcaption>
             </figure>
           )
         }
 
         <div class="panel box">
-          <h2 class="eyebrow eyebrow--plain">Fact sheet</h2>
+          <h2 class="eyebrow eyebrow--plain">{_("Fact sheet")}</h2>
           <dl class="specs">
             {
               a.facts.map((f) => (
@@ -50,8 +55,8 @@ const links = site.links.filter((l) => l.href);
         </div>
 
         <div class="panel box">
-          <h2 class="eyebrow eyebrow--plain">Get in touch</h2>
-          {a.contact ? <p><a href={a.contact.includes("@") ? `mailto:${a.contact}` : a.contact}>{a.contact}</a></p> : <p class="muted">Contact details coming soon.</p>}
+          <h2 class="eyebrow eyebrow--plain">{_("Get in touch")}</h2>
+          {a.contact ? <p><a href={a.contact.includes("@") ? `mailto:${a.contact}` : a.contact}>{a.contact}</a></p> : <p class="muted">{_("Contact details coming soon.")}</p>}
           {
             links.length > 0 && (
               <ul class="links">
@@ -66,7 +71,7 @@ const links = site.links.filter((l) => l.href);
         {
           a.pressKit.length > 0 && (
             <div class="panel box">
-              <h2 class="eyebrow eyebrow--plain">Press kit</h2>
+              <h2 class="eyebrow eyebrow--plain">{_("Press kit")}</h2>
               <ul class="press">
                 {a.pressKit.map((p) => (
                   <li>

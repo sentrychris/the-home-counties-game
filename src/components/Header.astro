@@ -1,32 +1,44 @@
 ---
 // The game's top bar: wordmark, tabs (the picked one in a lighter worn box with a bone line
-// on the bar's edge), and on the right the build and a Picture settings button.
-import site from "../data/site.json";
-import { url, isCurrent } from "../lib/url";
+// on the bar's edge), and on the right the build, a Language button and a Picture settings button.
+import siteData from "../data/site.json";
+import { url } from "../lib/url";
+import { LANGS, langOf, link, localize, pathIn, t, type Lang } from "../i18n";
 import Icon from "./Icon.astro";
 
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const site = localize(lang, siteData);
 const pathname = Astro.url.pathname;
-const [statusTop] = site.status.split("/").map((s) => s.trim());
+const [statusTop] = _(site.status).split("/").map((s) => s.trim());
+// Is this tab's section the page we're on?
+const isCurrent = (href: string) => {
+  const target = L(href).replace(/\/$/, "");
+  const here = pathname.replace(/\/$/, "");
+  return here === target || here.startsWith(`${target}/`);
+};
+const langs = Object.keys(LANGS) as Lang[];
 ---
 
 <header class="site-header">
   <div class="bar">
-    <a class="brand" href={url()}>
-      <img src={url("images/logo-700.webp")} alt="The Home Counties, home" width="700" height="142" />
+    <a class="brand" href={L()}>
+      <img src={url("images/logo-700.webp")} alt={_("The Home Counties, home")} width="700" height="142" />
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
       <span class="when-closed"><Icon name="menu" /></span>
       <span class="when-open"><Icon name="close" /></span>
-      <span class="menu-label">Menu</span>
+      <span class="menu-label">{_("Menu")}</span>
     </button>
 
-    <nav id="site-nav" class="nav" aria-label="Main">
+    <nav id="site-nav" class="nav" aria-label={_("Main")}>
       <ul>
         {
           site.nav.map((item) => (
             <li>
-              <a href={url(item.href)} aria-current={isCurrent(pathname, item.href) ? "page" : undefined}>
+              <a href={L(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
                 {item.label}
               </a>
             </li>
@@ -36,37 +48,66 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     </nav>
 
     <div class="bar-end">
-      <p class="build-tag" title="Current build">
+      <p class="build-tag" title={_("Current build")}>
         <span>{statusTop}</span>
         {site.version}
       </p>
+      <!-- Language: the same page in another language. Each name is written in its own language. -->
+      <div class="lang">
+        <button
+          class="icon-btn lang-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="lang-panel"
+          aria-label={`${_("Language")}: ${LANGS[lang].label}`}
+          title="Language · Язык"
+        >
+          <span class="lang-code" aria-hidden="true">{LANGS[lang].short}</span>
+        </button>
+        <div id="lang-panel" class="fx-panel lang-panel" hidden>
+          <p class="fx-title">{_("Language")}</p>
+          <ul class="lang-list">
+            {
+              langs.map((l) => (
+                <li>
+                  <a class="toggle" href={pathIn(Astro.url, l)} hreflang={LANGS[l].html} lang={LANGS[l].html} aria-current={l === lang ? "true" : undefined}>
+                    <span class="toggle-box" aria-hidden="true" />
+                    <span>{LANGS[l].label}</span>
+                    <span class="lang-short" aria-hidden="true">{LANGS[l].short}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
       <div class="fx">
-        <button class="icon-btn fx-toggle" type="button" aria-expanded="false" aria-controls="fx-panel" aria-label="Picture settings">
+        <button class="icon-btn fx-toggle" type="button" aria-expanded="false" aria-controls="fx-panel" aria-label={_("Picture settings")}>
           <Icon name="settings" />
         </button>
         <div id="fx-panel" class="fx-panel" hidden>
-          <p class="fx-title">Picture</p>
+          <p class="fx-title">{_("Picture")}</p>
           <label class="toggle">
             <input type="checkbox" data-fx="grain" checked />
             <span class="toggle-box" aria-hidden="true"></span>
-            <span>Film grain</span>
+            <span>{_("Film grain")}</span>
           </label>
           <label class="toggle">
             <input type="checkbox" data-fx="rain" checked />
             <span class="toggle-box" aria-hidden="true"></span>
-            <span>Rain on the title screen</span>
+            <span>{_("Rain on the title screen")}</span>
           </label>
           <label class="toggle">
             <input type="checkbox" data-fx="light" />
             <span class="toggle-box" aria-hidden="true"></span>
-            <span>Light and mist</span>
+            <span>{_("Light and mist")}</span>
           </label>
           <label class="toggle">
             <input type="checkbox" data-fx="particles" checked />
             <span class="toggle-box" aria-hidden="true"></span>
-            <span>Dust and embers</span>
+            <span>{_("Dust and embers")}</span>
           </label>
-          <p class="fx-note">Saved in this browser.</p>
+          <p class="fx-note">{_("Saved in this browser.")}</p>
         </div>
       </div>
     </div>
@@ -101,6 +142,30 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     matchMedia("(min-width: 1100px)").addEventListener("change", () => setOpen(false));
   }
 
+  // Language: a small panel with the same page in each language. Opening it closes Picture settings.
+  const langBtn = document.querySelector<HTMLButtonElement>(".lang-toggle");
+  const langPanel = document.getElementById("lang-panel");
+  if (langBtn && langPanel) {
+    const setLang = (open: boolean) => {
+      langPanel.hidden = !open;
+      langBtn.setAttribute("aria-expanded", String(open));
+      if (open) document.dispatchEvent(new CustomEvent("thc-panel", { detail: "lang" }));
+    };
+    langBtn.addEventListener("click", () => setLang(langPanel.hidden));
+    document.addEventListener("click", (e) => {
+      if (!langPanel.hidden && !(e.target as Element).closest(".lang")) setLang(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !langPanel.hidden) {
+        setLang(false);
+        langBtn.focus();
+      }
+    });
+    document.addEventListener("thc-panel", (e) => {
+      if ((e as CustomEvent).detail !== "lang") setLang(false);
+    });
+  }
+
   // Picture settings: film grain, rain, light and mist, and dust, remembered in this browser only.
   const fxBtn = document.querySelector<HTMLButtonElement>(".fx-toggle");
   const fxPanel = document.getElementById("fx-panel");
@@ -117,7 +182,11 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     const setPanel = (open: boolean) => {
       fxPanel.hidden = !open;
       fxBtn.setAttribute("aria-expanded", String(open));
+      if (open) document.dispatchEvent(new CustomEvent("thc-panel", { detail: "fx" }));
     };
+    document.addEventListener("thc-panel", (e) => {
+      if ((e as CustomEvent).detail !== "fx") setPanel(false);
+    });
     for (const box of fxPanel.querySelectorAll<HTMLInputElement>("input[data-fx]")) {
       const key = box.dataset.fx!;
       box.checked = !root.contains(`fx-no-${key}`);
@@ -265,11 +334,21 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     letter-spacing: 0.05em;
     text-transform: uppercase;
     text-decoration: none;
+    white-space: nowrap;
     color: rgb(179 174 163 / 0.95);
     text-shadow: 0 1px 6px rgb(0 0 0 / 0.85);
     border: 1px solid transparent;
     border-bottom: 0;
     transition: color 0.15s, background-color 0.15s;
+  }
+
+  /* Russian words run longer and the Cyrillic face is wider: a touch smaller so one row still fits. */
+  @media (min-width: 1100px) {
+    :global(html:lang(ru)) .nav a {
+      font-size: 1.06rem;
+      letter-spacing: 0.03em;
+      padding-inline: clamp(7px, 0.75vw, 14px);
+    }
   }
 
   .nav a:hover {
@@ -311,8 +390,62 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     display: block;
   }
 
-  .fx {
+  /* "Ранний доступ" is wider than "Early access": tighter letters keep the cog on screen at 1200 px. */
+  :global(html:lang(ru)) .build-tag {
+    letter-spacing: 0.12em;
+  }
+
+  .fx,
+  .lang {
     position: relative;
+  }
+
+  .lang-code {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .lang-panel {
+    width: 230px;
+  }
+
+  .lang-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lang-list .toggle {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .lang-list .toggle:hover {
+    color: var(--bone-light);
+  }
+
+  .lang-list .toggle:focus-visible {
+    outline: 2px solid var(--bone);
+    outline-offset: 2px;
+  }
+
+  .lang-list [aria-current] .toggle-box::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: var(--bone);
+  }
+
+  .lang-short {
+    margin-left: auto;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
   }
 
   /* Square icon button, like the cog and exit buttons in the game's top-right corner. */
@@ -413,6 +546,13 @@ const [statusTop] = site.status.split("/").map((s) => s.trim());
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--dim);
+  }
+
+  /* Just above the menu-button width the tabs, the language button and the cog leave no room for the build tag. */
+  @media (min-width: 1100px) and (max-width: 1199px) {
+    .build-tag {
+      display: none;
+    }
   }
 
   @media (max-width: 1099px) {

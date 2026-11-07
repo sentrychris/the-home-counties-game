@@ -1,28 +1,29 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Img from "../../components/Img.astro";
 import Gallery from "../../components/Gallery.astro";
-import { url, formatDate } from "../../lib/url";
+import Untranslated from "../../components/Untranslated.astro";
+import { langOf, link, t, formatDate } from "../../i18n";
+import { devlogPaths } from "../../i18n/paths";
 
-export async function getStaticPaths() {
-  const posts = (await getCollection("devlog", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  return posts.map((post, i) => ({
-    params: { slug: post.id },
-    props: { post, newer: posts[i - 1], older: posts[i + 1] },
-  }));
+export function getStaticPaths() {
+  return devlogPaths("en");
 }
 
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
 const { post, newer, older } = Astro.props;
 const p = post.data;
-const { Content } = await render(post);
+const { Content } = await render(post.source);
 ---
 
 <Base title={p.title} description={p.summary} image={p.cover?.src}>
-  <PageHead title={p.title} lede={p.summary} crumbs={[{ label: "Dev log", href: "devlog/" }, { label: p.title }]} image={p.cover?.src}>
+  <PageHead title={p.title} lede={p.summary} crumbs={[{ label: _("Dev log"), href: "devlog/" }, { label: p.title }]} image={p.cover?.src}>
     <p class="meta">
-      <time datetime={p.date.toISOString()}>{formatDate(p.date)}</time>
+      <time datetime={p.date.toISOString()}>{formatDate(lang, p.date)}</time>
       {p.version && <span class="chip chip--ver">{p.version}</span>}
     </p>
   </PageHead>
@@ -36,6 +37,7 @@ const { Content } = await render(post);
           </figure>
         )
       }
+      {!post.translated && <Untranslated />}
       <div class="prose">
         <Content />
       </div>
@@ -44,25 +46,25 @@ const { Content } = await render(post);
     {
       p.screenshots.length > 0 && (
         <div class="wrap shots">
-          <h2>Screenshots</h2>
-          <Gallery shots={p.screenshots} label={`Screenshots for ${p.title}`} />
+          <h2>{_("Screenshots")}</h2>
+          <Gallery shots={p.screenshots} label={_("Screenshots for {title}", { title: p.title })} />
         </div>
       )
     }
 
-    <nav class="wrap wrap--narrow pager" aria-label="More posts">
+    <nav class="wrap wrap--narrow pager" aria-label={_("More posts")}>
       {
         older && (
-          <a class="panel pager-link" href={url(`devlog/${older.id}/`)}>
-            <span>Older</span>
+          <a class="panel pager-link" href={L(`devlog/${older.id}/`)}>
+            <span>{_("Older")}</span>
             {older.data.title}
           </a>
         )
       }
       {
         newer && (
-          <a class="panel pager-link pager-newer" href={url(`devlog/${newer.id}/`)}>
-            <span>Newer</span>
+          <a class="panel pager-link pager-newer" href={L(`devlog/${newer.id}/`)}>
+            <span>{_("Newer")}</span>
             {newer.data.title}
           </a>
         )

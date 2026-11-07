@@ -1,30 +1,31 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Icon from "../../components/Icon.astro";
 import LoadoutSlots from "../../components/LoadoutSlots.astro";
 import ControlsTable from "../../components/ControlsTable.astro";
-import { url } from "../../lib/url";
+import Untranslated from "../../components/Untranslated.astro";
+import { langOf, link, t } from "../../i18n";
+import { guidePaths } from "../../i18n/paths";
 
-export async function getStaticPaths() {
-  const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.data.order);
-  return guides.map((guide, i) => ({
-    params: { slug: guide.id },
-    props: { guide, all: guides, prev: guides[i - 1], next: guides[i + 1] },
-  }));
+export function getStaticPaths() {
+  return guidePaths("en");
 }
 
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
 const { guide, all, prev, next } = Astro.props;
-const { Content } = await render(guide);
+const { Content } = await render(guide.source);
 ---
 
 <Base title={guide.data.title} description={guide.data.summary}>
   <PageHead
     title={guide.data.title}
-    eyebrow="Field manual"
+    eyebrow={_("Field manual")}
     lede={guide.data.summary}
-    crumbs={[{ label: "Guides", href: "guides/" }, { label: guide.data.title }]}
+    crumbs={[{ label: _("Guides"), href: "guides/" }, { label: guide.data.title }]}
     image="images/screenshots/2026-10-24-234534.webp"
   />
 
@@ -32,23 +33,24 @@ const { Content } = await render(guide);
     <article>
       {guide.data.widget === "loadout" && <LoadoutSlots />}
       {guide.data.widget === "controls" && <ControlsTable />}
+      {!guide.translated && <Untranslated />}
       <div class="prose">
         <Content />
       </div>
 
-      <nav class="pager" aria-label="More guides">
+      <nav class="pager" aria-label={_("More guides")}>
         {
           prev && (
-            <a class="panel pager-link" href={url(`guides/${prev.id}/`)}>
-              <span>Previous</span>
+            <a class="panel pager-link" href={L(`guides/${prev.id}/`)}>
+              <span>{_("Previous")}</span>
               {prev.data.title}
             </a>
           )
         }
         {
           next && (
-            <a class="panel pager-link pager-next" href={url(`guides/${next.id}/`)}>
-              <span>Next</span>
+            <a class="panel pager-link pager-next" href={L(`guides/${next.id}/`)}>
+              <span>{_("Next")}</span>
               {next.data.title}
             </a>
           )
@@ -56,14 +58,14 @@ const { Content } = await render(guide);
       </nav>
     </article>
 
-    <nav class="side" aria-label="All guides">
+    <nav class="side" aria-label={_("All guides")}>
       <div class="panel side-box">
-        <h2 class="eyebrow eyebrow--plain">Field manual</h2>
+        <h2 class="eyebrow eyebrow--plain">{_("Field manual")}</h2>
         <ol>
           {
             all.map((g) => (
               <li>
-                <a href={url(`guides/${g.id}/`)} aria-current={g.id === guide.id ? "page" : undefined}>
+                <a href={L(`guides/${g.id}/`)} aria-current={g.id === guide.id ? "page" : undefined}>
                   {g.data.icon && <Icon name={g.data.icon} />}
                   {g.data.title}
                 </a>
@@ -72,7 +74,7 @@ const { Content } = await render(guide);
           }
         </ol>
       </div>
-      <a class="btn btn--small map-link" href={url("map/")}><Icon name="crosshair" />Tactical map</a>
+      <a class="btn btn--small map-link" href={L("map/")}><Icon name="crosshair" />{_("Tactical map")}</a>
     </nav>
   </div>
 </Base>

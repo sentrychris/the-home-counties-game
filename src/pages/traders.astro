@@ -4,25 +4,32 @@ import Base from "../layouts/Base.astro";
 import PageHead from "../components/PageHead.astro";
 import Img from "../components/Img.astro";
 import Gallery from "../components/Gallery.astro";
-import traders from "../data/traders.json";
+import tradersData from "../data/traders.json";
 import { url } from "../lib/url";
+import { langOf, link, localize, t } from "../i18n";
+import HowTradingWorksRu from "../i18n/ru/HowTradingWorks.astro";
 
-const shots = [
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const traders = localize(lang, tradersData);
+
+const shots = localize(lang, [
   { src: "images/screenshots/dl-traders-carl.webp", alt: "Carl's page in the Traders tab: his ID card, his line and rounds, a knife, magazines and an AK-47 for sale.", caption: "Buying from Carl." },
   { src: "images/screenshots/dl-traders-crapper-sell.webp", alt: "Crapper's SELL tab listing what he'll pay for things in your stash.", caption: "Selling to Crapper." },
   { src: "images/screenshots/dl-traders-crapper-job.webp", alt: "Crapper's JOB tab asking for two lots of copper wire.", caption: "A job." },
   { src: "images/screenshots/dl-traders-chalky-orders.webp", alt: "Chalky's ORDERS tab with things he can get in for half down.", caption: "Chalky's special orders." },
   { src: "images/screenshots/dl-traders-sofie-notes.webp", alt: "Sofie's NOTES tab with handwritten notes from her.", caption: "Notes they leave you." },
   { src: "images/screenshots/dl-traders-confirm.webp", alt: "A box over the dimmed Traders tab asking to confirm a purchase.", caption: "Every trade asks first." },
-];
+]);
 ---
 
-<Base title="Traders" description="Chalky, Carl, Crapper and Sofie: the four traders in The Home Counties, what they sell and buy, their jobs and tasks, and how standing, prices and special orders work.">
+<Base title={_("Traders")} description={_("Chalky, Carl, Crapper and Sofie: the four traders in The Home Counties, what they sell and buy, their jobs and tasks, and how standing, prices and special orders work.")}>
   <PageHead
-    title="Traders"
-    eyebrow="Four people you never meet"
-    lede="Between raids you trade from your hideout with four people you only know by their ID cards, their prices and the notes they leave. Cash is never lost in a raid."
-    crumbs={[{ label: "Traders" }]}
+    title={_("Traders")}
+    eyebrow={_("Four people you never meet")}
+    lede={_("Between raids you trade from your hideout with four people you only know by their ID cards, their prices and the notes they leave. Cash is never lost in a raid.")}
+    crumbs={[{ label: _("Traders") }]}
     image="images/screenshots/dl-traders-carl.webp"
   />
 
@@ -45,15 +52,15 @@ const shots = [
               <p class="about">{t.about}</p>
               <dl class="specs">
                 <div>
-                  <dt>Sells</dt>
+                  <dt>{_("Sells")}</dt>
                   <dd>{t.sells}</dd>
                 </div>
                 <div>
-                  <dt>Pays best for</dt>
+                  <dt>{_("Pays best for")}</dt>
                   <dd>{t.paysBestFor}</dd>
                 </div>
                 <div>
-                  <dt>Standing</dt>
+                  <dt>{_("Standing")}</dt>
                   <dd>
                     <ol class="levels">
                       {t.levels.map((l) => (
@@ -72,6 +79,7 @@ const shots = [
 
   <section class="section section--tight">
     <div class="wrap wrap--narrow">
+      {lang === "ru" ? <HowTradingWorksRu /> : (
       <div class="prose">
         <h2>How trading works</h2>
         <p>
@@ -120,16 +128,17 @@ const shots = [
           Carl also sells the parts for the <a href={url("guides/gunsmith/")}>gunsmith</a>, and a part you haven't got is bought from him when you assemble.
         </p>
       </div>
+      )}
     </div>
   </section>
 
   <section class="section section--tight">
     <div class="wrap">
       <div class="section-head">
-        <h2>In the game</h2>
-        <p>The Traders tab, as it looks in the current build.</p>
+        <h2>{_("In the game")}</h2>
+        <p>{_("The Traders tab, as it looks in the current build.")}</p>
       </div>
-      <Gallery shots={shots} label="Screenshots of the Traders tab" />
+      <Gallery shots={shots} label={_("Screenshots of the Traders tab")} />
     </div>
   </section>
 </Base>

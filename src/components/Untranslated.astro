@@ -1,0 +1,23 @@
+---
+// Shown above a post, guide or page that has no translation yet, so it reads in English.
+import { langOf, t } from "../i18n";
+
+const _ = t(langOf(Astro.url));
+---
+
+<p class="untranslated" role="note">{_("This hasn't been translated yet, so it's shown in English.")}</p>
+
+<style>
+  .untranslated {
+    margin: 0 0 1.4rem;
+    padding: 10px 14px;
+    border: 1px dashed var(--line);
+    border-left: 3px solid var(--bone-faint);
+    background: rgb(255 255 255 / 0.025);
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.92rem;
+    letter-spacing: 0.06em;
+    color: var(--caption);
+  }
+</style>

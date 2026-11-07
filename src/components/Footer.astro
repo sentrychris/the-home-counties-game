@@ -1,18 +1,25 @@
 ---
 // Link columns over the game's bottom bar: where you are on the left, the build on the right.
-import site from "../data/site.json";
-import map from "../data/map.json";
+import siteData from "../data/site.json";
+import mapData from "../data/map.json";
 import { url } from "../lib/url";
+import { langOf, link, localize, t } from "../i18n";
 import Icon from "./Icon.astro";
+
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const site = localize(lang, siteData);
+const map = localize(lang, mapData);
 
 const year = new Date().getFullYear();
 const more = [
-  { label: "Guides", href: "guides/" },
-  { label: "Gear database", href: "gear/" },
-  { label: "Roadmap", href: "devlog/#roadmap" },
-  { label: "Credits", href: "credits/" },
+  { label: _("Guides"), href: "guides/" },
+  { label: _("Gear database"), href: "gear/" },
+  { label: _("Roadmap"), href: "devlog/#roadmap" },
+  { label: _("Credits"), href: "credits/" },
 ];
-const [statusTop] = site.status.split("/").map((s) => s.trim());
+const [statusTop] = _(site.status).split("/").map((s) => s.trim());
 const town = map.location.split("·")[0].trim();
 ---
 
@@ -21,32 +28,32 @@ const town = map.location.split("·")[0].trim();
     <div class="about">
       <img src={url("images/logo-700.webp")} alt="The Home Counties" width="700" height="142" loading="lazy" />
       <p>{site.description}</p>
-      <p class="made">Made in {site.engine} by {site.developer}.</p>
+      <p class="made">{_("Made in {engine} by {developer}.", { engine: site.engine, developer: site.developer })}</p>
     </div>
 
-    <nav aria-label="Footer">
-      <h2 class="col-title">Site</h2>
+    <nav aria-label={_("Footer")}>
+      <h2 class="col-title">{_("Site")}</h2>
       <ul>
-        {site.nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+        {site.nav.map((item) => <li><a href={L(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
 
-    <nav aria-label="More">
-      <h2 class="col-title">More</h2>
+    <nav aria-label={_("More")}>
+      <h2 class="col-title">{_("More")}</h2>
       <ul>
-        {more.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+        {more.map((item) => <li><a href={L(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
 
     <div>
-      <h2 class="col-title">Follow</h2>
+      <h2 class="col-title">{_("Follow")}</h2>
       <ul>
         {
           site.links.map((l) =>
             l.href ? (
               <li><a href={l.href} rel="me noopener">{l.label}</a></li>
             ) : (
-              <li class="soon">{l.label} <span>coming soon</span></li>
+              <li class="soon">{l.label} <span>{_("coming soon")}</span></li>
             )
           )
         }
@@ -63,8 +70,8 @@ const town = map.location.split("·")[0].trim();
       </p>
     </div>
     <div class="legal">
-      <p>© {year} {site.developer}. {site.name} is a work in progress; everything here may change.</p>
-      <p>Street data © OpenStreetMap contributors. Not affiliated with any real business shown. <a href={url("credits/")}>Asset credits</a>.</p>
+      <p>© {year} {site.developer}. {_("{name} is a work in progress; everything here may change.", { name: site.name })}</p>
+      <p>{_("Street data © OpenStreetMap contributors. Not affiliated with any real business shown.")} <a href={L("credits/")}>{_("Asset credits")}</a>.</p>
     </div>
     <p class="build">
       <span>{statusTop}</span>

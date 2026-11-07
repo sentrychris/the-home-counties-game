@@ -1,18 +1,21 @@
 ---
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
-import { url } from "../lib/url";
+import { langOf, link, t } from "../i18n";
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
 ---
 
-<Base title="Out of bounds" description="This page doesn't exist.">
+<Base title={_("Out of bounds")} description={_("This page doesn't exist.")}>
   <section class="section oob">
     <div class="wrap">
-      <p class="stamp">Error 404 <span>Grid ref unknown</span></p>
-      <h1>Out of bounds</h1>
-      <p class="lede">This page doesn't exist. The link may be out of date, or the page may have moved.</p>
+      <p class="stamp">{_("Error 404")} <span>{_("Grid ref unknown")}</span></p>
+      <h1>{_("Out of bounds")}</h1>
+      <p class="lede">{_("This page doesn't exist. The link may be out of date, or the page may have moved.")}</p>
       <div class="actions">
-        <a class="btn btn--exfil" href={url()}><Icon name="run" />Back to the home page</a>
-        <a class="btn" href={url("map/")}><Icon name="crosshair" />Open the map</a>
+        <a class="btn btn--exfil" href={L()}><Icon name="run" />{_("Back to the home page")}</a>
+        <a class="btn" href={L("map/")}><Icon name="crosshair" />{_("Open the map")}</a>
       </div>
     </div>
   </section>

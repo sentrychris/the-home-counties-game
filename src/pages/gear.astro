@@ -3,14 +3,37 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHead from "../components/PageHead.astro";
 import Icon from "../components/Icon.astro";
-import { url, publicFileExists, formatPounds } from "../lib/url";
+import { url, publicFileExists } from "../lib/url";
+import { langOf, link, plural, t, formatPounds as pounds, DEFAULT_LANG } from "../i18n";
+
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const formatPounds = (n: number) => pounds(lang, n);
 
 const CATEGORIES = ["Weapons", "Attachments", "Grenades", "Gear", "Ammo", "Medical", "Provisions", "Valuables"] as const;
 const SLOT_ORDER = ["Primary", "Secondary", "Holster", "Knife", "Helmet", "Armour", "Rig", "Backpack", "Pockets", "Sight", "Mount", "Muzzle", "Stock"];
 
+// Names and words are translated here (src/i18n/<lang>/items.json); category and slot values stay
+// in English, as the filters' values.
 const items = (await getCollection("items"))
-  .map((e) => ({ id: e.id, ...e.data, slots: e.data.slot.split("/").map((s) => s.trim()) }))
-  .sort((a, b) => CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category) || a.name.localeCompare(b.name));
+  .map((e) => {
+    const slots = e.data.slot.split("/").map((s) => s.trim());
+    return {
+      id: e.id,
+      ...e.data,
+      gameName: e.data.name,
+      name: _(e.data.name),
+      description: _(e.data.description),
+      about: e.data.about ? _(e.data.about) : undefined,
+      slotText: slots.map((s) => _(s)).join(" / "),
+      slots,
+    };
+  })
+  .sort((a, b) => CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category) || a.name.localeCompare(b.name, lang));
+// Russian (and any other language) also shows the English name, as it reads in the game.
+const showGameName = lang !== DEFAULT_LANG;
+const countForms = lang === DEFAULT_LANG ? ["item", "items"] : _("item|items").split("|");
 
 const slots = [...new Set(items.flatMap((i) => i.slots))].sort(
   (a, b) => (SLOT_ORDER.indexOf(a) + 1 || 99) - (SLOT_ORDER.indexOf(b) + 1 || 99)
@@ -18,35 +41,35 @@ const slots = [...new Set(items.flatMap((i) => i.slots))].sort(
 const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
 ---
 
-<Base title="Gear and items" description="Every item in The Home Counties prototype: slot, weight, value in pounds and what it's for.">
+<Base title={_("Gear and items")} description={_("Every item in The Home Counties prototype: slot, weight, value in pounds and what it's for.")}>
   <PageHead
-    title="Gear and items"
-    eyebrow="Database"
-    lede="Everything you can wear, carry, eat or sell, with its slot, weight, value in pounds and, for gear, where it came from. The £/kg figure shows which items are worth their weight."
-    crumbs={[{ label: "Gear and items" }]}
+    title={_("Gear and items")}
+    eyebrow={_("Database")}
+    lede={_("Everything you can wear, carry, eat or sell, with its slot, weight, value in pounds and, for gear, where it came from. The £/kg figure shows which items are worth their weight.")}
+    crumbs={[{ label: _("Gear and items") }]}
     image="images/screenshots/2026-10-24-224754.webp"
   />
 
   <section class="section section--tight">
     <div class="wrap">
-      <form class="panel toolbar" data-filters hidden role="search" aria-label="Filter items" onsubmit="return false">
+      <form class="panel toolbar" data-filters hidden role="search" aria-label={_("Filter items")} onsubmit="return false">
         <div class="field search">
-          <label for="q">Search</label>
+          <label for="q">{_("Search")}</label>
           <div class="input-wrap">
             <Icon name="search" />
-            <input id="q" name="q" type="search" placeholder="Name or description" autocomplete="off" />
+            <input id="q" name="q" type="search" placeholder={_("Name or description")} autocomplete="off" />
           </div>
         </div>
 
         <fieldset class="field cats">
-          <legend>Category</legend>
+          <legend>{_("Category")}</legend>
           <div class="chips">
-            <label><input type="radio" name="cat" value="" checked /><span>All</span></label>
+            <label><input type="radio" name="cat" value="" checked /><span>{_("All")}</span></label>
             {
               CATEGORIES.map((c) => (
                 <label>
                   <input type="radio" name="cat" value={c} />
-                  <span>{c}</span>
+                  <span>{_(c)}</span>
                 </label>
               ))
             }
@@ -54,26 +77,26 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
         </fieldset>
 
         <div class="field">
-          <label for="slot">Slot</label>
+          <label for="slot">{_("Slot")}</label>
           <select id="slot" name="slot">
-            <option value="">Any slot</option>
-            {slots.map((s) => <option value={s}>{s}</option>)}
+            <option value="">{_("Any slot")}</option>
+            {slots.map((s) => <option value={s}>{_(s)}</option>)}
           </select>
         </div>
 
         <div class="field">
-          <label for="sort">Sort by</label>
+          <label for="sort">{_("Sort by")}</label>
           <select id="sort" name="sort">
-            <option value="default">Category</option>
-            <option value="name">Name</option>
-            <option value="value">Value (highest)</option>
-            <option value="weight">Weight (lightest)</option>
-            <option value="density">£ per kg (best)</option>
+            <option value="default">{_("Category")}</option>
+            <option value="name">{_("Name")}</option>
+            <option value="value">{_("Value (highest)")}</option>
+            <option value="weight">{_("Weight (lightest)")}</option>
+            <option value="density">{_("£ per kg (best)")}</option>
           </select>
         </div>
       </form>
 
-      <p class="count" aria-live="polite" data-count>{items.length} items</p>
+      <p class="count" aria-live="polite" data-count data-forms={JSON.stringify(countForms)}>{items.length} {plural(lang, items.length, "item", "items")}</p>
 
       <ul class="items" data-items>
         {
@@ -84,7 +107,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
               <li
                 class="panel item"
                 data-name={item.name.toLowerCase()}
-                data-text={`${item.name} ${item.description} ${item.about ?? ""} ${item.slot}`.toLowerCase()}
+                data-text={`${item.name} ${item.gameName} ${item.description} ${item.about ?? ""} ${item.slot} ${item.slotText}`.toLowerCase()}
                 data-cat={item.category}
                 data-slots={item.slots.join("|")}
                 data-value={item.value}
@@ -100,30 +123,31 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
                       <Icon name={item.icon ?? "box"} />
                     </span>
                   )}
-                  <span class="cat-tag">{item.category}</span>
+                  <span class="cat-tag">{_(item.category)}</span>
                 </div>
                 <div class="body">
                   <h2 class="name">
-                    {item.link ? <a href={url(item.link)}>{item.name}</a> : item.name}
+                    {item.link ? <a href={L(item.link)}>{item.name}</a> : item.name}
                   </h2>
-                  <p class="slot">{item.slot}</p>
+                  {showGameName && item.gameName !== item.name && <p class="game-name" lang="en-GB">{item.gameName}</p>}
+                  <p class="slot">{item.slotText}</p>
                   <p class="desc">{item.description}</p>
                   {item.about && <p class="about">{item.about}</p>}
                   <dl class="facts">
                     <div>
-                      <dt>Weight</dt>
-                      <dd>{item.weight} kg</dd>
+                      <dt>{_("Weight")}</dt>
+                      <dd>{item.weight.toLocaleString(lang === DEFAULT_LANG ? "en-GB" : lang)} {_("kg")}</dd>
                     </div>
                     <div>
-                      <dt>Value</dt>
+                      <dt>{_("Value")}</dt>
                       <dd>{formatPounds(item.value)}</dd>
                     </div>
                     <div>
-                      <dt>£/kg</dt>
+                      <dt>{_("£/kg")}</dt>
                       <dd>{formatPounds(perKg(item.value, item.weight))}</dd>
                     </div>
                     <div>
-                      <dt>Size</dt>
+                      <dt>{_("Size")}</dt>
                       <dd class="size">
                         <span class="cells" style={`--c:${cols};--r:${rows}`} aria-hidden="true" />
                         {cols}×{rows}
@@ -137,7 +161,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
         }
       </ul>
 
-      <p class="empty" data-empty hidden>Nothing matches that. Try another category or clear the search.</p>
+      <p class="empty" data-empty hidden>{_("Nothing matches that. Try another category or clear the search.")}</p>
     </div>
   </section>
 </Base>
@@ -152,9 +176,17 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
     form.hidden = false;
     const cards = [...list.querySelectorAll<HTMLLIElement>("li.item")];
     const num = (el: HTMLElement, key: string) => Number(el.dataset[key]);
+    // "1 item, 2 items" in English; other languages give their own forms (one, few, many).
+    const forms: string[] = JSON.parse(count.dataset.forms ?? '["item","items"]');
+    const rules = new Intl.PluralRules(document.documentElement.lang || "en-GB");
+    const countWord = (n: number) => {
+      if (forms.length < 3) return n === 1 ? forms[0] : forms[1];
+      const r = rules.select(n);
+      return r === "one" ? forms[0] : r === "few" ? forms[1] : forms[2];
+    };
     const sorters: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
       default: (a, b) => num(a, "order") - num(b, "order"),
-      name: (a, b) => (a.dataset.name ?? "").localeCompare(b.dataset.name ?? ""),
+      name: (a, b) => (a.dataset.name ?? "").localeCompare(b.dataset.name ?? "", document.documentElement.lang),
       value: (a, b) => num(b, "value") - num(a, "value"),
       weight: (a, b) => num(a, "weight") - num(b, "weight"),
       density: (a, b) => num(b, "density") - num(a, "density"),
@@ -176,7 +208,7 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
         if (ok) shown++;
       }
       cards.sort(sorters[sort] ?? sorters.default).forEach((c) => list.append(c));
-      count.textContent = `${shown} ${shown === 1 ? "item" : "items"}`;
+      count.textContent = `${shown} ${countWord(shown)}`;
       empty.hidden = shown > 0;
     };
 
@@ -433,6 +465,13 @@ const perKg = (v: number, w: number) => (w > 0 ? Math.round(v / w) : v);
 
   .name a {
     text-decoration-color: rgb(216 210 195 / 0.45);
+  }
+
+  /* The English name, as the game shows it, under a translated name. */
+  .game-name {
+    margin: -2px 0 6px;
+    font-size: 0.88rem;
+    color: var(--dim);
   }
 
   .slot {

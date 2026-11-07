@@ -5,11 +5,19 @@ import Icon from "../components/Icon.astro";
 import Img from "../components/Img.astro";
 import Gallery from "../components/Gallery.astro";
 import Tasks from "../components/Tasks.astro";
-import site from "../data/site.json";
-import map from "../data/map.json";
-import { url, formatDate } from "../lib/url";
+import siteData from "../data/site.json";
+import mapData from "../data/map.json";
+import { url } from "../lib/url";
+import { langOf, link, localize, t, formatDate } from "../i18n";
+import { getLocalCollection } from "../i18n/content";
 
-const posts = (await getCollection("devlog", ({ data }) => !data.draft))
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const site = localize(lang, siteData);
+const map = localize(lang, mapData);
+
+const posts = (await getLocalCollection(lang, "devlog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 const markers = await getCollection("mapMarkers");
@@ -18,7 +26,7 @@ const legend = map.layers
   .map((l) => ({ ...l, count: markers.filter((m) => m.data.layer === l.id).length }));
 
 const primaryHref = site.cta.primary.href || site.cta.primary.fallback;
-const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
+const [statusTop, statusBottom] = _(site.status).split("/").map((s) => s.trim());
 ---
 
 <Base bodyClass="page-home">
@@ -64,16 +72,16 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         />
       </h1>
 
-      <a class="ts-press" href="#intel" data-press>Press any key</a>
+      <a class="ts-press" href="#intel" data-press>{_("Press any key")}</a>
     </div>
 
     <p class="ts-corner ts-corner--left">
-      Milton Keynes, UK<br /><span>{site.coords}</span>
+      {_("Milton Keynes, UK")}<br /><span>{site.coords}</span>
     </p>
     <p class="ts-corner ts-corner--right">
       {statusTop}<br /><span>{statusBottom}</span>
     </p>
-    <a class="ts-scroll" href="#intel" aria-label="Scroll to raid intel"><span></span></a>
+    <a class="ts-scroll" href="#intel" aria-label={_("Scroll to raid intel")}><span></span></a>
   </section>
 
   <!-- Raid intel, laid out like the stats along the top of the game's hideout. -->
@@ -83,7 +91,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         <div class="intel-where">
           <span class="badge"><Icon name="pin" /></span>
           <div>
-            <h2 id="intel-title" class="caption">Raid intel</h2>
+            <h2 id="intel-title" class="caption">{_("Raid intel")}</h2>
             <p class="where">{map.name}</p>
             <p class="where-sub">{map.location}</p>
             <p class="where-area">{map.area.map((a, i) => <Fragment>{i > 0 && " · "}<span>{a}</span></Fragment>)}</p>
@@ -109,7 +117,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         <div class="wrap">
           <div class="section-head">
             <div>
-              <p class="eyebrow">Watch</p>
+              <p class="eyebrow">{_("Watch")}</p>
               <h2 id="trailer-title">{site.trailer.heading}</h2>
             </div>
             <p>{site.trailer.text}</p>
@@ -128,7 +136,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
           {
             site.videos.length > 0 && (
               <div class="more-videos">
-                <h3 class="caption more-videos-title">More videos</h3>
+                <h3 class="caption more-videos-title">{_("More videos")}</h3>
                 <ul class="video-list">
                   {site.videos.map((v) => (
                     <li class="panel video-card">
@@ -189,8 +197,8 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">The game</p>
-          <h2 id="features-title">What's in it</h2>
+          <p class="eyebrow">{_("The game")}</p>
+          <h2 id="features-title">{_("What's in it")}</h2>
         </div>
         <p>{map.summary}</p>
       </div>
@@ -217,11 +225,11 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">From the build</p>
-          <h2 id="shots-title">Screenshots</h2>
+          <p class="eyebrow">{_("From the build")}</p>
+          <h2 id="shots-title">{_("Screenshots")}</h2>
         </div>
       </div>
-      <Gallery shots={site.screenshots} feature label="Screenshots from the prototype" />
+      <Gallery shots={site.screenshots} feature label={_("Screenshots from the prototype")} />
     </div>
   </section>
 
@@ -229,10 +237,10 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">The raid loop</p>
-          <h2 id="loop-title">How a raid works</h2>
+          <p class="eyebrow">{_("The raid loop")}</p>
+          <h2 id="loop-title">{_("How a raid works")}</h2>
         </div>
-        <a class="btn btn--small" href={url("guides/beginners-guide/")}>Beginner's guide <Icon name="arrow" /></a>
+        <a class="btn btn--small" href={L("guides/beginners-guide/")}>{_("Beginner's guide")} <Icon name="arrow" /></a>
       </div>
       <ol class="loop">
         {
@@ -241,7 +249,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
               <span class="loop-node" aria-hidden="true">
                 {i === site.loop.length - 1 ? <Icon name="run" /> : String(i + 1).padStart(2, "0")}
               </span>
-              <span class="loop-num caption" aria-hidden="true">Step {String(i + 1).padStart(2, "0")}</span>
+              <span class="loop-num caption" aria-hidden="true">{_("Step {n}", { n: String(i + 1).padStart(2, "0") })}</span>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
             </li>
@@ -257,10 +265,10 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
   <section class="section band map-teaser" aria-labelledby="map-title">
     <div class="wrap teaser-grid">
       <div class="teaser-copy">
-        <p class="eyebrow">Tactical map</p>
-        <h2 id="map-title">Plan your route</h2>
-        <p>An interactive map of Duncombe Street and the streets around it. Pan and zoom, turn layers on and off, and click any marker for details.</p>
-        <ul class="legend" aria-label="On the map">
+        <p class="eyebrow">{_("Tactical map")}</p>
+        <h2 id="map-title">{_("Plan your route")}</h2>
+        <p>{_("An interactive map of Duncombe Street and the streets around it. Pan and zoom, turn layers on and off, and click any marker for details.")}</p>
+        <ul class="legend" aria-label={_("On the map")}>
           {
             legend.map((l) => (
               <li>
@@ -273,17 +281,17 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
             ))
           }
         </ul>
-        <a class="btn btn--exfil" href={url("map/")}><Icon name="crosshair" />Open the map</a>
+        <a class="btn btn--exfil" href={L("map/")}><Icon name="crosshair" />{_("Open the map")}</a>
       </div>
-      <a class="teaser-map" href={url("map/")} aria-label="Open the interactive map of Duncombe Street">
+      <a class="teaser-map" href={L("map/")} aria-label={_("Open the interactive map of Duncombe Street")}>
         <span class="tm-print">
           <Img src={map.downloads.preview} alt="" width={960} height={1179} class="tm-img" />
         </span>
         <span class="tape tape-a" aria-hidden="true"></span>
         <span class="tape tape-b" aria-hidden="true"></span>
         <span class="tm-north" aria-hidden="true">N<i></i></span>
-        <span class="tm-label caption" aria-hidden="true">{map.name} · field copy · {map.grid.size} m grid</span>
-        <span class="teaser-note hand" aria-hidden="true">Exits are the red smoke.</span>
+        <span class="tm-label caption" aria-hidden="true">{_("{name} · field copy · {size} m grid", { name: map.name, size: map.grid.size })}</span>
+        <span class="teaser-note hand" aria-hidden="true">{_("Exits are the red smoke.")}</span>
       </a>
     </div>
   </section>
@@ -294,27 +302,27 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         <div class="wrap">
           <div class="section-head">
             <div>
-              <p class="eyebrow">Dev log</p>
-              <h2 id="log-title">Latest updates</h2>
+              <p class="eyebrow">{_("Dev log")}</p>
+              <h2 id="log-title">{_("Latest updates")}</h2>
             </div>
-            <a class="btn btn--small" href={url("devlog/")}>All posts</a>
+            <a class="btn btn--small" href={L("devlog/")}>{_("All posts")}</a>
           </div>
           <ul class="card-grid posts">
             {posts.map((p) => (
               <li>
-                <a class="panel card post" href={url(`devlog/${p.id}/`)}>
+                <a class="panel card post" href={L(`devlog/${p.id}/`)}>
                   {p.data.cover && (
                     <span class="post-cover-wrap brushed">
                       <Img src={p.data.cover.src} alt={p.data.cover.alt} width={800} height={450} class="post-cover" />
                     </span>
                   )}
                   <span class="post-meta">
-                    <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                    <time datetime={p.data.date.toISOString()}>{formatDate(lang, p.data.date)}</time>
                     {p.data.version && <span class="chip chip--ver">{p.data.version}</span>}
                   </span>
                   <h3>{p.data.title}</h3>
                   <p>{p.data.summary}</p>
-                  <span class="more">Read</span>
+                  <span class="more">{_("Read")}</span>
                 </a>
               </li>
             ))}
@@ -330,13 +338,13 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
         <div class="cta-media" aria-hidden="true"></div>
         <div class="mist mist--cta" aria-hidden="true"><span></span></div>
         <div class="cta-copy">
-          <p class="eyebrow">{site.status}</p>
+          <p class="eyebrow">{_(site.status)}</p>
           <h2 id="cta-title">{site.cta.heading}</h2>
           <p class="lede">{site.cta.text}</p>
         </div>
         <div class="cta-side">
-          <a class="btn btn--exfil cta-go" href={url(primaryHref)}>{site.cta.primary.label}<Icon name="run" /></a>
-          <a class="btn btn--block" href={url("about/")}>About the game</a>
+          <a class="btn btn--exfil cta-go" href={L(primaryHref)}>{site.cta.primary.label}<Icon name="run" /></a>
+          <a class="btn btn--block" href={L("about/")}>{_("About the game")}</a>
         </div>
       </div>
     </div>

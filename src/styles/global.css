@@ -12,6 +12,64 @@
   src: url("../assets/fonts/oswald-latin-600-normal.woff2") format("woff2"), url("../assets/fonts/oswald-latin-600-normal.woff") format("woff");
 }
 
+/* Cyrillic for the Russian pages. Barlow and Barlow Condensed have no Cyrillic letters, so Russian
+   text falls through to these, next in each font stack below: Oswald's own Cyrillic for titles,
+   Roboto Condensed for captions, Roboto for body text and Caveat's Cyrillic for handwriting.
+   The unicode-range means English pages never download them. All SIL Open Font Licence. */
+@font-face {
+  font-family: "Oswald Cyrillic";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/oswald-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Roboto Condensed Cyrillic";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/roboto-condensed-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Roboto Condensed Cyrillic";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/roboto-condensed-cyrillic-700-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Roboto Cyrillic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/roboto-cyrillic-400-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Roboto Cyrillic";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/roboto-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Caveat Cyrillic";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/caveat-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
 :root {
   color-scheme: dark;
 
@@ -64,10 +122,10 @@
   --panel-2: #1b1b1c;
   --panel-3: #262627;
 
-  --font-title: "Oswald", "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
-  --font-head: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
-  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-hand: "Caveat", "Segoe Print", "Comic Sans MS", cursive;
+  --font-title: "Oswald", "Oswald Cyrillic", "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
+  --font-head: "Barlow Condensed", "Roboto Condensed Cyrillic", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Barlow", "Roboto Cyrillic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: "Caveat", "Caveat Cyrillic", "Segoe Print", "Comic Sans MS", cursive;
 
   --grunge: url("../assets/textures/grunge.webp");
   --ink-heavy: url("../assets/textures/ink-heavy.png");

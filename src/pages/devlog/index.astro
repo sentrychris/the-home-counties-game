@@ -3,48 +3,52 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Img from "../../components/Img.astro";
-import { url, formatDate } from "../../lib/url";
+import { langOf, link, localize, plural, t, formatDate } from "../../i18n";
+import { getLocalCollection } from "../../i18n/content";
 
-const posts = (await getCollection("devlog", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const roadmap = (await getCollection("roadmap")).map((r) => r.data).sort((a, b) => a.order - b.order);
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const posts = (await getLocalCollection(lang, "devlog", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const roadmap = localize(lang, (await getCollection("roadmap")).map((r) => r.data).sort((a, b) => a.order - b.order));
 ---
 
-<Base title="Dev log and roadmap" description="What's changed in The Home Counties, with screenshots, and what's coming next.">
+<Base title={_("Dev log and roadmap")} description={_("What's changed in The Home Counties, with screenshots, and what's coming next.")}>
   <PageHead
-    title="Dev log"
-    eyebrow="From the build"
-    lede="Updates from development, newest first, with the roadmap at the bottom."
-    crumbs={[{ label: "Dev log" }]}
+    title={_("Dev log")}
+    eyebrow={_("From the build")}
+    lede={_("Updates from development, newest first, with the roadmap at the bottom.")}
+    crumbs={[{ label: _("Dev log") }]}
     image="images/screenshots/2026-10-25-122647.webp"
   >
-    <a class="btn btn--small jump" href="#roadmap">Jump to the roadmap</a>
+    <a class="btn btn--small jump" href="#roadmap">{_("Jump to the roadmap")}</a>
   </PageHead>
 
-  <section class="section section--tight" aria-label="Posts">
+  <section class="section section--tight" aria-label={_("Posts")}>
     <div class="wrap">
       <ol class="posts">
         {
           posts.map((p) => (
             <li class="post">
               <div class="when">
-                <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                <time datetime={p.data.date.toISOString()}>{formatDate(lang, p.data.date)}</time>
                 {p.data.version && <span class="chip chip--ver">{p.data.version}</span>}
               </div>
-              <a class="panel entry" href={url(`devlog/${p.id}/`)}>
+              <a class="panel entry" href={L(`devlog/${p.id}/`)}>
                 {p.data.cover && <Img src={p.data.cover.src} alt={p.data.cover.alt} class="cover brushed" sizes="(min-width: 900px) 360px, 100vw" />}
                 <div class="entry-body">
                   <h2>{p.data.title}</h2>
                   <p>{p.data.summary}</p>
                   {p.data.tags.length > 0 && (
-                    <ul class="tags" aria-label="Tags">
-                      {p.data.tags.map((t) => (
-                        <li>#{t}</li>
+                    <ul class="tags" aria-label={_("Tags")}>
+                      {p.data.tags.map((tag) => (
+                        <li>#{_(tag)}</li>
                       ))}
                     </ul>
                   )}
                   <span class="more">
-                    Read the post
-                    {p.data.screenshots.length > 0 && <span class="shots">{` · ${p.data.screenshots.length} screenshot${p.data.screenshots.length === 1 ? "" : "s"}`}</span>}
+                    {_("Read the post")}
+                    {p.data.screenshots.length > 0 && <span class="shots">{` · ${p.data.screenshots.length} ${plural(lang, p.data.screenshots.length, "screenshot", "screenshots")}`}</span>}
                   </span>
                 </div>
               </a>
@@ -59,10 +63,10 @@ const roadmap = (await getCollection("roadmap")).map((r) => r.data).sort((a, b) 
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Roadmap</p>
-          <h2 id="roadmap-title">What's planned</h2>
+          <p class="eyebrow">{_("Roadmap")}</p>
+          <h2 id="roadmap-title">{_("What's planned")}</h2>
         </div>
-        <p>These plans may change as development goes on.</p>
+        <p>{_("These plans may change as development goes on.")}</p>
       </div>
       <ol class="phases">
         {
@@ -75,7 +79,7 @@ const roadmap = (await getCollection("roadmap")).map((r) => r.data).sort((a, b) 
                   <li class:list={{ done: it.done }}>
                     <span class="box" aria-hidden="true" />
                     {it.text}
-                    {it.done && <span class="visually-hidden"> (done)</span>}
+                    {it.done && <span class="visually-hidden"> ({_("done")})</span>}
                   </li>
                 ))}
               </ul>

@@ -161,4 +161,14 @@ const mapMarkers = defineCollection({
   }),
 });
 
-export const collections = { guides, devlog, weapons, enemies, items, roadmap, pages, mapMarkers };
+// Translations of the Markdown above, one folder per language under src/content/<lang>/, each file
+// named like its English original. They need no schema: only their words are used, laid over the
+// English file's (src/i18n/content.ts), so a missing or extra field can't break the build.
+const translation = (lang: string, folder: string) => defineCollection({ loader: glob({ pattern: "**/*.md", base: `./src/content/${lang}/${folder}` }) });
+const devlogRu = translation("ru", "devlog");
+const guidesRu = translation("ru", "guides");
+const weaponsRu = translation("ru", "weapons");
+const enemiesRu = translation("ru", "enemies");
+const pagesRu = translation("ru", "pages");
+
+export const collections = { guides, devlog, weapons, enemies, items, roadmap, pages, mapMarkers, devlogRu, guidesRu, weaponsRu, enemiesRu, pagesRu };

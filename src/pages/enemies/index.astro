@@ -1,19 +1,22 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Img from "../../components/Img.astro";
-import { url } from "../../lib/url";
+import { langOf, link, t } from "../../i18n";
+import { getLocalCollection } from "../../i18n/content";
 
-const enemies = (await getCollection("enemies")).sort((a, b) => a.data.order - b.data.order);
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const enemies = (await getLocalCollection(lang, "enemies")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Enemies" description="Who else is on Duncombe Street, how they behave, what they carry and what they say.">
+<Base title={_("Enemies")} description={_("Who else is on Duncombe Street, how they behave, what they carry and what they say.")}>
   <PageHead
-    title="Enemies"
-    eyebrow="Threats"
-    lede="Who else is on Duncombe Street, how they behave and what they carry."
-    crumbs={[{ label: "Enemies" }]}
+    title={_("Enemies")}
+    eyebrow={_("Threats")}
+    lede={_("Who else is on Duncombe Street, how they behave and what they carry.")}
+    crumbs={[{ label: _("Enemies") }]}
     image="images/screenshots/2026-10-24-235041.webp"
   />
 
@@ -23,20 +26,20 @@ const enemies = (await getCollection("enemies")).sort((a, b) => a.data.order - b
         {
           enemies.map((e) => (
             <li>
-              <a class="panel card enemy" href={url(`enemies/${e.id}/`)}>
+              <a class="panel card enemy" href={L(`enemies/${e.id}/`)}>
                 {e.data.image && <Img src={e.data.image.src} alt={e.data.image.alt} class="enemy-img" />}
                 <p class="eyebrow eyebrow--plain">{e.data.tagline}</p>
                 <h2 class="name">{e.data.name}</h2>
                 <p>{e.data.summary}</p>
-                <span class="more">Threat file</span>
+                <span class="more">{_("Threat file")}</span>
               </a>
             </li>
           ))
         }
         <li>
           <div class="card coming">
-            <p class="hand">More to come</p>
-            <p>New enemy types will get a page here as they're added to the game.</p>
+            <p class="hand">{_("More to come")}</p>
+            <p>{_("New enemy types will get a page here as they're added to the game.")}</p>
           </div>
         </li>
       </ul>

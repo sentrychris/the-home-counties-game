@@ -1,23 +1,27 @@
 ---
 // Enemy page template. One Markdown file in src/content/enemies/ = one page.
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Img from "../../components/Img.astro";
-import { url } from "../../lib/url";
+import Untranslated from "../../components/Untranslated.astro";
+import { langOf, link, t } from "../../i18n";
+import { enemyPaths } from "../../i18n/paths";
 
-export async function getStaticPaths() {
-  const enemies = await getCollection("enemies");
-  return enemies.map((enemy) => ({ params: { slug: enemy.id }, props: { enemy } }));
+export function getStaticPaths() {
+  return enemyPaths("en");
 }
 
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
 const { enemy } = Astro.props;
 const e = enemy.data;
-const { Content } = await render(enemy);
+const { Content } = await render(enemy.source);
 ---
 
 <Base title={e.name} description={e.summary}>
-  <PageHead title={e.name} eyebrow={e.tagline} lede={e.summary} crumbs={[{ label: "Enemies", href: "enemies/" }, { label: e.name }]} image={e.image?.src} />
+  <PageHead title={e.name} eyebrow={e.tagline} lede={e.summary} crumbs={[{ label: _("Enemies"), href: "enemies/" }, { label: e.name }]} image={e.image?.src} />
 
   <section class="section section--tight">
     <div class="wrap top">
@@ -31,8 +35,8 @@ const { Content } = await render(enemy);
         )
       }
       <div class="panel file">
-        <h2 class="eyebrow eyebrow--plain">Threat file</h2>
-        {e.threat && <p class="threat stamp">Threat: {e.threat}</p>}
+        <h2 class="eyebrow eyebrow--plain">{_("Threat file")}</h2>
+        {e.threat && <p class="threat stamp">{_("Threat")}: {e.threat}</p>}
         <dl class="specs">
           {
             e.facts.map((f) => (
@@ -43,7 +47,7 @@ const { Content } = await render(enemy);
             ))
           }
         </dl>
-        <a class="btn btn--small" href={url("map/")}>Spawns on the map</a>
+        <a class="btn btn--small" href={L("map/")}>{_("Spawns on the map")}</a>
       </div>
     </div>
   </section>
@@ -53,9 +57,9 @@ const { Content } = await render(enemy);
       <section class="section section--tight">
         <div class="wrap">
           <div class="section-head">
-            <h2>Behaviour</h2>
+            <h2>{_("Behaviour")}</h2>
             <p>
-              Read <a href={url("guides/scav-senses/")}>how scavs see and hear you</a> for how to use it against them.
+              {_("Read")} <a href={L("guides/scav-senses/")}>{_("how scavs see and hear you")}</a> {_("for how to use it against them.")}
             </p>
           </div>
           <ul class="card-grid plain behaviours">
@@ -77,7 +81,7 @@ const { Content } = await render(enemy);
       <section class="section section--tight">
         <div class="wrap">
           <div class="section-head">
-            <h2>Loadouts</h2>
+            <h2>{_("Loadouts")}</h2>
           </div>
           <ul class="card-grid plain">
             {e.loadouts.map((l) => (
@@ -87,7 +91,7 @@ const { Content } = await render(enemy);
                   {l.frequency && <span class="chip">{l.frequency}</span>}
                 </div>
                 {l.text && <p>{l.text}</p>}
-                <ul class="gear" aria-label={`${l.name} gear`}>
+                <ul class="gear" aria-label={_("{name} gear", { name: l.name })}>
                   {l.gear.map((g) => (
                     <li>{g}</li>
                   ))}
@@ -106,8 +110,8 @@ const { Content } = await render(enemy);
         <div class="wrap">
           <div class="panel chatter">
             <div class="chatter-head">
-              <h2>Overheard</h2>
-              <p>Scavs call out to each other, which can tell you what they're about to do.</p>
+              <h2>{_("Overheard")}</h2>
+              <p>{_("Scavs call out to each other, which can tell you what they're about to do.")}</p>
             </div>
             <ul class="lines">
               {e.voiceLines.map((v) => (
@@ -127,7 +131,8 @@ const { Content } = await render(enemy);
     <div class="wrap wrap--narrow">
       <article class="paper dossier">
         <span class="tape" aria-hidden="true"></span>
-        <h2>Who they are</h2>
+        <h2>{_("Who they are")}</h2>
+        {!enemy.translated && <Untranslated />}
         <div class="dossier-body">
           <Content />
         </div>

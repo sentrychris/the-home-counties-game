@@ -1,0 +1,11 @@
+---
+// The Russian page: the same page as src/pages/devlog/[slug].astro, in Russian (src/i18n/).
+import Page from "../../devlog/[slug].astro";
+import { devlogPaths } from "../../../i18n/paths";
+
+export function getStaticPaths() {
+  return devlogPaths("ru");
+}
+---
+
+<Page {...Astro.props} />

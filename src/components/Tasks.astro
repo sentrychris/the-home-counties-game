@@ -4,8 +4,13 @@
 // sliding in, and the other traders' first tasks by name only. Deliberately gives little away.
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
-import tasks from "../data/tasks.json";
+import tasksData from "../data/tasks.json";
 import { url } from "../lib/url";
+import { langOf, link, localize, t } from "../i18n";
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const tasks = localize(lang, tasksData);
 
 const b = tasks.briefing;
 const bg = `--tasks-bg: url("${url("images/screenshots/dl-mist-rail-south-800.webp")}")`;
@@ -32,7 +37,7 @@ const bg = `--tasks-bg: url("${url("images/screenshots/dl-mist-rail-south-800.we
         }
       </dl>
 
-      <ul class="tasks-others" aria-label="More tasks">
+      <ul class="tasks-others" aria-label={_("More tasks")}>
         {
           tasks.others.map((o) => (
             <li>
@@ -46,13 +51,13 @@ const bg = `--tasks-bg: url("${url("images/screenshots/dl-mist-rail-south-800.we
           ))
         }
         <li class="to-locked">
-          <span class="to-trader">Stages 2 and 3</span>
-          <span class="to-title">Locked</span>
+          <span class="to-trader">{_("Stages 2 and 3")}</span>
+          <span class="to-title">{_("Locked")}</span>
           <span class="to-area">{tasks.locked}</span>
         </li>
       </ul>
 
-      <a class="btn btn--small" href={url("traders/")}>Meet the traders <Icon name="arrow" /></a>
+      <a class="btn btn--small" href={L("traders/")}>{_("Meet the traders")} <Icon name="arrow" /></a>
     </div>
 
     <div class="tasks-media">
@@ -81,7 +86,7 @@ const bg = `--tasks-bg: url("${url("images/screenshots/dl-mist-rail-south-800.we
         <div class="b-text">
           {b.text.map((t) => <p>{t}</p>)}
         </div>
-        <p class="b-label">Objectives</p>
+        <p class="b-label">{_("Objectives")}</p>
         <ol class="b-objectives">
           {
             b.objectives.map((o) => (
@@ -96,11 +101,11 @@ const bg = `--tasks-bg: url("${url("images/screenshots/dl-mist-rail-south-800.we
                 {"text" in o ? (
                   <span>
                     {o.text}
-                    {"done" in o && o.done && <span class="visually-hidden"> (done)</span>}
+                    {"done" in o && o.done && <span class="visually-hidden"> ({_("done")})</span>}
                   </span>
                 ) : (
                   <span class="redact" style={`--w: ${o.hidden}%`}>
-                    <span class="visually-hidden">Blacked out</span>
+                    <span class="visually-hidden">{_("Blacked out")}</span>
                   </span>
                 )}
               </li>
@@ -108,8 +113,8 @@ const bg = `--tasks-bg: url("${url("images/screenshots/dl-mist-rail-south-800.we
           }
         </ol>
         <p class="b-reward">
-          <span class="b-label">Reward</span>
-          <span class="redact" style="--w: 11ch"><span class="visually-hidden">Blacked out</span></span>
+          <span class="b-label">{_("Reward")}</span>
+          <span class="redact" style="--w: 11ch"><span class="visually-hidden">{_("Blacked out")}</span></span>
         </p>
       </article>
     </div>

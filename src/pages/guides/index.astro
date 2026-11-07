@@ -1,19 +1,22 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Icon from "../../components/Icon.astro";
-import { url } from "../../lib/url";
+import { langOf, link, t } from "../../i18n";
+import { getLocalCollection } from "../../i18n/content";
 
-const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.data.order);
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const guides = (await getLocalCollection(lang, "guides")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Guides" description="Guides to The Home Counties: the basics, gear, healing, how scavs find you, and extraction.">
+<Base title={_("Guides")} description={_("Guides to The Home Counties: the basics, gear, healing, how scavs find you, and extraction.")}>
   <PageHead
-    title="Field manual"
-    eyebrow="Guides"
-    lede="How raids work, what to carry, and how to get out of Duncombe Street. If you're new, start with the beginner's guide."
-    crumbs={[{ label: "Guides" }]}
+    title={_("Field manual")}
+    eyebrow={_("Guides")}
+    lede={_("How raids work, what to carry, and how to get out of Duncombe Street. If you're new, start with the beginner's guide.")}
+    crumbs={[{ label: _("Guides") }]}
     image="images/screenshots/2026-10-24-234534.webp"
   />
 
@@ -23,12 +26,12 @@ const guides = (await getCollection("guides")).sort((a, b) => a.data.order - b.d
         {
           guides.map((g, i) => (
             <li>
-              <a class="panel card guide" href={url(`guides/${g.id}/`)}>
+              <a class="panel card guide" href={L(`guides/${g.id}/`)}>
                 <span class="num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 {g.data.icon && <span class="guide-icon"><Icon name={g.data.icon} /></span>}
                 <h2 class="h3">{g.data.title}</h2>
                 <p>{g.data.summary}</p>
-                <span class="more">Read</span>
+                <span class="more">{_("Read")}</span>
               </a>
             </li>
           ))

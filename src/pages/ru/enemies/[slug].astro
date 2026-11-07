@@ -1,0 +1,11 @@
+---
+// The Russian page: the same page as src/pages/enemies/[slug].astro, in Russian (src/i18n/).
+import Page from "../../enemies/[slug].astro";
+import { enemyPaths } from "../../../i18n/paths";
+
+export function getStaticPaths() {
+  return enemyPaths("ru");
+}
+---
+
+<Page {...Astro.props} />

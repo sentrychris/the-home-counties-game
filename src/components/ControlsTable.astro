@@ -1,5 +1,7 @@
 ---
-import controls from "../data/controls.json";
+import controlsData from "../data/controls.json";
+import { langOf, localize } from "../i18n";
+const controls = localize(langOf(Astro.url), controlsData);
 ---
 
 <div class="controls">

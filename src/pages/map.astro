@@ -2,21 +2,29 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
-import map from "../data/map.json";
+import mapJson from "../data/map.json";
 import { geometry, gridRef } from "../lib/map-geometry.mjs";
 import { url } from "../lib/url";
+import { DEFAULT_LANG, langOf, localize, t } from "../i18n";
 
-const geo = geometry(map);
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const map = localize(lang, mapJson);
+
+const geo = geometry(mapJson);
 const markers = (await getCollection("mapMarkers")).map((m) => ({
   id: m.id,
   ...m.data,
+  name: _(m.data.name),
+  label: m.data.label ? _(m.data.label) : undefined,
+  description: m.data.description ? _(m.data.description) : undefined,
   image: m.data.image ? url(m.data.image) : undefined,
   grid: gridRef(map.grid, m.data.x, m.data.z),
 }));
 
 const byLayer = map.layers.map((layer) => ({
   ...layer,
-  markers: markers.filter((m) => m.layer === layer.id).sort((a, b) => a.name.localeCompare(b.name, "en", { numeric: true })),
+  markers: markers.filter((m) => m.layer === layer.id).sort((a, b) => a.name.localeCompare(b.name, lang, { numeric: true })),
 }));
 
 const mapData = {
@@ -27,35 +35,48 @@ const mapData = {
   boundary: map.boundary,
   layers: map.layers,
   markers,
+  // Words the map script writes itself.
+  text: {
+    zoomIn: _("Zoom in"),
+    zoomOut: _("Zoom out"),
+    grid: _("Grid"),
+    outOfBounds: _("out of bounds"),
+    droppedPin: _("Dropped pin"),
+    markerJson: _("Marker JSON for src/data/map-markers.json"),
+    copy: _("Copy"),
+    copied: _("Copied"),
+    pressCopy: _("Press Ctrl+C"),
+  },
 };
 
 // "A, B and C", with "the old Sainsbury's" lower-cased mid-sentence.
-const area = map.area.map((a, i) => (i > 0 ? a.replace(/^The /, "the ") : a));
-const areaList = `${area.slice(0, -1).join(", ")} and ${area.at(-1)}`;
+const area = map.area.map((a, i) =>
+  i === 0 ? a : lang === DEFAULT_LANG ? a.replace(/^The /, "the ") : a.replace(/^[\u0400-\u042F]/, (c) => c.toLowerCase())
+);
+const areaList = `${area.slice(0, -1).join(", ")} ${_("and")} ${area.at(-1)}`;
 const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark: "pin", start: "crosshair", scav: "skull", crate: "box", note: "pin" };
 ---
 
-<Base title="Tactical map" description={`Interactive tactical map of ${map.name}: player starts, exits, scav spawns, loot crates, enterable houses and landmarks on a 25 m grid.`} bodyClass="page-map">
+<Base title={_("Tactical map")} description={_("Interactive tactical map of {name}: player starts, exits, scav spawns, loot crates, enterable houses and landmarks on a 25 m grid.", { name: map.name })} bodyClass="page-map">
   <div class="map-bar">
     <div class="bar-title">
-      <p class="eyebrow eyebrow--plain">Tactical map · field copy</p>
+      <p class="eyebrow eyebrow--plain">{_("Tactical map · field copy")}</p>
       <h1>{map.name}</h1>
       <p class="where">{map.location}</p>
     </div>
     <div class="bar-actions">
       <button class="btn btn--small layers-btn" type="button" aria-expanded="false" aria-controls="map-panel">
-        <Icon name="layers" />Layers
+        <Icon name="layers" />{_("Layers")}
       </button>
-      <a class="btn btn--small" href={url(map.downloads.fieldCopy)} download><Icon name="download" /><span class="dl-text">Field copy</span></a>
+      <a class="btn btn--small" href={url(map.downloads.fieldCopy)} download><Icon name="download" /><span class="dl-text">{_("Field copy")}</span></a>
     </div>
   </div>
 
-  <section class="map-app" aria-label="Interactive map">
+  <section class="map-app" aria-label={_("Interactive map")}>
     <div class="map-shell">
-      <div id="map" class="map" aria-label={`Map of ${map.name}`} aria-describedby="map-help"></div>
+      <div id="map" class="map" aria-label={_("Map of {name}", { name: map.name })} aria-describedby="map-help"></div>
       <p id="map-help" class="visually-hidden">
-        Use the arrow keys to pan and the plus and minus keys to zoom. Press Tab to move between markers and Enter to open one. The same places are listed
-        under the map.
+        {_("Use the arrow keys to pan and the plus and minus keys to zoom. Press Tab to move between markers and Enter to open one. The same places are listed under the map.")}
       </p>
       <div class="ruler ruler-x" aria-hidden="true"></div>
       <div class="ruler ruler-y" aria-hidden="true"></div>
@@ -65,16 +86,16 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
       </div>
       <noscript>
         <a class="noscript" href={url(map.downloads.fieldCopy)}>
-          <img src={url(map.downloads.preview)} alt={`Tactical map of ${map.name}`} />
-          <span>The interactive map needs JavaScript. Open the full field copy instead.</span>
+          <img src={url(map.downloads.preview)} alt={_("Tactical map of {name}", { name: map.name })} />
+          <span>{_("The interactive map needs JavaScript. Open the full field copy instead.")}</span>
         </a>
       </noscript>
     </div>
 
-    <div id="map-panel" class="map-panel" role="region" aria-label="Map layers and legend">
+    <div id="map-panel" class="map-panel" role="region" aria-label={_("Map layers and legend")}>
       <div class="panel-head">
-        <h2 class="eyebrow eyebrow--plain">Raid intel</h2>
-        <button class="panel-close" type="button" aria-label="Close layers"><Icon name="close" /></button>
+        <h2 class="eyebrow eyebrow--plain">{_("Raid intel")}</h2>
+        <button class="panel-close" type="button" aria-label={_("Close layers")}><Icon name="close" /></button>
       </div>
       <dl class="intel">
         {
@@ -88,13 +109,13 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
       </dl>
 
       <fieldset class="group">
-        <legend class="eyebrow eyebrow--plain">Base map</legend>
-        <label class="radio"><input type="radio" name="base" value="field" checked /><span>Field copy</span></label>
+        <legend class="eyebrow eyebrow--plain">{_("Base map")}</legend>
+        <label class="radio"><input type="radio" name="base" value="field" checked /><span>{_("Field copy")}</span></label>
         <label class="radio"><input type="radio" name="base" value="aerial" /><span>{map.aerial.name}</span></label>
       </fieldset>
 
       <fieldset class="group">
-        <legend class="eyebrow eyebrow--plain">Layers and legend</legend>
+        <legend class="eyebrow eyebrow--plain">{_("Layers and legend")}</legend>
         <ul class="layer-list">
           {
             byLayer.map((l) => (
@@ -119,8 +140,8 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
               <input type="checkbox" name="grid" value="grid" checked />
               <span class="swatch swatch--grid" aria-hidden="true"></span>
               <span class="layer-text">
-                <span class="layer-name">{map.grid.size} m grid</span>
-                <span class="layer-blurb">Lettered columns, numbered rows. Boundary fence in red.</span>
+                <span class="layer-name">{_("{size} m grid", { size: map.grid.size })}</span>
+                <span class="layer-blurb">{_("Lettered columns, numbered rows. Boundary fence in red.")}</span>
               </span>
             </label>
           </li>
@@ -128,10 +149,10 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
       </fieldset>
 
       <div class="group tools">
-        <h2 class="eyebrow eyebrow--plain">Tools</h2>
-        <button class="btn btn--small" type="button" data-reset><Icon name="crosshair" />Reset view</button>
-        <button class="btn btn--small" type="button" data-pin aria-pressed="false"><Icon name="pin" />Drop a pin</button>
-        <p class="tool-help">Drop a pin to get a grid reference and the coordinates for that spot.</p>
+        <h2 class="eyebrow eyebrow--plain">{_("Tools")}</h2>
+        <button class="btn btn--small" type="button" data-reset><Icon name="crosshair" />{_("Reset view")}</button>
+        <button class="btn btn--small" type="button" data-pin aria-pressed="false"><Icon name="pin" />{_("Drop a pin")}</button>
+        <p class="tool-help">{_("Drop a pin to get a grid reference and the coordinates for that spot.")}</p>
       </div>
 
       <div class="paper note map-note">
@@ -145,18 +166,18 @@ const iconFor: Record<string, string> = { exit: "run", house: "stash", landmark:
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Map index</p>
-          <h2 id="index-title">Everything on the map</h2>
+          <p class="eyebrow">{_("Map index")}</p>
+          <h2 id="index-title">{_("Everything on the map")}</h2>
         </div>
-        <p>The {map.name} map takes in {areaList}. Every marker is listed with its grid reference: choose one to find it on the map.</p>
+        <p>{_("The {name} map takes in {areas}. Every marker is listed with its grid reference: choose one to find it on the map.", { name: map.name, areas: areaList })}</p>
       </div>
 
       <div class="exits-panel panel">
-        <h3>Exits and distances</h3>
-        <p>As the crow flies from each start. Stand in the green zone for 10 seconds to extract.</p>
+        <h3>{_("Exits and distances")}</h3>
+        <p>{_("As the crow flies from each start. Stand in the green zone for 10 seconds to extract.")}</p>
         <table>
           <thead>
-            <tr><th scope="col">Exit</th><th scope="col">From west start</th><th scope="col">From east start</th></tr>
+            <tr><th scope="col">{_("Exit")}</th><th scope="col">{_("From west start")}</th><th scope="col">{_("From east start")}</th></tr>
           </thead>
           <tbody>
             {map.distances.map((d) => <tr><th scope="row">{d.exit}</th><td>{d.fromWest}</td><td>{d.fromEast}</td></tr>)}

@@ -2,6 +2,7 @@
 // Header band for inner pages: breadcrumbs, eyebrow, worn-print title, lede, and a faded
 // street photo along the right, like the panel behind the game's "Select an item".
 import { url, publicFileExists } from "../lib/url";
+import { langOf, link, t } from "../i18n";
 
 interface Props {
   title: string;
@@ -14,6 +15,9 @@ interface Props {
 
 const BACKDROP = "images/backdrop-1200.webp";
 const { title, eyebrow, lede, crumbs = [], image } = Astro.props;
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
 // A picture that isn't there yet falls back to the backdrop.
 const picture = [image, BACKDROP].find((p) => publicFileExists(p));
 ---
@@ -29,10 +33,10 @@ const picture = [image, BACKDROP].find((p) => publicFileExists(p));
   <div class="wrap ph-inner">
     {
       crumbs.length > 0 && (
-        <nav aria-label="Breadcrumb">
+        <nav aria-label={_("Breadcrumb")}>
           <ol class="crumbs">
-            <li><a href={url()}>Home</a></li>
-            {crumbs.map((c) => (c.href ? <li><a href={url(c.href)}>{c.label}</a></li> : <li aria-current="page">{c.label}</li>))}
+            <li><a href={L()}>{_("Home")}</a></li>
+            {crumbs.map((c) => (c.href ? <li><a href={L(c.href)}>{c.label}</a></li> : <li aria-current="page">{c.label}</li>))}
           </ol>
         </nav>
       )

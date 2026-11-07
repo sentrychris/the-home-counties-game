@@ -1,19 +1,22 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Img from "../../components/Img.astro";
-import { url } from "../../lib/url";
+import { langOf, link, t } from "../../i18n";
+import { getLocalCollection } from "../../i18n/content";
 
-const weapons = (await getCollection("weapons")).sort((a, b) => a.data.order - b.data.order);
+const lang = langOf(Astro.url);
+const _ = t(lang);
+const L = link(lang);
+const weapons = (await getLocalCollection(lang, "weapons")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Weapons" description="Weapons in The Home Counties: stats, ammo, recoil and reloads.">
+<Base title={_("Weapons")} description={_("Weapons in The Home Counties: stats, ammo, recoil and reloads.")}>
   <PageHead
-    title="Weapons"
-    eyebrow="Armoury"
-    lede="Weapons in the current prototype, and how they ended up in Bletchley. More will be added in future builds."
-    crumbs={[{ label: "Weapons" }]}
+    title={_("Weapons")}
+    eyebrow={_("Armoury")}
+    lede={_("Weapons in the current prototype, and how they ended up in Bletchley. More will be added in future builds.")}
+    crumbs={[{ label: _("Weapons") }]}
     image="images/screenshots/2026-10-24-234726.webp"
   />
 
@@ -23,22 +26,22 @@ const weapons = (await getCollection("weapons")).sort((a, b) => a.data.order - b
         {
           weapons.map((w) => (
             <li>
-              <a class="panel card weapon" href={url(`weapons/${w.id}/`)}>
+              <a class="panel card weapon" href={L(`weapons/${w.id}/`)}>
                 <div class="thumb">
                   <Img src={w.data.image} alt={w.data.imageAlt ?? w.data.name} width={480} height={192} />
                 </div>
-                <p class="eyebrow eyebrow--plain">{w.data.class} · {w.data.calibre}</p>
+                <p class="eyebrow eyebrow--plain">{w.data.class} · {_(w.data.calibre)}</p>
                 <h2 class="name">{w.data.name}</h2>
                 <p>{w.data.summary}</p>
-                <span class="more">Full stats</span>
+                <span class="more">{_("Full stats")}</span>
               </a>
             </li>
           ))
         }
         <li>
           <div class="card coming">
-            <p class="hand">More to come</p>
-            <p>New weapons will get a page here as they're added to the game.</p>
+            <p class="hand">{_("More to come")}</p>
+            <p>{_("New weapons will get a page here as they're added to the game.")}</p>
           </div>
         </li>
       </ul>

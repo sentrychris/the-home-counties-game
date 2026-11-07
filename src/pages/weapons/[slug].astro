@@ -1,39 +1,43 @@
 ---
 // Weapon page template. One Markdown file in src/content/weapons/ = one page.
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Img from "../../components/Img.astro";
 import Icon from "../../components/Icon.astro";
 import StatBar from "../../components/StatBar.astro";
+import Untranslated from "../../components/Untranslated.astro";
+import { langOf, t } from "../../i18n";
+import { weaponPaths } from "../../i18n/paths";
 
-export async function getStaticPaths() {
-  const weapons = await getCollection("weapons");
-  return weapons.map((weapon) => ({ params: { slug: weapon.id }, props: { weapon } }));
+export function getStaticPaths() {
+  return weaponPaths("en");
 }
 
+const lang = langOf(Astro.url);
+const _ = t(lang);
 const { weapon } = Astro.props;
 const w = weapon.data;
-const { Content } = await render(weapon);
+const { Content } = await render(weapon.source);
 ---
 
 <Base title={w.name} description={w.summary}>
-  <PageHead title={w.name} eyebrow={w.class} lede={w.summary} crumbs={[{ label: "Weapons", href: "weapons/" }, { label: w.name }]} image={w.hero?.src}>
-    <ul class="tags" aria-label="At a glance">
-      <li class="chip">{w.calibre}</li>
-      {w.slots.map((s) => <li class="chip">{s} slot</li>)}
+  <PageHead title={w.name} eyebrow={w.class} lede={w.summary} crumbs={[{ label: _("Weapons"), href: "weapons/" }, { label: w.name }]} image={w.hero?.src}>
+    <ul class="tags" aria-label={_("At a glance")}>
+      <li class="chip">{_(w.calibre)}</li>
+      {w.slots.map((s) => <li class="chip">{_("{slot} slot", { slot: _(s) })}</li>)}
     </ul>
   </PageHead>
 
   <section class="section section--tight">
     <div class="wrap top">
       <figure class="case panel">
-        <span class="case-label" aria-hidden="true">{w.name} · {w.calibre}</span>
-        <Img src={w.image} alt={w.imageAlt ?? w.name} width={480} height={192} loading="eager" placeholder={`${w.name} inventory image`} />
+        <span class="case-label" aria-hidden="true">{w.name} · {_(w.calibre)}</span>
+        <Img src={w.image} alt={w.imageAlt ?? w.name} width={480} height={192} loading="eager" placeholder={_("{name} inventory image", { name: w.name })} />
       </figure>
 
       <div class="panel spec-panel">
-        <h2 class="eyebrow eyebrow--plain">Specification</h2>
+        <h2 class="eyebrow eyebrow--plain">{_("Specification")}</h2>
         <dl class="specs">
           {
             w.specs.map((s) => (
@@ -50,8 +54,8 @@ const { Content } = await render(weapon);
 
   {
     w.hero && (
-      <section class="wrap hero-shot" aria-label="In the game">
-        <Img src={w.hero.src} alt={w.hero.alt} placeholder={`${w.name}: an in-game shot`} sizes="(min-width: 1200px) 1200px, 100vw" />
+      <section class="wrap hero-shot" aria-label={_("In the game")}>
+        <Img src={w.hero.src} alt={w.hero.alt} placeholder={_("{name}: an in-game shot", { name: w.name })} sizes="(min-width: 1200px) 1200px, 100vw" />
       </section>
     )
   }
@@ -59,18 +63,18 @@ const { Content } = await render(weapon);
   <section class="section section--tight">
     <div class="wrap two">
       <div class="panel stats">
-        <h2>Stats</h2>
+        <h2>{_("Stats")}</h2>
         <dl>
           {w.stats.map((s) => <StatBar label={s.label} value={s.value} display={s.display} />)}
         </dl>
-        <p class="footnote">Rated out of 100, compared with other weapons in the game.</p>
+        <p class="footnote">{_("Rated out of 100, compared with other weapons in the game.")}</p>
       </div>
 
       <div class="stack">
         {
           w.fireModes.length > 0 && (
             <div class="panel block">
-              <h2>Fire modes</h2>
+              <h2>{_("Fire modes")}</h2>
               <ul class="modes">
                 {w.fireModes.map((m) => (
                   <li>
@@ -83,7 +87,7 @@ const { Content } = await render(weapon);
           )
         }
         <div class="panel block">
-          <h2>Controls</h2>
+          <h2>{_("Controls")}</h2>
           <dl class="keys">
             {
               w.controls.map((c) => (
@@ -104,7 +108,7 @@ const { Content } = await render(weapon);
       {
         w.recoil && (
           <div class="panel block">
-            <h2>Recoil</h2>
+            <h2>{_("Recoil")}</h2>
             <p>{w.recoil.text}</p>
             <ul class="points">{w.recoil.points.map((p) => <li>{p}</li>)}</ul>
           </div>
@@ -113,7 +117,7 @@ const { Content } = await render(weapon);
       {
         w.reload && (
           <div class="panel block">
-            <h2>Reloading</h2>
+            <h2>{_("Reloading")}</h2>
             <p>{w.reload.text}</p>
             <ul class="points">{w.reload.points.map((p) => <li>{p}</li>)}</ul>
           </div>
@@ -127,7 +131,7 @@ const { Content } = await render(weapon);
       <section class="section section--tight">
         <div class="wrap">
           <div class="section-head">
-            <h2>Ammo</h2>
+            <h2>{_("Ammo")}</h2>
             {w.ammoSwitching && (
               <p class="switching">
                 <kbd>Y</kbd> {w.ammoSwitching}
@@ -145,12 +149,12 @@ const { Content } = await render(weapon);
                   <p>{a.text}</p>
                   {(a.damage !== undefined || a.penetration !== undefined) && (
                     <dl class="round-stats">
-                      {a.damage !== undefined && <StatBar label="Damage" value={a.damage} />}
-                      {a.penetration !== undefined && <StatBar label="Penetration" value={a.penetration} />}
+                      {a.damage !== undefined && <StatBar label={_("Damage")} value={a.damage} />}
+                      {a.penetration !== undefined && <StatBar label={_("Penetration")} value={a.penetration} />}
                     </dl>
                   )}
                 </div>
-                <span class:list={["chip", a.status === "planned" ? "chip--planned" : "chip--live"]}>{a.status === "planned" ? "Planned" : "In game"}</span>
+                <span class:list={["chip", a.status === "planned" ? "chip--planned" : "chip--live"]}>{a.status === "planned" ? _("Planned") : _("In game")}</span>
               </li>
             ))}
           </ul>
@@ -163,8 +167,9 @@ const { Content } = await render(weapon);
     <div class="wrap">
       <article class="paper dossier">
         <span class="tape" aria-hidden="true"></span>
-        <p class="dossier-stamp stamp">Field notes</p>
-        <h2>The story</h2>
+        <p class="dossier-stamp stamp">{_("Field notes")}</p>
+        <h2>{_("The story")}</h2>
+        {!weapon.translated && <Untranslated />}
         <div class="dossier-body">
           <Content />
         </div>

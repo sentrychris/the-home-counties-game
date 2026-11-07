@@ -3,6 +3,7 @@
 import { url, publicFileExists, screenshotSrcset } from "../lib/url";
 import Placeholder from "./Placeholder.astro";
 import Icon from "./Icon.astro";
+import { langOf, t } from "../i18n";
 
 interface Shot {
   src: string;
@@ -17,7 +18,8 @@ interface Props {
   label?: string;
 }
 
-const { shots, feature = false, label = "Screenshots" } = Astro.props;
+const _ = t(langOf(Astro.url));
+const { shots, feature = false, label = _("Screenshots") } = Astro.props;
 ---
 
 <div class:list={["gallery", { "gallery--feature": feature }]} data-gallery>
@@ -55,16 +57,16 @@ const { shots, feature = false, label = "Screenshots" } = Astro.props;
     }
   </ul>
 
-  <dialog class="lightbox" aria-label="Screenshot viewer">
+  <dialog class="lightbox" aria-label={_("Screenshot viewer")}>
     <div class="lb-frame">
       <img alt="" />
       <div class="lb-bar">
         <p class="lb-caption"></p>
         <span class="lb-count" aria-live="polite"></span>
         <div class="lb-buttons">
-          <button type="button" class="lb-prev" aria-label="Previous screenshot"><Icon name="arrow" class="flip" /></button>
-          <button type="button" class="lb-next" aria-label="Next screenshot"><Icon name="arrow" /></button>
-          <button type="button" class="lb-close" aria-label="Close"><Icon name="close" /></button>
+          <button type="button" class="lb-prev" aria-label={_("Previous screenshot")}><Icon name="arrow" class="flip" /></button>
+          <button type="button" class="lb-next" aria-label={_("Next screenshot")}><Icon name="arrow" /></button>
+          <button type="button" class="lb-close" aria-label={_("Close")}><Icon name="close" /></button>
         </div>
       </div>
     </div>

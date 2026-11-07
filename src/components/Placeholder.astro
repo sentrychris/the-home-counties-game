@@ -6,11 +6,13 @@ interface Props {
   class?: string;
   aspect?: string;
 }
+import { langOf, t } from "../i18n";
 const { label, path, class: cls, aspect = "16 / 9" } = Astro.props;
+const _ = t(langOf(Astro.url));
 ---
 
-<div class:list={["placeholder", cls]} style={`aspect-ratio: ${aspect}`} role="img" aria-label={`Image to come: ${label}`}>
-  <strong>Image to come</strong>
+<div class:list={["placeholder", cls]} style={`aspect-ratio: ${aspect}`} role="img" aria-label={`${_("Image to come")}: ${label}`}>
+  <strong>{_("Image to come")}</strong>
   <span>{label}</span>
   {path && <code>{path}</code>}
 </div>

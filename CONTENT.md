@@ -158,3 +158,24 @@ The current markers come straight from the game's own `maps/duncombe_street.json
 4. Run `npm run tiles`.
 
 The tile script resamples to a power-of-two scale if it needs to, and markers stay put because they're in world coordinates.
+
+## Translations: `src/i18n/` and `src/content/ru/`
+
+The site is in English and Russian. Russian pages live under `/ru/` (`/ru/map/`, `/ru/devlog/<post>/`, and so on), and the language button beside the menu and the settings cog swaps between the same page in each language. English is always the master copy: dates, versions, numbers, prices, picture paths and the order of things come from the English files, and a translation only supplies the words.
+
+**Markdown (dev log, guides, weapons, enemies, About).** A translation is a file with the same name under `src/content/ru/<folder>/`, for example `src/content/ru/devlog/2026-11-07-your-trigger-arm-stays-out-of-your-chest.md`. Copy the English file, translate the words, and leave the rest as it is. Lists in the frontmatter (screenshots, specs, ammo, controls) are matched item by item, so keep the same number of items in the same order. You can leave out any field you don't want to translate, such as `date`, `version`, `tags` or `src`. Until a post has a Russian file, the Russian site shows it in English with a short "not translated yet" note, so nothing breaks if you post in English first.
+
+- Links between pages work as they are (`../../map/` on a Russian page goes to the Russian map), but picture paths in the body of a Russian guide need one more `../`: `../../../images/screenshots/shot.webp`.
+- Put quotes round a frontmatter value that has a comma or `: ` in it inside `{ … }` or `[ … ]`. Russian decimals use commas, so write `{ label: Вес, value: "0,4 кг" }`, not `value: 0,4 кг`.
+
+**JSON data and the page templates.** These are translated from English-to-Russian word lists in `src/i18n/ru/`:
+
+- `ui.json`: the words in the page templates (buttons, headings, labels, dev-log tags, calibres).
+- `data.json`: `site.json`, `traders.json`, `tasks.json`, `roadmap.json`, `controls.json`, `credits.json` and the map settings.
+- `items.json`: names and descriptions from `items.json`.
+- `markers.json`: map marker names and notes.
+- `names.json`: names that stay the same in Russian (streets, people, traders, quest names, key names).
+
+Each entry is `"English text": "Russian text"`, with the English exactly as it appears in the source file. When you change English text in a JSON file, add the new text to the right list too; until you do, the Russian site shows that line in English. In a template, wrap new words in `_("…")` and add them to `ui.json`.
+
+**Checking.** `npm run i18n` lists everything with no Russian yet: posts and pages without a Russian file, template words and data lines not in the word lists. Run it after an update, then `npm run build`.
