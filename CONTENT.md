@@ -15,7 +15,8 @@ Everything below is JSON or Markdown. Change a file, and `npm run dev` shows it 
 | Field | What it does |
 | --- | --- |
 | `story` | The home page's "How it got this way" section: a short intro line, the backstory as numbered `beats` (`title`, `text`), and the `outro` on the taped note |
-| `trailer` | The YouTube trailer on the home page. `youtubeId` is the part after `/embed/` or `?v=` in the video's link. Remove the whole block to hide the section |
+| `trailer` | The YouTube trailer on the home page. `youtubeId` is the part after `/embed/` or `?v=` in the video's link, `heading` is the big title above it. Remove the whole block to hide the section (and the videos with it) |
+| `videos` | The "More videos" row under the trailer, two to a row: each has a `youtubeId`, a `title` and a short `text` under it. Leave the list empty (`[]`) to hide the row |
 | `name`, `status`, `version`, `tagline`, `description` | Title, the "Early access / Prototype build" stamp, build tag in the header, a one-line pitch (not shown on the site at the moment), search-engine description |
 | `coords` | Grid position shown on the title screen and in the footer bar, like the game's map screen |
 | `cta.primary.href` | Where "Follow development" goes. Empty = the dev log. Put a Steam, itch.io or Discord link here when you have one |

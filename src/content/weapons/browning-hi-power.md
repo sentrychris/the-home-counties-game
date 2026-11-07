@@ -5,10 +5,10 @@ class: Pistol
 calibre: 9x19mm
 slots: [Holster]
 summary: The British Army's old service pistol, and the sidearm on Duncombe Street. Semi-automatic, 13 rounds, quick to bring up. Fit a rail adapter and it takes a compact weapon light.
-image: images/items/pistol.webp
+image: images/weapons/browning-hi-power.webp
 imageAlt: A black Browning Hi-Power pistol.
 hero:
-  src: images/screenshots/dl-gunsmith-hipower.webp
+  src: images/weapons/browning-hi-power-gunsmith.webp
   alt: The Browning Hi-Power on the gunsmith bench with a compact weapon light under its barrel, its stats down the right.
 
 specs:

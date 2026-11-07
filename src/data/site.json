@@ -23,10 +23,16 @@
   },
 
   "trailer": {
-    "youtubeId": "gxPISJpIfSk",
-    "title": "The Home Counties: A dev tour",
+    "youtubeId": "VyNyHGNzk8c",
+    "heading": "Early Demo Trailer",
+    "title": "The Home Counties: Early demo trailer",
     "text": ""
   },
+
+  "videos": [
+    { "youtubeId": "gxPISJpIfSk", "title": "A dev tour", "text": "A quiet walk round the map, street by street." },
+    { "youtubeId": "KhSGqFoLNCk", "title": "Posylka Prishla", "text": "A music video filmed in the game." }
+  ],
 
   "cta": {
     "heading": "Early days",

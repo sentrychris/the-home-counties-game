@@ -110,7 +110,7 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
           <div class="section-head">
             <div>
               <p class="eyebrow">Watch</p>
-              <h2 id="trailer-title">A Dev Tour</h2>
+              <h2 id="trailer-title">{site.trailer.heading}</h2>
             </div>
             <p>{site.trailer.text}</p>
           </div>
@@ -125,6 +125,33 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
               allowfullscreen
             />
           </div>
+          {
+            site.videos.length > 0 && (
+              <div class="more-videos">
+                <h3 class="caption more-videos-title">More videos</h3>
+                <ul class="video-list">
+                  {site.videos.map((v) => (
+                    <li class="panel video-card">
+                      <div class="video-frame">
+                        <iframe
+                          src={`https://www.youtube-nocookie.com/embed/${v.youtubeId}`}
+                          title={`The Home Counties: ${v.title}`}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerpolicy="strict-origin-when-cross-origin"
+                          allowfullscreen
+                        />
+                      </div>
+                      <div class="video-text">
+                        <h4>{v.title}</h4>
+                        {v.text && <p>{v.text}</p>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
         </div>
       </section>
     )
@@ -853,13 +880,64 @@ const [statusTop, statusBottom] = site.status.split("/").map((s) => s.trim());
     padding: clamp(6px, 1vw, 10px);
   }
 
-  .trailer-frame iframe {
+  .trailer-frame iframe,
+  .video-frame iframe {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
     border: 1px solid var(--line);
     background: #000;
+  }
+
+  /* The other videos, two side by side under the trailer. */
+  .more-videos {
+    margin-top: clamp(28px, 4vw, 44px);
+  }
+
+  .more-videos-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 16px;
+  }
+
+  .more-videos-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .video-list {
+    display: grid;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 760px) {
+    .video-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .video-card {
+    padding: clamp(6px, 1vw, 10px);
+  }
+
+  .video-text {
+    padding: 14px 6px 6px;
+  }
+
+  .video-text h4 {
+    margin: 0 0 0.3em;
+  }
+
+  .video-text p {
+    margin: 0;
+    color: var(--bone-faint);
   }
 
   .story-grid {
