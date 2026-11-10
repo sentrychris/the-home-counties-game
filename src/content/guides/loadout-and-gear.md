@@ -40,6 +40,8 @@ Inside a backpack or rig, items take up space on a grid. Small items like bandag
 
 The AK takes 30-round magazines and the Hi-Power 13-round ones, and each magazine holds one kind of round. To load one, drag a pile of rounds onto it, or right-click it and pick **Load with...**. To fit one, drag it onto the rifle or right-click the rifle and pick **Load magazine...**. In a raid, <kbd>R</kbd> swaps in a magazine with more rounds in it than the one in the gun (the same ammo if you have one, the fullest in your rig and pockets first) and <kbd>Y</kbd> one with the next kind. Keep spare magazines in your rig: from a backpack it takes longer. A Hi-Power magazine is one square, so it fits a pocket; an AK magazine doesn't.
 
+Each pile of rounds is labelled with its calibre on top and the kind of round under it in bigger letters: 7.62x39 for the AK-47, 5.56x45 for the M4A1 and 9x19 for the Hi-Power, each in FMJ, AP or HP. A magazine or gun shows its calibre too, and the kind of round loaded under it.
+
 The [gear and items database](../../gear/) lists sizes, weights and values.
 
 ## Weight

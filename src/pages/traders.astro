@@ -17,7 +17,7 @@ const traders = localize(lang, tradersData);
 const shots = localize(lang, [
   { src: "images/screenshots/dl-traders-carl.webp", alt: "Carl's page in the Traders tab: his ID card, his line and rounds, a knife, magazines and an AK-47 for sale.", caption: "Buying from Carl." },
   { src: "images/screenshots/dl-traders-crapper-sell.webp", alt: "Crapper's SELL tab listing what he'll pay for things in your stash.", caption: "Selling to Crapper." },
-  { src: "images/screenshots/dl-traders-crapper-job.webp", alt: "Crapper's JOB tab asking for two lots of copper wire.", caption: "A job." },
+  { src: "images/screenshots/dl-jobs-carl.webp", alt: "Carl's JOBS tab with a job done in a raid, three raids left, and JOBS ON OFFER 3 OF 3 under the traders.", caption: "A job." },
   { src: "images/screenshots/dl-traders-chalky-orders.webp", alt: "Chalky's ORDERS tab with things he can get in for half down.", caption: "Chalky's special orders." },
   { src: "images/screenshots/dl-traders-sofie-notes.webp", alt: "Sofie's NOTES tab with handwritten notes from her.", caption: "Notes they leave you." },
   { src: "images/screenshots/dl-traders-confirm.webp", alt: "A box over the dimmed Traders tab asking to confirm a purchase.", caption: "Every trade asks first." },
@@ -83,7 +83,7 @@ const shots = localize(lang, [
       <div class="prose">
         <h2>How trading works</h2>
         <p>
-          Open the <strong>Traders</strong> tab in the hideout and pick a trader down the left. Each one has a <strong>Buy</strong>, <strong>Sell</strong>, <strong>Job</strong> and <strong>Notes</strong> page, and Chalky has <strong>Orders</strong> once you have an account with him. Buying, selling, ordering and handing in a job all ask before they happen: <kbd>Enter</kbd> confirms and <kbd>Esc</kbd> backs out.
+          Open the <strong>Traders</strong> tab in the hideout and pick a trader down the left. Each one has a <strong>Buy</strong>, <strong>Sell</strong>, <strong>Jobs</strong> and <strong>Notes</strong> page, and Chalky has <strong>Orders</strong> once you have an account with him. Buying, selling, ordering and handing in a job all ask before they happen: <kbd>Enter</kbd> confirms and <kbd>Esc</kbd> backs out.
         </p>
 
         <h3>Money</h3>
@@ -111,7 +111,7 @@ const shots = localize(lang, [
 
         <h3>Jobs</h3>
         <p>
-          Each trader has one job at a time: four written ones, in order, as your standing allows, and then odd jobs for something they want, paying a little over its worth. Hand in from your stash. Medical kit has to be unused, and rigs and packs empty. The next job comes after a raid.
+          Jobs come and go on one board shared by all four traders: new ones turn up at random after raids, never more than three on offer at once, and never two raids running with none. Each is up for a few raids, and one that runs out goes with a note. Some want something handed in from your stash (medical kit unused, rigs and packs empty); the rest are done out in a raid and pay the moment they're done. There's nothing to accept: anything on the board is live. Each trader's own written jobs still turn up among them, in order, as your standing allows.
         </p>
 
         <h3>Tasks</h3>

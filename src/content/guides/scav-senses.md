@@ -39,6 +39,8 @@ Two things undo that. A **weapon light** shining their way lets them see you fro
 
 **Cover** is anything that stops bullets: brick walls, cars, the corners of houses. **Concealment** only hides you: hedges, grass, a wooden fence. It's worth knowing which one you're behind.
 
+**What you can see through isn't cover.** Rounds go through the wire mesh of the building sites' fence panels and the gaps in the old Sainsbury's warehouse racking, both ways: a scav who can see you through the mesh can shoot you through it. Only the solid bits stop a round: a fence panel's steel frame, the racking's uprights and beams, and the pallets and boxes stacked on it. A board or banner tied over a fence panel hides you, and for now stops rounds where it covers the mesh.
+
 **Lean** with <kbd>Q</kbd> and <kbd>E</kbd> to look round corners. Leaning shows a scav your head and shoulder; stepping out shows all of you.
 
 ## What scavs do

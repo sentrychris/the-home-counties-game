@@ -19,7 +19,7 @@ Pick where to go (Duncombe Street for now, or the Practice yard to try things ou
 
 ## Traders
 
-Four traders to buy from, sell to and do jobs for: Chalky, Carl, Crapper and Sofie. Each has their own stock, prices, notes and standing. See [Traders](../../traders/).
+Four traders to buy from, sell to and do jobs for: Chalky, Carl, Crapper and Sofie. Each has their own stock, prices, notes and standing. Their jobs come and go on one board, up to three at a time between them, each up for a few raids: some are handed in from your stash, the rest done out in a raid. See [Traders](../../traders/).
 
 ## Tasks
 
