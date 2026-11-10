@@ -15,7 +15,7 @@ Your gear is set up in the hideout's **Hideout** tab, and in a raid <kbd>Tab</kb
 | Helmet | Head protection | K6-3 helmet, MICH helmet |
 | Armour | Body armour | Plate carrier |
 | Rig | Chest rig for magazines, grenades and meds | Chest rig |
-| Backpack | Where most of your loot goes | Black daypack, military rucksack |
+| Backpack | Where most of your loot goes | Black daypack, military rucksack, radio backpack |
 | Primary | Your main rifle | AK-47 |
 | Secondary | A second rifle | AK-47 |
 | Holster | Sidearm | Browning Hi-Power |
@@ -26,7 +26,7 @@ Swap between your two rifles with <kbd>1</kbd> and <kbd>2</kbd>. <kbd>3</kbd> dr
 
 ## Inventory space
 
-Inside a backpack or rig, items take up space on a grid. Small items like bandages and painkillers take one square, a magazine takes two (one wide, two tall, so it won't go in a pocket), and an AK-47 takes five by two. The chest rig holds 4x2, the black daypack 4x4 and the military rucksack 5x6. A bigger backpack holds more, but weighs more when empty.
+Inside a backpack or rig, items take up space on a grid. Small items like bandages and painkillers take one square, a magazine takes two (one wide, two tall, so it won't go in a pocket), and an AK-47 takes five by two. The chest rig holds 4x2, the black daypack 4x4, the radio backpack 5x5 and the military rucksack 5x6. A bigger backpack holds more, but weighs more when empty, and the radio backpack is the heaviest of all, as its dead radio set stays on it.
 
 ## Moving things about
 
