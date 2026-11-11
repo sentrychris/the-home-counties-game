@@ -1,6 +1,6 @@
 ---
 title: The hideout
-summary: What each tab of the hideout is for, from your stash and the traders to the gunsmith, the papers board, the maps, your tasks, the music player and Settings.
+summary: What each tab of the hideout is for, from your stash, your character and the traders to the gunsmith, the papers board, the maps, your tasks, the music player and Settings.
 order: 3
 icon: stash
 ---
@@ -16,6 +16,12 @@ Your gear on the left and your stash on the right. Drag things between them, rig
 ## Raid
 
 Pick where to go (Duncombe Street for now, or the Practice yard to try things out), look over the map and the note taped beside it, check **Your kit** and what it's worth, and press **Start raid**. You're asked to confirm, then the raid loads behind a loading screen with tips. In a squad, only the host can start, once everyone's back. Each raid gets its own weather and time of day.
+
+## Character
+
+How you look, in a raid, to your squad and on the end-of-raid screen. You stand on the left in your kit, in a small lock-up under a hanging lamp, on wet concrete with army kit stacked round you: drag to turn round, and use the mouse wheel or **FACE** to come in close on your face. **SHOW KIT** takes your gear off to show just your clothes. On the right, pick your **ethnicity** (eight of them), your **hair** (five styles, from short hair to a big afro, in ten colours that go on your beard and eyebrows too), a **beanie** or not and its colour (12 of them), a **beard** or clean-shaven, and one of 25 **tops** and 25 **bottoms**: tracksuits, hoodies, jeans, joggers and army surplus, the same clothes the scavs wear. **RANDOM** picks a whole look at random, and **DEFAULT** goes back to the black hoodie and joggers you start in. Every pick is saved as you make it, and a wipe keeps it. In a raid your beanie comes off while you've got a helmet on, and curls or an afro go flat under a beanie or a helmet.
+
+<img src="../../images/screenshots/dl-hair-afro.webp" srcset="../../images/screenshots/dl-hair-afro-800.webp 800w, ../../images/screenshots/dl-hair-afro.webp 1600w" sizes="(min-width: 800px) 720px, 100vw" width="1600" height="900" alt="The hideout's Character tab: you with a ginger afro, standing in your kit in a dark lock-up under a hanging lamp, on wet concrete, and on the right swatches for ethnicity, hair styles and colours, beanie colours, tops and bottoms." loading="lazy" decoding="async" />
 
 ## Traders
 
@@ -51,5 +57,3 @@ The icons on the right of the top bar open the **Squad** box (see [Co-op squads]
 - **Graphics:** the overall quality, how far grass is drawn, anti-aliasing, ambient occlusion, texture sharpness and sun shadows.
 - **Picture:** Colours, from Natural to Gritty (darker and more muted), and camera effects you can switch on and off: film grain, sharpening, vignette, colour fringing, sun glare and injury effects.
 - **Sound:** master, effects, voices, background (wind, birds and the far-off war) and music volumes.
-
-The Character tab is greyed out for now. It's coming in a later build.

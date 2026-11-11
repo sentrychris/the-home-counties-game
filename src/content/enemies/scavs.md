@@ -37,6 +37,8 @@ behaviours:
     text: In the dark a scav sees a bit over half as far, unless your weapon light is on or you've just fired without a suppressor.
   - title: They watch
     text: Scavs have the advantage on open ground. The lookout in the car park can see right across it.
+  - title: They fall where they're hit
+    text: Shot dead, a scav goes down by where it was hit. A headshot drops it on the spot, a chest or belly hit doubles it over, a leg hit takes that leg out first, and one shot running pitches forward. The round pushes it by its calibre, it slumps down a wall or folds over a low one, and its rifle falls out of its hands. Its body can be searched wherever it ends up.
 
 loadouts:
   - name: Street clothes
@@ -71,6 +73,6 @@ Most of the scavs came after the government left. Some ran with the gangs Russia
 
 They treat the street and everything in its houses as theirs, and they'll want whatever you're carrying.
 
-They wear whatever they could find: tracksuits, hoodies and jeans, or army surplus from the depots, with a beanie against the cold. No two look quite the same.
+They wear whatever they could find: tracksuits, hoodies and jeans, or army surplus from the depots, with a beanie against the cold. No two look quite the same. They come from every background, in about the mix you'd find in Milton Keynes.
 
 They aren't soldiers, but they're careful. They move in twos and threes, use the gardens for cover, and keep out of the middle of the road. They know the area better than you do.

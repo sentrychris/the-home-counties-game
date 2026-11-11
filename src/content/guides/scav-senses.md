@@ -41,6 +41,8 @@ Two things undo that. A **weapon light** shining their way lets them see you fro
 
 **What you can see through isn't cover.** Rounds go through the wire mesh of the building sites' fence panels and the gaps in the old Sainsbury's warehouse racking, both ways: a scav who can see you through the mesh can shoot you through it. Only the solid bits stop a round: a fence panel's steel frame, the racking's uprights and beams, and the pallets and boxes stacked on it. A board or banner tied over a fence panel hides you, and for now stops rounds where it covers the mesh.
 
+**Hits tell you what's being hit.** A round striking metal clangs or rings and puffs grey lead, and only once in a while throws sparks; brick and concrete crack and puff dust and chips; wood thuds and splinters; earth thumps up a spurt of dirt. You hear each hit from where it struck, so a clang off the lamp post beside you means someone has your line. A hit far off sounds duller and comes a moment late, and indoors you hear the room's echo with it.
+
 **Lean** with <kbd>Q</kbd> and <kbd>E</kbd> to look round corners. Leaning shows a scav your head and shoulder; stepping out shows all of you.
 
 ## What scavs do
