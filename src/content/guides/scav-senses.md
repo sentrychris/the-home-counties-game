@@ -43,6 +43,8 @@ Two things undo that. A **weapon light** shining their way lets them see you fro
 
 **Hits tell you what's being hit.** A round striking metal clangs or rings and puffs grey lead, and only once in a while throws sparks; brick and concrete crack and puff dust and chips; wood thuds and splinters; earth thumps up a spurt of dirt. You hear each hit from where it struck, so a clang off the lamp post beside you means someone has your line. A hit far off sounds duller and comes a moment late, and indoors you hear the room's echo with it.
 
+**Blood tells you what your rounds did.** A round that goes right through a scav sprays blood on the wall, car or window behind him; a puff of grey dust instead means his helmet or plate stopped it. A scav you've only hurt leaves drops on the ground as he goes, for a minute or so, so if you look closely you can follow him, and blood pooling under a body means he isn't getting up. Fresh blood is bright red; brown has been there a while.
+
 **Lean** with <kbd>Q</kbd> and <kbd>E</kbd> to look round corners. Leaning shows a scav your head and shoulder; stepping out shows all of you.
 
 ## What scavs do
