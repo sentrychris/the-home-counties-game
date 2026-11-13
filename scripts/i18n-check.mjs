@@ -7,8 +7,9 @@
 // See "Translations" in CONTENT.md.
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = new URL("..", import.meta.url).pathname;
+const root = fileURLToPath(new URL("..", import.meta.url));
 const src = join(root, "src");
 const langs = readdirSync(join(src, "i18n")).filter((d) => statSync(join(src, "i18n", d)).isDirectory());
 
